@@ -27,14 +27,20 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 
 
 ## Chunity
+* [Music 256](https://ccrma.stanford.edu/courses/256a/)
 * [总的link](http://chuck.stanford.edu/chunity/)
 	* Spatialization: is the technique of processing a stream of audio so that it is perceived to be originating from a particular place in the environment.
 * [Plug-in mode](http://chuck.stanford.edu/chunity/with-plugins/)
 	* Jack的tut很细致，就，把 (Note: @"" denotes a multi-line string.) 这种都写出来了，就，我们可能出问题的东西都写出来了。
-
-
+* [Chicken sequencer](https://youtu.be/LZMLEfjq8Ns)
+	* 这个Ge Wang提到，所有和时间控制有关的（比如一个drum loop之类的）都要放到Chuck里面去，因为时间会很准确，然后用chuck给的时间去update Unity里面的动画。
+* [Audio visualizer](https://youtu.be/nMeF2W2gv7E)
+	* 这个是可以visualize我们实时说话的声音，但这个似乎是通过unity内建的module来实现的，和Chuck木有关系。
 
 ## Prof. Chris Chafe
+* [how to pronounce Chafe](https://youtu.be/zMaJKLRfhew)
+	* 听起来有点像chase (没有se) + f
+* [ccrmalite1](https://youtu.be/BkucUIiiXac)
 * [YouTube-A listening tour of musical portraits and sonic landscapes](https://youtu.be/Y_d1A2Ehjrc)
 
 
