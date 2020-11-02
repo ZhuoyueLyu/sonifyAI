@@ -318,12 +318,12 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         print(data_stream)
 
         ## If we send the sonification of every epoch
-        sendValid_ce = ('{:.5f}').format(valid_ce)
+        dataToUnity = ('{:.5f},''{:.5f}').format(valid_ce, valid_acc)
         #  Wait for next request from client
         message = socket.recv()
         # print("Received request: %s" % message)
         #  Send reply back to client
-        socket.send(str.encode(sendValid_ce)) # send data to unity
+        socket.send(str.encode(dataToUnity)) # send data to unity
 
         train_ce_list.append((epoch, train_ce))
         train_acc_list.append((epoch, train_acc))

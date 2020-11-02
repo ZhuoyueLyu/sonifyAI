@@ -1,3 +1,8 @@
+# 待实现的idea
+1. 提供标高线，就，提供 freq = 100, 200, 300...的声音，这样人们在听的时候就可以实时拿出标高线听一下，我这个声音在哪里了，是否到达了某个值。
+
+
+
 # Link
 ## Unity
 * [ML Agent getting started guide](https://github.com/Unity-Technologies/ml-agents/blob/release_8_docs/docs/Getting-Started.md)
@@ -60,6 +65,8 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 
 # 可以问Chris的问题
 * 可以投什么会议？ICMC吗？还是说有什么建议？然后你们什么时候审核啊，如果我中了你们能看见吗？
+* 在CCRMA有没有可能去学习唱歌呢？美声，音乐剧，歌剧这种（这个我需要自己先查询一下） 真的，我觉得CCRMA这个项目可以用进我所有的才华，是目前最perfect的项目。
+
 
 
 

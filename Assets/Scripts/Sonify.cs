@@ -31,6 +31,8 @@ public class Sonify : MonoBehaviour
         //     "
 		// );
 
+        // 500::ms => now; is the delay between two sounds (acc & ce) because
+        // if there is no delay, they are going to play together as one sound and you can't tell anything
         Chuck.Manager.RunCode( myChuck1,
             @"
             TriOsc osc => ADSR env => NRev verb => dac;
@@ -39,19 +41,28 @@ public class Sonify : MonoBehaviour
 
             env.set(10.0::ms, 60.0::ms, 0.0, 0::ms);
 
-            fun void playSound( float val )
+            fun void playSoundCE( float ce )
             {
-                val => osc.freq;
+                ce => osc.freq;
                 env.keyOn();
             }
 
-            global float val;
+            fun void playSoundACC( float acc )
+            {
+                500::ms => now;
+                acc => osc.freq;
+                env.keyOn();
+            }
+
+            global float ce;
+            global float acc;
             global Event play;
 
             while( true )
             {
                 play => now;
-                spork ~ playSound( val );
+                spork ~ playSoundCE( ce );
+                spork ~ playSoundACC( acc );
             }
 
             "
@@ -68,11 +79,11 @@ public class Sonify : MonoBehaviour
     public void MappingSound(string infoString)
     {
 
-        Debug.Log("Sonify: " + infoString);
-        float freq = float.Parse(infoString) * 1000;
-        // 那个verb是可以加上reverb的效果，就更有空间感的声音
-        //  verb => dac;
-        //  0.1 => verb.mix;
+        string[] vals  = infoString.Split(',');
+        Debug.Log("CE: " + vals[0]);
+        Debug.Log("ACC: " + vals[1]);
+        float ce = float.Parse(vals[0]) * 1000;
+        float acc = float.Parse(vals[1]) * 1000;
 
         // Chuck.Manager.RunCode( myChuck1,
         // string.Format(
@@ -84,7 +95,8 @@ public class Sonify : MonoBehaviour
         //     freq
         // )
 		// );
-        Chuck.Manager.SetFloat( myChuck1, "val", freq);
+        Chuck.Manager.SetFloat( myChuck1, "ce", ce);
+        Chuck.Manager.SetFloat( myChuck1, "acc", acc);
         Chuck.Manager.BroadcastEvent( myChuck1, "play" );
 
     }
