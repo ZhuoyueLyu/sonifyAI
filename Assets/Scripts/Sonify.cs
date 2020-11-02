@@ -12,6 +12,24 @@ public class Sonify : MonoBehaviour
     {
         myChuck1 = "my_chuck";
         Chuck.Manager.Initialize( mixerWithChuck, myChuck1 );
+        Chuck.Manager.RunCode( myChuck1,
+            @"
+            fun void playSound( float val )
+            {
+                SinOsc foo => dac;
+                val => foo.freq;
+            }
+            external float val;
+            external Event play;
+
+            while( true )
+            {
+                play => now;
+                spork ~ playSound( val );
+            }
+
+            "
+		);
     }
 
     // Update is called once per frame
@@ -25,45 +43,23 @@ public class Sonify : MonoBehaviour
 
         Debug.Log("Sonify: " + infoString);
         float freq = float.Parse(infoString)*100;
-        // Chuck.Manager.RunCode( myChuck1,
-		// 		string.Format(
-		// 			@"
-		// 			SinOsc foo => dac;
-        //             {0} => foo.freq;
-        //             200::ms => now;
-		// 			",
-		// 			freq
-		// 		)
-		// );
-
         // 那个verb是可以加上reverb的效果，就更有空间感的声音
         //  verb => dac;
         //  0.1 => verb.mix;
 
-
-
-
-        Chuck.Manager.RunCode( myChuck1,
-        string.Format(
-            @"
-            SinOsc foo => dac;
-            {0} => foo.freq;
-            100::ms => now;
-            ",
-            freq
-        )
-		);
         // Chuck.Manager.RunCode( myChuck1,
-		// 	@"
-		// 	SinOsc foo => dac;
-
-		// 	while( true )
-		// 	{
-		// 		Math.random2f( 300, 1000 ) => foo.freq;
-		// 		100::ms => now;
-		// 	}
-		// 	"
+        // string.Format(
+        //     @"
+        //     SinOsc foo => dac;
+        //     {0} => foo.freq;
+        //     100::ms => now;
+        //     ",
+        //     freq
+        // )
 		// );
+        Chuck.Manager.SetFloat( myChuck1, "val", freq);
+        Chuck.Manager.BroadcastEvent( myChuck1, "play" );
+
     }
 
     void OnApplicationQuit()

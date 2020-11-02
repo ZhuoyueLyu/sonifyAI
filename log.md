@@ -32,10 +32,17 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 	* Spatialization: is the technique of processing a stream of audio so that it is perceived to be originating from a particular place in the environment.
 * [Plug-in mode](http://chuck.stanford.edu/chunity/with-plugins/)
 	* Jack的tut很细致，就，把 (Note: @"" denotes a multi-line string.) 这种都写出来了，就，我们可能出问题的东西都写出来了。
+	* 最底下还讲解了unit generators(UGens)就可以变成不同的声音效果
 * [Chicken sequencer](https://youtu.be/LZMLEfjq8Ns)
 	* 这个Ge Wang提到，所有和时间控制有关的（比如一个drum loop之类的）都要放到Chuck里面去，因为时间会很准确，然后用chuck给的时间去update Unity里面的动画。
 * [Audio visualizer](https://youtu.be/nMeF2W2gv7E)
 	* 这个是可以visualize我们实时说话的声音，但这个似乎是通过unity内建的module来实现的，和Chuck木有关系。
+* [Youtube-Chunity Tut](https://youtu.be/gpcqd5rSOhI)
+	* 是用subInstance的，然后就，每一次触发声音都用一个broadcast去触发，我觉得这才是正道
+	* 也提到 [这个document] (http://chuck.stanford.edu/doc/program/ugen.html) 给了很多音色！
+* [Free wave source](https://www.wavsource.com/sfx/sfx.htm)
+	* 这里有一些短的wave音效
+
 
 ## Prof. Chris Chafe
 * [how to pronounce Chafe](https://youtu.be/zMaJKLRfhew)
@@ -49,6 +56,7 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 * Epoch: A training epoch represents a complete use of all training data for gradients calculation and optimizations(train the model).
 * Step: A training step means using one batch size of training data to train the model.
 
+* Bitcrusher: 就是指那种让音频变得很低品质的方式，比如变成radio啊，就，很次的声音。比如这里的一个[YouTube链接](https://youtu.be/jRzU2TO8tO0)
 
 # 可以问Chris的问题
 * 可以投什么会议？ICMC吗？还是说有什么建议？然后你们什么时候审核啊，如果我中了你们能看见吗？
