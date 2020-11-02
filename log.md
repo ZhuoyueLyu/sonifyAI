@@ -5,9 +5,13 @@ CS就业很好，但是我想做我想做的事情。
 
 其实这个项目有没有用，CC帮不了，他只能提供music sonify的帮助。用没有用需要问ML的人。真的，不能期待CC能给什么ML的见解。ML的见解需要我自己想明白 + 问ML的Prof问明白。
 
-0. 看一下Chris 的sonification怎么搞的（我觉得他应该是用了更高级的软件？`而且我发现他擅长用不同的音效和左右声道`），因为他似乎自己有一套algo，并且声音也很丰富，就那种，马林巴（不知道）的声音？http://sevenairs.com/data.html 可能有哪里介绍这个的（去他的网站看一下他咋搞的？）
+0. 可能需要恶补一下音乐知识，专有名词啥的 | 可以说我的女票是lsq? Play cell?
+vocabulary with phrases such as ‘it’s a gas’ and ‘off on a jag’, along with the more conventional musical jargon of keys and scales.
+0. 看一下Chris 的sonification怎么搞的（我觉得他应该是用了更高级的软件？没..就是ChucK`而且我发现他擅长用不同的音效和左右声道`），因为他似乎自己有一套algo，并且声音也很丰富，就那种，马林巴（不知道）的声音？http://sevenairs.com/data.html 可能有哪里介绍这个的（去他的网站看一下他咋搞的？）
 1. 提供标高线，就，提供 freq = 100, 200, 300...的声音，这样人们在听的时候就可以实时拿出标高线听一下，我这个声音在哪里了，是否到达了某个值。
-2. 对，其实最初我的gradient descent idea是可以表示不同维度的声音变化，如果是好几个维度的，就应该有好几条时间轴啊！！！
+2. ML知识
+	* 对，其实最初我的gradient descent idea是可以表示不同维度的声音变化，如果是好几个维度的，就应该有好几条时间轴啊！！！
+	* 要知道用loss有什么意义，除了overfit，就，能不能找到别的有趣的数据，variable来做这个，让它更有意义（或者看一下常人是怎么去train ML model的，根据什么。其实Model的结构也需要考虑一下啊，有没有声音从一层过渡到另一层的效果呢？）
 2. 熟悉一下我的NN的model的结构和概念，研究一下怎么share电脑声音，到时候demo该怎么搞。
 3. 剪头发
 * 好像后面电脑运行缓慢了，声音出现也会缓慢
@@ -60,12 +64,14 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 
 
 ## Prof. Chris Chafe
+* 今年好像67岁了
+* (both Chafe and [Greg Niemeye, 他说data artist](https://youtu.be/UTYiENfN8Ak?t=5) are Swiss- born 瑞士人哈哈哈
 * [how to pronounce Chafe](https://youtu.be/zMaJKLRfhew)
 	* 听起来有点像chase (没有se) + f
 * [ccrmalite1](https://youtu.be/BkucUIiiXac)
 * [YouTube-A listening tour of musical portraits and sonic landscapes](https://youtu.be/Y_d1A2Ehjrc)
 	* 这个的笔记我放在safari里面了
-* [The Sound Stage of the Mind: Imagined Sounds and Inner Voices](https://youtu.be/Sr_j0O2WWCs)
+* [The Sound Stage of the Mind: Imagined Sounds and In ner Voices](https://youtu.be/Sr_j0O2WWCs)
 * [Online Jamming and Concert Technology](https://www.kadenze.com/courses/online-jamming-and-concert-technology-x/info)
 * [Quarantine Sessions, 就6和musician在 California, Berlin (DE), and Ghent (BE) 一起演奏，concert](https://chrischafe.net/quarantine-sessions/)
 
@@ -77,10 +83,13 @@ When you sonify data, you experience time in a way you can’t when you look at 
  是19，20世纪开始，直线飙升，最后是ends in this kind of ambulance (frightening) sound (其实确实，会让人揪心，会给人一种提醒。)
 
 * [Sonifying the world, 一个aeon的小短文！](https://aeon.co/essays/how-the-sounds-of-data-and-nature-join-to-make-sweet-music)
+	*  but he wouldn’t have `felt` the way in which economic progress was so tightly bound to pollution levels. (确实，音乐可以带来这种 感觉，但是其他是无法带来的。)
 
 总结一下他的sonification:
 1. Brain stethoscope (for epilepsy)
 2. Oxygen flute
+tomato music
+the black cloud
 3. 1,200 Years of Earth's Climate
 4. Alaskan yellow cedar data sonification project used as an example employed an algorithm by NS to transform data to music, this was rendered into a MIDI music data file by CC.
 5. sea level (网站broken) http://polartide.org/
