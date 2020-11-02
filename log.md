@@ -1,9 +1,16 @@
 # 待实现的idea
+
+我从 看淡金钱 -> 大二 发现赚钱 重视钱 ->现在 想做喜欢做的事情。
+CS就业很好，但是我想做我想做的事情。
+
+其实这个项目有没有用，CC帮不了，他只能提供music sonify的帮助。用没有用需要问ML的人。真的，不能期待CC能给什么ML的见解。ML的见解需要我自己想明白 + 问ML的Prof问明白。
+
+0. 看一下Chris 的sonification怎么搞的（我觉得他应该是用了更高级的软件？`而且我发现他擅长用不同的音效和左右声道`），因为他似乎自己有一套algo，并且声音也很丰富，就那种，马林巴（不知道）的声音？http://sevenairs.com/data.html 可能有哪里介绍这个的（去他的网站看一下他咋搞的？）
 1. 提供标高线，就，提供 freq = 100, 200, 300...的声音，这样人们在听的时候就可以实时拿出标高线听一下，我这个声音在哪里了，是否到达了某个值。
+2. 对，其实最初我的gradient descent idea是可以表示不同维度的声音变化，如果是好几个维度的，就应该有好几条时间轴啊！！！
 2. 熟悉一下我的NN的model的结构和概念，研究一下怎么share电脑声音，到时候demo该怎么搞。
 3. 剪头发
 * 好像后面电脑运行缓慢了，声音出现也会缓慢
-
 
 
 # Link
@@ -57,7 +64,30 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 	* 听起来有点像chase (没有se) + f
 * [ccrmalite1](https://youtu.be/BkucUIiiXac)
 * [YouTube-A listening tour of musical portraits and sonic landscapes](https://youtu.be/Y_d1A2Ehjrc)
+	* 这个的笔记我放在safari里面了
+* [The Sound Stage of the Mind: Imagined Sounds and Inner Voices](https://youtu.be/Sr_j0O2WWCs)
+* [Online Jamming and Concert Technology](https://www.kadenze.com/courses/online-jamming-and-concert-technology-x/info)
+* [Quarantine Sessions, 就6和musician在 California, Berlin (DE), and Ghent (BE) 一起演奏，concert](https://chrischafe.net/quarantine-sessions/)
 
+* [LISTEN: 1,200 Years of Earth's Climate, Transformed into Sound](https://www.kqed.org/science/1918660/listen-1200-years-of-earths-climate-transformed-into-sound)
+![](pic/2020-11-02-01-40-51.png)
+When you sonify data, you experience time in a way you can’t when you look at a chart.
+-Hal Gordon, Graduate student
+ ping-pong sound: global temperature averages. 另外一个声音是CO2的水平。
+ 是19，20世纪开始，直线飙升，最后是ends in this kind of ambulance (frightening) sound (其实确实，会让人揪心，会给人一种提醒。)
+
+* [Sonifying the world, 一个aeon的小短文！](https://aeon.co/essays/how-the-sounds-of-data-and-nature-join-to-make-sweet-music)
+
+总结一下他的sonification:
+1. Brain stethoscope (for epilepsy)
+2. Oxygen flute
+3. 1,200 Years of Earth's Climate
+4. Alaskan yellow cedar data sonification project used as an example employed an algorithm by NS to transform data to music, this was rendered into a MIDI music data file by CC.
+5. sea level (网站broken) http://polartide.org/
+6. air quality monitoring system
+
+## 偶然碰到的很美的音乐
+* [Frédéric Chopin: Piano Concerto No. 1 e-minor (Olga Scheps live)](https://youtu.be/2bFo65szAP0) 这个红衣妹子 Olga Scheps 太美了
 
 # Knowledge
 ## Difference between Epoch and Step?
@@ -67,22 +97,28 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 * Bitcrusher: 就是指那种让音频变得很低品质的方式，比如变成radio啊，就，很次的声音。比如这里的一个[YouTube链接](https://youtu.be/jRzU2TO8tO0)
 
 # 可以问Chris的问题
-* 可以投什么会议？ICMC吗？还是说有什么建议？然后你们什么时候审核啊，如果我中了你们能看见吗？
+* 我不确定这个会变成一个project，还是一个paper还是一个什么，因为我之前接触包括在lab里，都是paper导向的。
+* 如果是paper，可以投什么会议？ICMC吗？还是说有什么建议？然后你们什么时候审核啊，如果我中了你们能看见吗？
 * 在CCRMA有没有可能去学习唱歌呢？美声，音乐剧，歌剧这种（这个我需要自己先查询一下） 真的，我觉得CCRMA这个项目可以用进我所有的才华，是目前最perfect的项目。
 
 
 
 # Log
+## 11/02
+* 我觉得要尝试把.wav加进去，或者加上UGen，那样声音会丰富很多
+	* (我觉得无论如何都得到达他做的那个水准，否则没法impress他，直接mapping确实太简单了。（我觉得没准真的可以把每个维度的sound都mapping上去。）
+	* 看一下他有没有paper或者啥的介绍自己怎么做的
+* aeon那个小短文看完 + 继续探索他的网站，看他sonification做了些啥。
+
 ## 11/01
 
 5:45 - 7:45
-* 看一下Chafe的那个视频，总结一下他干了啥
+[x] 看一下Chafe的那个视频，总结一下他干了啥
 * 去仔细研究一下他的work，除了sonification他还干了啥
 * 研究一下他的Music 153a是干嘛的 (好像是一个network的啥的)
 
 * 想一下咋丰富我们的project
-* 也看一下别的sonification到底咋做的（比如看一下Chris那个文章引用的那些sonification是做了啥）
-
+* 也看一下别的sonification到底咋做的（比如看一下Chris那个文章引用的那些sonification是做了啥）包括他自己的sonification是怎么做的，
 
 
 
