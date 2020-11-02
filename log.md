@@ -1,5 +1,8 @@
 # 待实现的idea
 1. 提供标高线，就，提供 freq = 100, 200, 300...的声音，这样人们在听的时候就可以实时拿出标高线听一下，我这个声音在哪里了，是否到达了某个值。
+2. 熟悉一下我的NN的model的结构和概念，研究一下怎么share电脑声音，到时候demo该怎么搞。
+3. 剪头发
+* 好像后面电脑运行缓慢了，声音出现也会缓慢
 
 
 
@@ -69,27 +72,26 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 
 
 
-
 # Log
 ## 11/01
 
+5:45 - 7:45
+* 看一下Chafe的那个视频，总结一下他干了啥
+* 去仔细研究一下他的work，除了sonification他还干了啥
+* 研究一下他的Music 153a是干嘛的 (好像是一个network的啥的)
+
+* 想一下咋丰富我们的project
+* 也看一下别的sonification到底咋做的（比如看一下Chris那个文章引用的那些sonification是做了啥）
+
+
+
+
 3:45 - 5:45
 几个问题
-1. 每次放完声音都会有一个断点，有点难受，能不能不要有断的声音
-2. 把另外几个metrics也map上试一下
-3. 能不能好听一点的声音啊！梦幻一点的，科幻一点的。
-
-
-
-2. 好像后面电脑运行缓慢了，声音出现也会缓慢
-3. 尝试每个step都map上来？会不会更密集一些？
-
-
-
-5:45 - 7:45
-然后运动 + 找一下Intel的题目。
-
-
+[x]每次放完声音都会有一个断点，有点难受，能不能不要有断的声音
+[x]把另外几个metrics也map上试一下
+[x]能不能好听一点的声音啊！梦幻一点的，科幻一点的。
+[x]尝试每个step都map上来？会不会更密集一些？ 答：不行，听起来十分难受
 
 
 13:07 Update: Sonification worked!
@@ -99,11 +101,7 @@ mlagents-learn /Users/zhuoyue/Documents/School/Stanford/ml-agents/config/ppo/3DB
 * 搞定连接Chunity，至少能出声音
 * 看一下使用不同的metric是什么感觉，比如用accuracy？用loss？用MCC？(看一下能不能让它好听，或者，能够传递科学的信息)
 
-* 去仔细研究一下他的work，除了sonification他还干了啥
-* 研究一下他的Music 153a是干嘛的 (好像是一个network的啥的)
 
-* 想一下咋丰富我们的project
-* 也看一下别的sonification到底咋做的（比如看一下Chris那个文章引用的那些sonification是做了啥）
 
 ## 10/31
 白天做了一个小时（我记得连接到Unity里面已经搞定了，就差取出数据连接chunity了），然后去超市，给爸妈打电话，开会，一天时间就没了。真的
@@ -119,8 +117,6 @@ Chris Chafe回复了，所以在周二之前必须完成几件事情
 1. 必须有一个像样的可以跑的demo (就，至少已经要能提供training的sonification了，并且要能选择，是loss还是MCC还是啥的，Visual可以先没有)
 2. 去仔细研究一下他的work，除了sonification他还干了啥
 3. 研究一下他的Music 153a是干嘛的 (好像是一个network的啥的)
-
-4. 剪头发
 
 今天目标：
 `无论如何，实现在Unity中的sonification，什么值都可以，loss还是啥`
