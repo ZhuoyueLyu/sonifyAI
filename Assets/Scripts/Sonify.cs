@@ -33,25 +33,33 @@ public class Sonify : MonoBehaviour
 
         // 500::ms => now; is the delay between two sounds (acc & ce) because
         // if there is no delay, they are going to play together as one sound and you can't tell anything
+        // .set - ( float, float, WRITE only ) - set freq and Q(resonance) at once
+        //  ADSR (Attack, Decay, Sustain, Release)
         Chuck.Manager.RunCode( myChuck1,
             @"
-            TriOsc osc => ADSR env => NRev verb => dac;
-            0.3 => osc.gain;
+            TriOsc triOsc => ADSR env => NRev verb => dac;
+
+            SqrOsc sinOsc => ADSR env2 => NRev verb2 => dac;
+
+            0.3 => triOsc.gain;
+            0.3 => sinOsc.gain;
             0.01 => verb.mix;
+            0.01 => verb2.mix;
 
             env.set(10.0::ms, 60.0::ms, 0.0, 0::ms);
+            env2.set(10.0::ms, 60.0::ms, 0.0, 0::ms);
 
             fun void playSoundCE( float ce )
             {
-                ce => osc.freq;
+                ce => triOsc.freq;
                 env.keyOn();
             }
 
             fun void playSoundACC( float acc )
             {
                 500::ms => now;
-                acc => osc.freq;
-                env.keyOn();
+                acc => sinOsc.freq;
+                env2.keyOn();
             }
 
             global float ce;
