@@ -73,6 +73,6 @@ def DisplayPlot(train, valid, ylabel, number=0):
     plt.pause(0.0001)
     plt.show()
 
-    title = 'NN_CE_Q3.2'
+    title = 'NN_CE'
     plt.title(title)
     plt.savefig('./' + title + '.png')

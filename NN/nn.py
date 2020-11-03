@@ -325,7 +325,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         #  Send reply back to client
         socket.send(str.encode(dataToUnity)) # send data to unity
 
-        train_ce_list.append((epoch, train_ce))
+        train_ce_list.append((epoch, train_ce)) # 哦，这里append进去的应该是train的最后一个step的ce...
         train_acc_list.append((epoch, train_acc))
         valid_ce_list.append((epoch, valid_ce))
         valid_acc_list.append((epoch, valid_acc))
@@ -454,10 +454,10 @@ def main():
                   momentum, num_epochs, batch_size)
 
     # Uncomment if you wish to save the model.
-    Save(model_fname, model)
+    # Save(model_fname, model)
 
     # Uncomment if you wish to save the training statistics.
-    Save(stats_fname, stats)
+    # Save(stats_fname, stats)
 
 
 def Optimization():

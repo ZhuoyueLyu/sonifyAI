@@ -1,20 +1,45 @@
 # 待实现的idea
 
+
+人们关注AI的产出，但是没有人关注AI在学习的时候是什么样子的，什么声音。
+
 我从 看淡金钱 -> 大二 发现赚钱 重视钱 ->现在 想做喜欢做的事情。
 CS就业很好，但是我想做我想做的事情。
 
 其实这个项目有没有用，CC帮不了，他只能提供music sonify的帮助。用没有用需要问ML的人。真的，不能期待CC能给什么ML的见解。ML的见解需要我自己想明白 + 问ML的Prof问明白。
 
+
+0. `查一下他那个脑波项目后来成功没有，因为如果成功的话，那也可以算是科技和音乐的极好结合。并且很严谨，就，可以学习一波。`
+. Chafe and Parvizi are now going through the rigorous research process that would pass US Food and Drug Administration standards in the hope of introducing a commercial medical device.
+0. ML知识
+	* 对，其实最初我的gradient descent idea是可以表示不同维度的声音变化，如果是好几个维度的，就应该有好几条时间轴啊！！！
+	* 要知道用loss有什么意义，除了overfit，就，能不能找到别的有趣的数据，variable来做这个，让它更有意义（或者看一下常人是怎么去train ML model的，根据什么。其实Model的结构也需要考虑一下啊，有没有声音从一层过渡到另一层的效果呢？）
 0. 可能需要恶补一下音乐知识，专有名词啥的 | 可以说我的女票是lsq? Play cell?
 vocabulary with phrases such as ‘it’s a gas’ and ‘off on a jag’, along with the more conventional musical jargon of keys and scales.
 0. 看一下Chris 的sonification怎么搞的（我觉得他应该是用了更高级的软件？没..就是ChucK`而且我发现他擅长用不同的音效和左右声道`），因为他似乎自己有一套algo，并且声音也很丰富，就那种，马林巴（不知道）的声音？http://sevenairs.com/data.html 可能有哪里介绍这个的（去他的网站看一下他咋搞的？）
 1. 提供标高线，就，提供 freq = 100, 200, 300...的声音，这样人们在听的时候就可以实时拿出标高线听一下，我这个声音在哪里了，是否到达了某个值。
-2. ML知识
-	* 对，其实最初我的gradient descent idea是可以表示不同维度的声音变化，如果是好几个维度的，就应该有好几条时间轴啊！！！
-	* 要知道用loss有什么意义，除了overfit，就，能不能找到别的有趣的数据，variable来做这个，让它更有意义（或者看一下常人是怎么去train ML model的，根据什么。其实Model的结构也需要考虑一下啊，有没有声音从一层过渡到另一层的效果呢？）
 2. 熟悉一下我的NN的model的结构和概念，研究一下怎么share电脑声音，到时候demo该怎么搞。
 3. 剪头发
 * 好像后面电脑运行缓慢了，声音出现也会缓慢
+
+
+
+对，就如果是面向大众的
+可以华丽一些
+1. 每一个train的ce acc都放出来，用不同的间隔
+2. 然后不
+
+learning rate(eps 可以)
+batch size （可以每个step的train数据给一个声音）
+hidden unit （可以#hidden units个 freq的声音叠加在一起）
+momentum (大提，中提，小提琴？)
+
+
+面向科学家
+就那两个音就够了
+1. 好几个不同hyperparamenter的放在一起跑，每一个pre set用不同的timbre
+2. 提供几个标尺 （左手三个光柱，hover可以听到音高，并且语音会说是多高），可以听一下高度。正中间是一个play，hover左侧听acc，hover右侧听ce. 右手边可以存某个时间点的声音
+3. 但这个问题极有可能不存在，就其实有一个软件直接回放一下，告知一下最低点就好。
 
 
 # Link
@@ -38,6 +63,8 @@ vocabulary with phrases such as ‘it’s a gas’ and ‘off on a jag’, along
 	* `EvaluateSimple.cs` 里面的 `Evaluator.Evaluator.EvaluatorClient client` 可以被这样call `client.EvaluateAsync(req).ResponseAsync.Result.Accuracy`就可以拿到accuracy.
 	* 然后发现`CEvaluator.cs`里面有 `const string PYTHON = "C:/Users/VR_Demo/Anaconda3/envs/VR_Env_GPU/python.exe"` 其实是在那边call python, 让Python去跑script. 所以他这边的逻辑是，用Unity来主导一切的， 就是Unity来发号施令的。
 * [Immersions Visualizing and sonifying how an artificial ear hears music](https://github.com/vincentherrmann/neural-layout)
+	* 我好像看懂了一丢丢，就是，我感觉一开始所有的点都是重合在一起的，都是没有出现，或者neuron没有被激活，后面根据weight来算forces，weight被更新上了就会出现这种图像。
+	* 我不确定这个从2D转到3D需要多少代价，主要还是声音吧。
 
 这个sample-env是必须的，每次run前都需要打开
 source ~/python-envs/sample-env/bin/activate
@@ -84,6 +111,9 @@ When you sonify data, you experience time in a way you can’t when you look at 
 
 * [Sonifying the world, 一个aeon的小短文！](https://aeon.co/essays/how-the-sounds-of-data-and-nature-join-to-make-sweet-music)
 	*  but he wouldn’t have `felt` the way in which economic progress was so tightly bound to pollution levels. (确实，音乐可以带来这种 感觉，但是其他是无法带来的。)
+	* sonifying our world has a way of wrenching our guts (绞尽脑汁), producing visceral(内脏的) reactions that are frequently missing from the merely visual.
+	* ‘Carl Sagan had a real nice insight about this,’ Chafe told me. ‘ e effect of using your ears is the easiest way to achieve, for him, teleportation.’
+
 
 总结一下他的sonification:
 1. Brain stethoscope (for epilepsy)
@@ -99,9 +129,54 @@ the black cloud
 * [Frédéric Chopin: Piano Concerto No. 1 e-minor (Olga Scheps live)](https://youtu.be/2bFo65szAP0) 这个红衣妹子 Olga Scheps 太美了
 
 # Knowledge
-## Difference between Epoch and Step?
+
+## Fundamentals of NN
+https://www.wandb.com/articles/fundamentals-of-neural-networks
+
+## Loss / Epoch and Step / Early stopping?
 * Epoch: A training epoch represents a complete use of all training data for gradients calculation and optimizations(train the model).
 * Step: A training step means using one batch size of training data to train the model.
+
+Loss (Punish the incorrect value):
+1. Squared loss
+2. Cross-entropy loss (-log y)
+3. Hinge loss....
+
+Backprob:Loss function对某一个variable的求导
+
+Early stopping
+![](pic/2020-11-02-19-33-45.png)
+
+Tunning:
+就是在Validation set 上看表现 （validation error），然后给不同hidden units, learning rate 看一下。有grid search和random search两种给法。
+
+
+## ML & AI?
+其实有争议，ML不能完全说是AI。
+Judea Pearl:
+* ML learns and predicts based on passive observations (methods and models borrowed from statistics and probability theory);
+* AI implies an agent interacting with the environment to learn and take actions that maximize its chance of successfully achieving its goals. (symbolic/knowledge-based learning, inductive logic programming)
+
+Supervised learning:
+1. KNN
+2. Decision tree
+
+Unspervised
+1. K Means (假设背后是gaussian distribution, 一次次update，轮流update，其实有一个cost function，就是所有点距离centroid的平均距离。)
+2. EM
+3. PCA
+
+不管是哪个，最后都会变成一个optimization problem，有一个function我们要让他变小
+
+
+
+
+## Variable
+1. learning rate
+2. W, b
+3. activation function
+4. Optimizers (基于Loss function)
+
 
 * Bitcrusher: 就是指那种让音频变得很低品质的方式，比如变成radio啊，就，很次的声音。比如这里的一个[YouTube链接](https://youtu.be/jRzU2TO8tO0)
 
@@ -114,10 +189,24 @@ the black cloud
 
 # Log
 ## 11/02
+
+
+
+
+6: 45 - 7:45
+0. ML知识
+	* 对，其实最初我的gradient descent idea是可以表示不同维度的声音变化，如果是好几个维度的，就应该有好几条时间轴啊！！！
+	* `要知道用loss有什么意义` 音为他可以给music的见解，但是意义是需要我去赋予的，除了overfit，就，能不能找到别的有趣的数据，variable来做这个，让它更有意义（或者看一下常人是怎么去train ML model的，根据什么。其实Model的结构也需要考虑一下啊，有没有声音从一层过渡到另一层的效果呢？）
+
+1. `查一下他那个脑波项目后来成功没有，因为如果成功的话，那也可以算是科技和音乐的极好结合。并且很严谨，就，可以学习一波。`
+. Chafe and Parvizi are now going through the rigorous research process that would pass US Food and Drug Administration standards in the hope of introducing a commercial medical device.
+
 * 我觉得要尝试把.wav加进去，或者加上UGen，那样声音会丰富很多
 	* (我觉得无论如何都得到达他做的那个水准，否则没法impress他，直接mapping确实太简单了。（我觉得没准真的可以把每个维度的sound都mapping上去。）
 	* 看一下他有没有paper或者啥的介绍自己怎么做的
-* aeon那个小短文看完 + 继续探索他的网站，看他sonification做了些啥。
+* 继续探索他的网站，看他sonification做了些啥。
+
+[x]aeon那个小短文看完 +
 
 ## 11/01
 
