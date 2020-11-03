@@ -43,6 +43,12 @@ momentum (大提，中提，小提琴？)
 
 
 # Link
+## Music Theory
+* [Learn music theory in half an hour](https://youtu.be/rgaTLrZGlk0)
+* [Complete Piano Theory Course: Chords, Intervals, Scales & More!](https://youtu.be/Ud9CpGOG1GE)
+* ![ADSR](pic/ADSR_parameter.svg)
+￼
+
 ## Unity
 * [ML Agent getting started guide](https://github.com/Unity-Technologies/ml-agents/blob/release_8_docs/docs/Getting-Started.md)
 * [Unity ML-Agents Toolkit Documentation, Release 8](https://github.com/Unity-Technologies/ml-agents/blob/release_8_docs/docs/Readme.md)
