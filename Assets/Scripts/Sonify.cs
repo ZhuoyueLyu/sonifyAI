@@ -31,8 +31,8 @@ public class Sonify : MonoBehaviour
             // Set ASDR (Attack, Decay, Sustain, Release)
             env.set(10.0::ms, 60.0::ms, 0.0, 0::ms);
             env2.set(10.0::ms, 60.0::ms, 0.0, 0::ms);
-            env3.set(10.0::ms, 60.0::ms, 0.005, 3::ms);
-            env4.set(10.0::ms, 60.0::ms, 0.005, 3::ms);
+            env3.set(10.0::ms, 60.0::ms, 0.0, 0::ms);
+            env4.set(10.0::ms, 60.0::ms, 0.0, 0::ms);
 
             fun void playTrainCE( float ce )
             {
