@@ -80,6 +80,14 @@ I'm thinking maybe adding interesting sound like what you did in oxygen flute (s
 
 他提到的那个 I'm sitting in a room (https://youtu.be/fAxHlLK3Oyk), 这边是一个reproduce (https://youtu.be/zjiX4oc8e2U).
 
-
 我叫Zhuoyue，But you can pronounce it anyway you like! I know it's really hard. Don' bother! I know you meet hundreds of students a Also I found the I'm sitting in a room video, haha sorry It's long time ago so I didn't know.
 
+也说道Chuck是他最喜欢的语言。
+
+他说他还是挺喜欢我这个项目的，尤其是给每一个step的那个，就，真的把一个一般人不清楚内部构造和逻辑的东西给用听觉呈现出来。
+
+说那个DL项目，用AR，比原先好太多了，他现在在继续这那个work，把DL部署下去，真正去使用，就特别方便。
+
+我觉得斯坦福这种，自由，哦他也说了，斯坦福不会像我们学校这么封闭，高年级学生都是设计很多领域的。
+
+他说hope 今天可以改变结果，对international的学生好一点。
