@@ -188,11 +188,22 @@ Unspervised
 
 
 # Log
+## 11/03
+主要目的是吸引他
+
+
+可以华丽一些
+1. 每一个train的ce acc都放出来，用不同的间隔
+2. 然后不
+
+learning rate(eps 可以)
+batch size （可以每个step的train数据给一个声音）
+hidden unit （可以#hidden units个 freq的声音叠加在一起）
+momentum (大提，中提，小提琴？)
+
+
+
 ## 11/02
-
-
-
-
 6: 45 - 7:45
 0. ML知识
 	* 对，其实最初我的gradient descent idea是可以表示不同维度的声音变化，如果是好几个维度的，就应该有好几条时间轴啊！！！

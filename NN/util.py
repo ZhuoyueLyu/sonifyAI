@@ -73,6 +73,6 @@ def DisplayPlot(train, valid, ylabel, number=0):
     plt.pause(0.0001)
     plt.show()
 
-    title = 'NN_CE'
+    title = ylabel + ' vs. Epoch'
     plt.title(title)
     plt.savefig('./' + title + '.png')
