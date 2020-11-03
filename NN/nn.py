@@ -292,14 +292,13 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                    'Train Acc {:.5f}').format(
                 epoch, step, train_ce, train_acc))
 
-            ### If we want to send the sonification of every steps
-            # 但这样的声音就，每一个epoch的声音会模糊在一起，然后还是一阵epoch一阵声音的，就不如下面清楚。
-            # sendValid_ce = ('{:.5f}').format(train_acc)
-            # #  Wait for next request from client
-            # message = socket.recv()
-            # # print("Received request: %s" % message)
-            # #  Send reply back to client
-            # socket.send(str.encode(sendValid_ce)) # send data to unity
+            ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
+            dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
+            #  Wait for next request from client
+            message = socket.recv()
+            #  Send reply back to client
+            socket.send(str.encode(dataToUnity)) # send data to unity
+            time.sleep(0.1)
 
             # Compute error.
             error = (prediction - t) / x.shape[0]
@@ -317,11 +316,10 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             epoch, valid_ce, valid_acc)
         print(data_stream)
 
-        ## If we send the sonification of every epoch
-        dataToUnity = ('{:.5f},''{:.5f}').format(valid_ce, valid_acc)
+        ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
+        dataToUnity = ('{:.5f},''{:.5f},1').format(valid_ce, valid_acc)
         #  Wait for next request from client
         message = socket.recv()
-        # print("Received request: %s" % message)
         #  Send reply back to client
         socket.send(str.encode(dataToUnity)) # send data to unity
 
