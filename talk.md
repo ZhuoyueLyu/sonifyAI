@@ -91,3 +91,5 @@ I'm thinking maybe adding interesting sound like what you did in oxygen flute (s
 我觉得斯坦福这种，自由，哦他也说了，斯坦福不会像我们学校这么封闭，高年级学生都是设计很多领域的。
 
 他说hope 今天可以改变结果，对international的学生好一点。
+
+说基本是要全款自己付的。可能会有一点点奖学金的可能。

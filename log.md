@@ -183,6 +183,9 @@ Unspervised
 ## 11/03
 主要目的是吸引他
 
+他很nice, 我一定要impress他 （他说放在网站上就OK）我是觉得，哪怕申请不上，我自己觉得这个project有意义的话（他说到了really impressive, 还是说用了个什么词语）
+
+他也说到，我捕捉到了他的project的一些精华思想。
 
 可以华丽一些
 1. 每一个train的ce acc都放出来，用不同的间隔
