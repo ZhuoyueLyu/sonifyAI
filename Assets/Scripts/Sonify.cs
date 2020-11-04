@@ -37,9 +37,9 @@ public class Sonify : MonoBehaviour
         //  ADSR (Attack, Decay, Sustain, Release)
         Chuck.Manager.RunCode( myChuck1,
             @"
-            TriOsc triOsc => ADSR env => NRev verb => dac.left;
+            TriOsc triOsc => ADSR env => NRev verb => dac;
 
-            SinOsc sinOsc => ADSR env2 => NRev verb2 => dac.right;
+            SinOsc sinOsc => ADSR env2 => NRev verb2 => dac;
 
             0.3 => triOsc.gain;
             0.3 => sinOsc.gain;
@@ -57,7 +57,7 @@ public class Sonify : MonoBehaviour
 
             fun void playSoundACC( float acc )
             {
-                // 500::ms => now;
+                300::ms => now;
                 acc => sinOsc.freq;
                 env2.keyOn();
             }

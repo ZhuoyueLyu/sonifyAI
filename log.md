@@ -121,18 +121,10 @@ When you sonify data, you experience time in a way you can’t when you look at 
 	* ‘Carl Sagan had a real nice insight about this,’ Chafe told me. ‘ e effect of using your ears is the easiest way to achieve, for him, teleportation.’
 
 
-总结一下他的sonification:
-1. Brain stethoscope (for epilepsy)
-2. Oxygen flute
-tomato music
-the black cloud
-3. 1,200 Years of Earth's Climate
-4. Alaskan yellow cedar data sonification project used as an example employed an algorithm by NS to transform data to music, this was rendered into a MIDI music data file by CC.
-5. sea level (网站broken) http://polartide.org/
-6. air quality monitoring system
 
 ## 偶然碰到的很美的音乐
 * [Frédéric Chopin: Piano Concerto No. 1 e-minor (Olga Scheps live)](https://youtu.be/2bFo65szAP0) 这个红衣妹子 Olga Scheps 太美了
+* [Encoding the Fibonacci Sequence Into Music](https://youtu.be/IGJeGOw8TzQ) 这个把斐波那契数列变成Music.
 
 # Knowledge
 
@@ -186,17 +178,14 @@ Unspervised
 
 * Bitcrusher: 就是指那种让音频变得很低品质的方式，比如变成radio啊，就，很次的声音。比如这里的一个[YouTube链接](https://youtu.be/jRzU2TO8tO0)
 
-# 可以问Chris的问题
-* 我不确定这个会变成一个project，还是一个paper还是一个什么，因为我之前接触包括在lab里，都是paper导向的。
-* 如果是paper，可以投什么会议？ICMC吗？还是说有什么建议？然后你们什么时候审核啊，如果我中了你们能看见吗？
-* 在CCRMA有没有可能去学习唱歌呢？美声，音乐剧，歌剧这种（这个我需要自己先查询一下） 真的，我觉得CCRMA这个项目可以用进我所有的才华，是目前最perfect的项目。
-
-
 
 # Log
 ## 11/03
 主要目的是吸引他
 
+他很nice, 我一定要impress他 （他说放在网站上就OK）我是觉得，哪怕申请不上，我自己觉得这个project有意义的话（他说到了really impressive, 还是说用了个什么词语）
+
+他也说到，我捕捉到了他的project的一些精华思想。
 
 可以华丽一些
 1. 每一个train的ce acc都放出来，用不同的间隔
