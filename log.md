@@ -179,6 +179,11 @@ Unspervised
 * Bitcrusher: 就是指那种让音频变得很低品质的方式，比如变成radio啊，就，很次的声音。比如这里的一个[YouTube链接](https://youtu.be/jRzU2TO8tO0)
 
 
+## Stanford
+* 这里提到 CS课人很多，Prof很强但讲课很烂，基本靠TA。因为基本大家都学CS。
+* 但是人文学课，比如英语，6个人一节课，就，很开心。那些Prof也很友好。
+* flake, 放鸽子？ A flake is someone who generally makes plans with you, promises to do things with or for you but can never seem to follow
+
 # Log
 ## 11/05
 
