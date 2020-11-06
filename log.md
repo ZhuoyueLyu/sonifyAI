@@ -70,7 +70,15 @@ momentum (大提，中提，小提琴？)
 	* 然后发现`CEvaluator.cs`里面有 `const string PYTHON = "C:/Users/VR_Demo/Anaconda3/envs/VR_Env_GPU/python.exe"` 其实是在那边call python, 让Python去跑script. 所以他这边的逻辑是，用Unity来主导一切的， 就是Unity来发号施令的。
 * [Immersions Visualizing and sonifying how an artificial ear hears music](https://github.com/vincentherrmann/neural-layout)
 	* 我好像看懂了一丢丢，就是，我感觉一开始所有的点都是重合在一起的，都是没有出现，或者neuron没有被激活，后面根据weight来算forces，weight被更新上了就会出现这种图像。
-	* 我不确定这个从2D转到3D需要多少代价，主要还是声音吧。
+	* 我不确定这个从2D转到3D需要多少代价，主要还是声音吧。(但主要有3D就会很炫酷)
+	* 跑他的code
+		* python setup.py build
+		* python setup.py install
+		* PyQt5, imageio-ffmpeg, PyOpenGL 都需要到 Project Interpreter里面去install, 直接cmd做install是不行的！我觉得应该是virtual env的问题，pip install是到全局的（我本地的全局是3.7), 但是Interpreter是local的virtual env.
+		![](pic/2020-11-05-21-03-13.png)
+		* 出现 IndexError: tensors used as indices must be long, byte or bool tensors 就 xxx.type(torch.long)，其中xxx就是它说需要是这个type的值。
+		* 出现 TypeError: expected Long (got Float), 就xxx.type(torch.long）
+		* IndexError: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices  就 xxx.type(torch.int)
 
 这个sample-env是必须的，每次run前都需要打开
 source ~/python-envs/sample-env/bin/activate
@@ -186,9 +194,11 @@ Unspervised
 
 # Log
 ## 11/05
+下一步就是思考怎么转移 / 升华。
+[x]他的visualization我已经可以看到了
 
 ## 11/03
-主要目的是吸引他
+主要目的是吸引他和其他Faculty，同时证明学术能力，
 
 他很nice, 我一定要impress他 （他说放在网站上就OK）我是觉得，哪怕申请不上，我自己觉得这个project有意义的话（他说到了really impressive, 还是说用了个什么词语）
 
