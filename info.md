@@ -9,6 +9,7 @@ CS就业很好，但是我想做我想做的事情。
 其实这个项目有没有用，CC帮不了，他只能提供music sonify的帮助。用没有用需要问ML的人。真的，不能期待CC能给什么ML的见解。ML的见解需要我自己想明白 + 问ML的Prof问明白。
 
 
+
 0. `查一下他那个脑波项目后来成功没有，因为如果成功的话，那也可以算是科技和音乐的极好结合。并且很严谨，就，可以学习一波。`
 . Chafe and Parvizi are now going through the rigorous research process that would pass US Food and Drug Administration standards in the hope of introducing a commercial medical device.
 0. ML知识
@@ -40,6 +41,21 @@ momentum (大提，中提，小提琴？)
 1. 好几个不同hyperparamenter的放在一起跑，每一个pre set用不同的timbre
 2. 提供几个标尺 （左手三个光柱，hover可以听到音高，并且语音会说是多高），可以听一下高度。正中间是一个play，hover左侧听acc，hover右侧听ce. 右手边可以存某个时间点的声音
 3. 但这个问题极有可能不存在，就其实有一个软件直接回放一下，告知一下最低点就好。
+
+
+
+# Paper
+https://youtu.be/UY7sVKJPTMA
+写paper的建议，我觉得太对了！
+真的就，开始胜过一切。先列outline，然后直接写，不要抠细节(包括那种，需要reference的位置，先不要停下找，继续写，后面再回去找)，现在先关注的是完成一个paper。然后intro应该最后写，先写实验部分。
+![](pic/2020-11-07-03-04-47.png)
+![](pic/2020-11-07-03-03-25.png)
+![](pic/2020-11-07-03-06-42.png)
+最后再写abstract，intro，ack.
+
+Intro需要cover两点：
+1. why was the study done, what is it's purpose
+2. give sufficient relevant background to understand what you did
 
 
 # Link
@@ -81,6 +97,8 @@ momentum (大提，中提，小提琴？)
 		* 出现 TypeError: expected Long (got Float), 就xxx.type(torch.long）
 		* IndexError: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices  就 xxx.type(torch.int)
 	* [Barnes-Hut N-Body Simulations with MPI](https://youtu.be/0eKQXPAcQK8)其实就是把一个n^2的计算简化成了nlogn，做法是等分区域，如果某个区域有多于两个的再等分，直到最后每个区域都只有一个particle为止，这样其他partical给他的force就可以近似为所在区域center of mass给他的。
+	* [Simple Force Directed Graph in Unity](https://youtu.be/T69V_d_XmUw)!!!已经有现成的algo了
+	* [Building and Drawing a Graph in Unity using Gizmos](https://youtu.be/zdHvM6XU4rY)
 
 这个sample-env是必须的，每次run前都需要打开
 source ~/python-envs/sample-env/bin/activate
