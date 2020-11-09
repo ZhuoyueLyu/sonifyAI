@@ -98,6 +98,7 @@ Intro需要cover两点：
 		* IndexError: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices  就 xxx.type(torch.int)
 	* [Barnes-Hut N-Body Simulations with MPI](https://youtu.be/0eKQXPAcQK8)其实就是把一个n^2的计算简化成了nlogn，做法是等分区域，如果某个区域有多于两个的再等分，直到最后每个区域都只有一个particle为止，这样其他partical给他的force就可以近似为所在区域center of mass给他的。
 	* [Simple Force Directed Graph in Unity](https://youtu.be/T69V_d_XmUw)!!!已经有现成的algo了
+	* [Force Directed Graphs in Unity](https://youtu.be/5HFVQQZ5GGg)
 	* [Building and Drawing a Graph in Unity using Gizmos](https://youtu.be/zdHvM6XU4rY)
 
 这个sample-env是必须的，每次run前都需要打开
