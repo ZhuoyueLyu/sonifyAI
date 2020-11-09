@@ -1,5 +1,37 @@
 # Log
 
+## 11/09
+
+Next Step (我也录到Voice Memo里了，下次继续的时候可以听一下先):
+* 我觉得，详细看一下那个Sensing Data的paper（尤其是声音和material的部分，看看会不会有什么灵感）, 然后看一下他的引用
+* 再仔细看一下MIT的paper，看一他的贡献是什么（我猜是，把data mapping到3D的algo)?
+* 找到那种，把Art work describe到paper里去的paper，看看他们怎么诌出来一篇paper的 `主要看一下能不能找到一两篇模板paper`
+目前的模板paper是Jack的那个Chunity，那个只是把Unity和Chunck连接了一下，然后说了很多玄而又玄的东西就完事了。
+
+
+
+
+
+主要是看到MIT的那个project，把数据3D做出来，真的太酷了。
+
+```下面的思考也放在Info里了
+就，其实是Physicalization (Materilization) + Sonification
+我觉得这是一个很重要的问题，AI这么火，但没有人思考过。
+
+只是我没想好该怎么呈现这个，
+1. 如果只是引导一种对话，我只要有一个简单的demo就可以了
+2. 如果说是要严谨的研究，我需要去思考不同的interaction techniques，或者，对于不同的model需要有不同的measure量度。
+```
+
+其实或者，有没有可能写成一篇文科的paper
+`A theoretical or methodological contribution that provokes novel conversations for the discipline`
+就，我只是为了provoke大家关注一下过程本身（但感觉这样的文章应该很难写...)，
+
+我觉得 Tovi可以给Visual的建议，Chris给声音的建议，一定是需要他们的input的，纯自己搞几乎不可能的。
+
+
+
+
 ## 11/08
 其实有一个感想，没准真的，呈现自己就够了。我觉得最后做不成research paper的话，`做成一个很有艺术感觉的音乐project也是很好的，然后稍微正式一点地介绍一下背景`，related work之类的（其实那样没准无心之中就出了一篇paper）。就真的，不要太难为自己，就跟着自己的感觉去做就可以了，成不了research也可以成一个很棒的project的。
 
