@@ -6,7 +6,7 @@
 人们关注AI的产出，但是没有人关注AI在学习的时候是什么样子的，什么声音。
 
 我觉得这是一个很重要的问题，AI这么火，人们基本都关注的是它的结果，它的accuracy。但没有人思考过
-1. 关注AI本身
+1. 关注AI的training本身，是一个beautiful的process，就像人类在学习的感觉一样，就这个需要给人一种感觉。
 2. 关注除了visualization之外别的sense (听觉，触觉（我觉得我可以说VR是一种动态现实的模拟，未来触觉研究（这里引用一下那批触觉研究paper) 就可以加上触觉），3D，美感，引发的情感).
 
 这样的好处是：
@@ -18,9 +18,19 @@
 其实我只要保证我上面这几点意思传达到位了，我不用考虑投什么会议的，真的，该说的说就OK了、
 ## Related Work
 
-### Visualization
+### Visualization in 2D
 1. AutoAI，可以放那个NodeSphere的图。
 
+
+### Visualization in 3d
+1. TensorSpace.js
+https://tensorspace.org/html/playground/
+这个其实挺好玩的，但是同样，也是train结束之后的东西，不是活着的
+
+2.Deep Learning Development Environment in
+Virtual Reality
+专业，但是同样，略过了training的过程。
+https://arxiv.org/pdf/1906.05925.pdf
 
 ## Implementation
 我们使用的是一个简单的network, 用于UofT Machine learning 教学的NN。
@@ -51,6 +61,13 @@ https://youtu.be/r8pmKYmsOv8
 只是我没想好该怎么呈现这个，
 1. 如果只是引导一种对话，我只要有一个简单的demo就可以了
 2. 如果说是要严谨的研究，我需要去思考不同的interaction techniques，或者，对于不同的model需要有不同的measure量度。
+
+
+
+
+## Conclusion / Limitation
+1. 我们只是在一个简单的network上，对于更加复杂的network我们还没有探索过
+1+. 但是呢，这种简单的example其实很有教学意义。
 
 
 # 模板paper是

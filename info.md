@@ -75,6 +75,9 @@ Intro需要cover两点：
 	* 他也是找了一圈code发现没有合适的，然后就手撸了！！woc，我第一次看到那个Sending Hello的时候好开心啊。
 	* 注意跑它之前要确保 `pip install pyzmq` 这个我在FY的电脑上要再做一次
 
+* [Graph And Chart, 就是Unity里面visualize数据的一个pkg, 70刀](https://assetstore.unity.com/packages/tools/gui/graph-and-chart-78488)
+* [Fource directed graph](https://github.com/l-l/UnityNetworkGraph)
+
 
 ## Paper/Github
 * [Deep Learning Development Environment in Virtual Reality ](http://github.com/Cobanoglu-Lab/VR4DL)

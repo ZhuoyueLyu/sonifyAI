@@ -80,6 +80,12 @@ def InitNN(num_inputs, num_hiddens, num_outputs):
         'db1': db1, 'db2': db2, 'db3': db3
 
     }
+
+    # Zhuoyue： print statement here
+    # print(W1.shape, W2.shape, W3.shape, sep=" ")
+    # (2304, 16) (16, 32) (32, 7)
+    # print(b1.shape, b2.shape, b3.shape, sep=" ")
+    # (16,) (32,) (7,)
     return model
 
 
