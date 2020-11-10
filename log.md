@@ -9,19 +9,9 @@
 
 如果这样的话，没准可以把那个，唱歌自动确定音高的软件也搞出来。
 
-目前的模板paper是
-1. Jack的那个Chunity，那个只是把Unity和Chunck连接了一下，然后说了很多玄而又玄的东西就完事了。
-2. Raul Altosaar 的这个 https://dl-acm-org.myaccess.library.utoronto.ca/doi/pdf/10.1145/3294109.3301256，真的就是一个贼鸡儿短的poster。（就是这个TEL会议下的一个performance track而已）不过他演奏时的执着是可以看出来的。我觉得我可以录制一个视频讲解我的系统，如果真的申请的话，嗯嗯（用好我的声音）
-
-目前想到的就是，看一下有没有现成可以用的VR visualization.
-
-或者就，只是声音?
-
-`对，我觉得，可以去拉扯它，就可以改变weights，可以怎么搓一下，就可以改变什么weights（比如用中间的距离代表weights)，就，不用看着数字，可以直接拖来拖去，捏来捏去。但我不知道这个在2D中，人们有没有做过，如果有的话，可以直接拿进来。然后捏完之后，松开，网络又会慢慢回复，是因为它又train回去了。`但这个问题在于，其实也不够量化。但我觉得，可以结合两派听众`科学家` and `大众`，科学家的话我们可以提供更make sense的架构。
-
 `这就可以强调我是一个 emotional的人，我在乎一个东西的感情，我拒绝冷冰冰的东西。` 然后假如AI拥有了这种
 
-这样的话，题目就真的可以变成`sensing AI: physicalizaiton and sonification of Neural Network`
+这样的话，题目就真的可以变成
 
 对，人们都在talk about how AI can faciliate 啥啥的，但是AI本身的样子是什么呢？（这里引用一下那个Memory的work)
 
