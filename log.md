@@ -1,35 +1,42 @@
 # Log
 
 ## 11/09
+说实话我有种感觉，这个只能作为一个，艺术作品了，而不是一个Research。因为太不完整了。
+
+就，其实也别想的太高深，感觉，就真的，自己想做啥，然后，写一个东西来说明一下就完事了，别为了research 而 research。
+
+如果给盲人用，我至少需要去调研一下，现在盲人在training的时候用的是什么。
+
+如果这样的话，没准可以把那个，唱歌自动确定音高的软件也搞出来。
+
+目前的模板paper是
+1. Jack的那个Chunity，那个只是把Unity和Chunck连接了一下，然后说了很多玄而又玄的东西就完事了。
+2. Raul Altosaar 的这个 https://dl-acm-org.myaccess.library.utoronto.ca/doi/pdf/10.1145/3294109.3301256，真的就是一个贼鸡儿短的poster。（就是这个TEL会议下的一个performance track而已）不过他演奏时的执着是可以看出来的。我觉得我可以录制一个视频讲解我的系统，如果真的申请的话，嗯嗯（用好我的声音）
+
+目前想到的就是，看一下有没有现成可以用的VR visualization.
+
+或者就，只是声音?
+
+`对，我觉得，可以去拉扯它，就可以改变weights，可以怎么搓一下，就可以改变什么weights（比如用中间的距离代表weights)，就，不用看着数字，可以直接拖来拖去，捏来捏去。但我不知道这个在2D中，人们有没有做过，如果有的话，可以直接拿进来。然后捏完之后，松开，网络又会慢慢回复，是因为它又train回去了。`但这个问题在于，其实也不够量化。但我觉得，可以结合两派听众`科学家` and `大众`，科学家的话我们可以提供更make sense的架构。
+
+`这就可以强调我是一个 emotional的人，我在乎一个东西的感情，我拒绝冷冰冰的东西。` 然后假如AI拥有了这种
+
+这样的话，题目就真的可以变成`sensing AI: physicalizaiton and sonification of Neural Network`
+
+对，人们都在talk about how AI can faciliate 啥啥的，但是AI本身的样子是什么呢？（这里引用一下那个Memory的work)
+
 
 Next Step (我也录到Voice Memo里了，下次继续的时候可以听一下先):
 * 我觉得，详细看一下那个Sensing Data的paper（尤其是声音和material的部分，看看会不会有什么灵感）, 然后看一下他的引用
 * 再仔细看一下MIT的paper，看一他的贡献是什么（我猜是，把data mapping到3D的algo)?
 * 找到那种，把Art work describe到paper里去的paper，看看他们怎么诌出来一篇paper的 `主要看一下能不能找到一两篇模板paper`
-目前的模板paper是Jack的那个Chunity，那个只是把Unity和Chunck连接了一下，然后说了很多玄而又玄的东西就完事了。
 
-
-
-
-
-主要是看到MIT的那个project，把数据3D做出来，真的太酷了。
-
-```下面的思考也放在Info里了
-就，其实是Physicalization (Materilization) + Sonification
-我觉得这是一个很重要的问题，AI这么火，但没有人思考过。
-
-只是我没想好该怎么呈现这个，
-1. 如果只是引导一种对话，我只要有一个简单的demo就可以了
-2. 如果说是要严谨的研究，我需要去思考不同的interaction techniques，或者，对于不同的model需要有不同的measure量度。
-```
 
 其实或者，有没有可能写成一篇文科的paper
 `A theoretical or methodological contribution that provokes novel conversations for the discipline`
 就，我只是为了provoke大家关注一下过程本身（但感觉这样的文章应该很难写...)，
 
 我觉得 Tovi可以给Visual的建议，Chris给声音的建议，一定是需要他们的input的，纯自己搞几乎不可能的。
-
-
 
 
 ## 11/08
