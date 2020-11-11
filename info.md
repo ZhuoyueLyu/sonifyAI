@@ -1,3 +1,9 @@
+# 问 Tovi
+
+1. project和HCI research的区别是不是就是，有没有evaluation的区别？
+2. 如果两个人做了同样的东西咋办，就很担心。
+
+
 # 待实现的idea
 
 
