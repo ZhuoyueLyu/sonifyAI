@@ -1,7 +1,9 @@
 # Log
+## 11/13
+should first try rendering
+
 
 ## 11/12
-
 Change gravity
 ```
 Edit -> Project Settings -> Physics
