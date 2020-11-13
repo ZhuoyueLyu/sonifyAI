@@ -30,12 +30,15 @@ public class Link : MonoBehaviour {
         lineRenderer.SetVertexCount(2);
         lineRenderer.SetPosition(0, new Vector3(0,0,0));
         lineRenderer.SetPosition(1, new Vector3(1,0,0));
+
+        // put here, so it's a constant force that only get added once
+        // (if we put it in the Update, it will be updated multiple times)
+        source.GetComponent<Rigidbody>().AddForce(0, 0, 1);
+        target.GetComponent<Rigidbody>().AddForce(0, 1, 0);
     }
 
     void Update () {
         if(source && target){
-            source.GetComponent<Rigidbody>().AddForce(0, 0, 1);
-            target.GetComponent<Rigidbody>().AddForce(0, 1, 0);
             lineRenderer.SetPosition(0, source.transform.position);
             lineRenderer.SetPosition(1, target.transform.position);
         }
