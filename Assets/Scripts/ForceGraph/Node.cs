@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ForceGraph {
 
-    public class Node : MonoBehaviour {
+public class Node : MonoBehaviour {
 
-        public string id;
-        // public TextMesh nodeText;
+    public int id;
+    // public TextMesh nodeText;
 
-        void Update () {
-            //node text always facing camera
-            // nodeText.transform.LookAt (Camera.main.transform);
-        }
+    void Update () {
+        //node text always facing camera
+        // nodeText.transform.LookAt (Camera.main.transform);
     }
-
 }
+

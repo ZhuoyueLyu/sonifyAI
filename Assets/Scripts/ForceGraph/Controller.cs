@@ -6,118 +6,80 @@ using UnityEngine.UI;
 using System.Xml;
 using System.IO;
 
-namespace ForceGraph {
+public class Controller : MonoBehaviour {
 
-    public class GameController : MonoBehaviour {
+    public Node nodePrefab;
+    public Link linkPrefab;
 
-        public Node nodePrefab;
-        public Link linkPrefab;
+    int nodeCount = 0;
+    int linkCount = 0;
 
-        private Hashtable nodes;
-        private Hashtable links;
-        private int nodeCount = 0;
-        private int linkCount = 0;
+    Hashtable nodes;
+    Hashtable links;
 
-        //Method for loading the GraphML layout file
-        private IEnumerator LoadLayout(){
+    // private IDictionary<int, Node> nodes = new Dictionary<int, Node>();
+    // private IDictionary<int, Link> links = new Dictionary<int, Link>();
 
-            string sourceFile = Application.dataPath + "/Data/layout.xml";
-            // statusText.text = "Loading file: " + sourceFile;
 
-            //determine which platform to load for
-            string xml = null;
-            if(Application.isWebPlayer){
-                WWW www = new WWW (sourceFile);
-                yield return www;
-                xml = www.text;
-            }
-            else{
-                StreamReader sr = new StreamReader(sourceFile);
-                xml = sr.ReadToEnd();
-                sr.Close();
-            }
+    void GenerateGraph(){
+        int layer1Count = 2;
+        int layer2Count = 3;
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xml);
-
-            // statusText.text = "Loading Topology";
-
-            int scale = 2;
-
-            XmlElement root = xmlDoc.FirstChild as XmlElement;
-            for(int i=0; i<root.ChildNodes.Count; i++){
-                XmlElement xmlGraph = root.ChildNodes[i] as XmlElement;
-
-                for(int j=0; j<xmlGraph.ChildNodes.Count; j++){
-                    XmlElement xmlNode = xmlGraph.ChildNodes[j] as XmlElement;
-
-                    //create nodes
-                    if(xmlNode.Name == "node"){
-                        float x = float.Parse(xmlNode.Attributes["x"].Value)/scale;
-                        float y = float.Parse (xmlNode.Attributes["y"].Value)/scale;
-                        float z = float.Parse(xmlNode.Attributes["z"].Value)/scale;
-
-                        Node nodeObject = Instantiate(nodePrefab, new Vector3(x,y,z), Quaternion.identity) as Node;
-                        // nodeObject.nodeText.text = xmlNode.Attributes["name"].Value;
-
-                        nodeObject.id = xmlNode.Attributes["id"].Value;
-                        nodes.Add(nodeObject.id, nodeObject);
-
-                        // statusText.text = "Loading Topology: Node " + nodeObject.id;
-                        nodeCount++;
-                        // nodeCountText.text = "Nodes: " + nodeCount;
-                    }
-
-                    //create links
-                    if(xmlNode.Name == "edge"){
-                        Link linkObject = Instantiate(linkPrefab, new Vector3(0,0,0), Quaternion.identity) as Link;
-                        linkObject.id = xmlNode.Attributes["id"].Value;
-                        linkObject.sourceId = xmlNode.Attributes["source"].Value;
-                        linkObject.targetId = xmlNode.Attributes["target"].Value;
-                        linkObject.status = xmlNode.Attributes["status"].Value;
-                        links.Add(linkObject.id, linkObject);
-
-                        // statusText.text = "Loading Topology: Edge " + linkObject.id;
-                        linkCount++;
-                        // linkCountText.text = "Edges: " + linkCount;
-                    }
-
-                    //every 100 cycles return control to unity
-                    if(j % 100 == 0)
-                        yield return true;
-                }
-            }
-
-            //map node edges
-            MapLinkNodes();
-
-            // statusText.text = "";
+        // layer 1
+        for(int i=0; i<layer1Count; i++){
+            createNode(i);
+        }
+        // layer 2
+        for(int j=0; j<layer2Count; j++){
+            createNode(10 + j);
         }
 
-        //Method for mapping links to nodes
-        private void MapLinkNodes(){
-            foreach(string key in links.Keys){
-                Link link = links[key] as Link;
-                link.source = nodes[link.sourceId] as Node;
-                link.target = nodes[link.targetId] as Node;
+        // layer 1
+        for(int i=0; i<layer1Count; i++){
+            for(int j=0; j<layer2Count; j++){
+                createLink(i, 10 + j);
             }
         }
+        //map node edges
+        MapLinkNodes();
+    }
 
-        void Start () {
-            nodes = new Hashtable();
-            links = new Hashtable();
+    //Create nodes
+    void createNode(int id) {
+        float x = Random.Range(-10, 10);
+        float y = Random.Range(-10, 10);
+        float z = Random.Range(-10, 10);
+        Node nodeObject = Instantiate(nodePrefab, new Vector3(x,y,z), Quaternion.identity) as Node;
+        nodeObject.id = id;
+        nodes.Add(nodeObject.id, nodeObject);
+        nodeCount++;
+    }
 
-            //initial stats
-            // nodeCountText = GameObject.Find("NodeCount").guiText;
-            // nodeCountText.text = "Nodes: 0";
-            // linkCountText = GameObject.Find("LinkCount").guiText;
-            // linkCountText.text = "Edges: 0";
-            // statusText = GameObject.Find("StatusText").guiText;
-            // statusText.text = "";
+    //Create links
+    void createLink(int sourceId, int targetId){
+        Link linkObject = Instantiate(linkPrefab, new Vector3(0,0,0), Quaternion.identity) as Link;
+        linkObject.id = linkCount;
+        linkObject.sourceId = sourceId;
+        linkObject.targetId = targetId;
+        links.Add(linkObject.id, linkObject);
+        linkCount++;
 
-            StartCoroutine( LoadLayout() );
+    }
+
+    //Method for mapping links to nodes
+    void MapLinkNodes(){
+        foreach(int key in links.Keys){
+            Link link = links[key] as Link;
+            link.source = nodes[link.sourceId] as Node;
+            link.target = nodes[link.targetId] as Node;
         }
+    }
 
+    void Start () {
+        nodes = new Hashtable();
+        links = new Hashtable();
+
+        GenerateGraph();
     }
 
 }
