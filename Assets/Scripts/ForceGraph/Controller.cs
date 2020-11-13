@@ -34,7 +34,7 @@ public class Controller : MonoBehaviour {
             createNode(10 + j);
         }
 
-        // layer 1
+        // add link
         for(int i=0; i<layer1Count; i++){
             for(int j=0; j<layer2Count; j++){
                 createLink(i, 10 + j);

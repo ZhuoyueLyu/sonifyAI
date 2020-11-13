@@ -9,7 +9,6 @@ public class Link : MonoBehaviour {
     public Node target;
     public int sourceId;
     public int targetId;
-    public bool loaded = false;
 
     private LineRenderer lineRenderer;
 
@@ -18,7 +17,7 @@ public class Link : MonoBehaviour {
 
         //color link according to status
         Color c;
-        if (1 > 3)
+        if (1 > 0)
             c = Color.gray;
         else
             c = Color.red;
@@ -34,11 +33,11 @@ public class Link : MonoBehaviour {
     }
 
     void Update () {
-        if(source && target && !loaded){
+        if(source && target){
+            source.GetComponent<Rigidbody>().AddForce(0, 0, 1);
+            target.GetComponent<Rigidbody>().AddForce(0, 1, 0);
             lineRenderer.SetPosition(0, source.transform.position);
             lineRenderer.SetPosition(1, target.transform.position);
-
-            loaded = true;
         }
     }
 }
