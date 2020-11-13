@@ -8,12 +8,15 @@
 我觉得这是一个很重要的问题，AI这么火，人们基本都关注的是它的结果，它的accuracy。但没有人思考过
 1. 关注AI的training本身，是一个beautiful的process，就像人类在学习的感觉一样，就这个需要给人一种感觉。
 2. 关注除了visualization之外别的sense (听觉，触觉（我觉得我可以说VR是一种动态现实的模拟，未来触觉研究（这里引用一下那批触觉研究paper) 就可以加上触觉），3D，美感，引发的情感).
+3. training 本身可以在VR中实现，可感可触，就，拉扯，而不是手动输入数据。
 
 这样的好处是：
 0. 其实让AI变的concrete，like a really object/creature, instead of a concept. AI需要有自己的形象
 1. 能激起正确的情绪，尤其是对大众，这种浅显的方式不用太多科学知识，可以有助于AI的普及
 2. 对于残障人士，视觉或者听觉障碍的，也可以有特殊的帮助。
 3. 引导一种对话，关注别的知觉，这里我就提供了听觉和3D视觉的结合
+
+`这是一种和AI interact的全新方式` 就，在VR里面可以这样去train ML model.
 
 
 并且一个ML/DL algo的关键就是optimization (gradient descent之类的，这里可以引用一堆paper，讲optimization的) 然后我们可以说，well，怎么让人们感知这个核心的idea? 图像是一个方面，声音可以从另一个角度开启我们的认知。

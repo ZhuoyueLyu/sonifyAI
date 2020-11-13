@@ -1,5 +1,35 @@
 # Log
+
+## 11/12
+
+Change gravity
+```
+Edit -> Project Settings -> Physics
+```
+or in Code
+```c#
+using UnityEngine;
+using System.Collections;
+
+public class ExampleClass : MonoBehaviour
+{
+    void Example()
+    {
+        Physics.gravity = new Vector3(0, -1.0F, 0);
+    }
+}
+```
+生成作用力
+```
+transform.rigidbody.AddForce(Vector3.up *FloatStrenght);
+```
+
 ## 11/11
+发现他那个似乎还是不行，还是会坍缩成2D。然后网上找到了一个force graph, 有基本的控制，但是没有那种，动态的force.
+无论如何，明天的demo似乎是来不及了。
+
+
+
 1. 看一下那个怎么变成3D数据（或者怎么变成不探索成一层的3D数据）
 2. 有了那个数据之后，就可以连接Unity了（其实我觉得只要有一个简单的visualization就可以去说明问题了
 

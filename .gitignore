@@ -79,3 +79,6 @@ Assets/NN/NN_CE_Q3.2.png
 *.png
 NN/NN_CE_Q3.2.png
 NN/NN_CE_Q3.2.png
+Assets/BulletUnity/*
+Assets/Plugins/*
+*.mat
