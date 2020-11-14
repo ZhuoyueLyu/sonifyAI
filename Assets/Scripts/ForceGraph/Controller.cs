@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-using System.Xml;
-using System.IO;
 
 public class Controller : MonoBehaviour {
 
@@ -17,21 +14,29 @@ public class Controller : MonoBehaviour {
     Hashtable nodes;
     Hashtable links;
 
+    // Attraction
+    public float FA = 3.0f;
+    // Repulsion
+    public float FR = 5.0f;
+
     // private IDictionary<int, Node> nodes = new Dictionary<int, Node>();
     // private IDictionary<int, Link> links = new Dictionary<int, Link>();
 
+    // List of nodes at the same layer
+    GameObject[] L1;
+    GameObject[] L2;
 
     void GenerateGraph(){
-        int layer1Count = 2;
-        int layer2Count = 3;
+        int layer1Count = 3;
+        int layer2Count = 4;
 
         // layer 1
         for(int i=0; i<layer1Count; i++){
-            createNode(i);
+            createNode(i, "L1");
         }
         // layer 2
         for(int j=0; j<layer2Count; j++){
-            createNode(10 + j);
+            createNode(10 + j, "L2");
         }
 
         // add link
@@ -45,11 +50,12 @@ public class Controller : MonoBehaviour {
     }
 
     //Create nodes
-    void createNode(int id) {
+    void createNode(int id, string tag) {
         float x = Random.Range(-10, 10);
         float y = Random.Range(-10, 10);
         float z = Random.Range(-10, 10);
         Node nodeObject = Instantiate(nodePrefab, new Vector3(x,y,z), Quaternion.identity) as Node;
+        nodeObject.tag = tag;
         nodeObject.id = id;
         nodes.Add(nodeObject.id, nodeObject);
         nodeCount++;
@@ -75,11 +81,29 @@ public class Controller : MonoBehaviour {
         }
     }
 
+    void UpdateSameLayerForces(GameObject[] Nodes) {
+        foreach (GameObject Node in Nodes)
+        {
+            // Apply attraction/repulsion from the other nodes to this node
+            Vector3 direction = Node.transform.position - transform.position;
+            gameObject.GetComponent<Rigidbody>().AddForce(FA * direction);
+            gameObject.GetComponent<Rigidbody>().AddForce(-FR * direction);
+        }
+    }
+
     void Start () {
         nodes = new Hashtable();
         links = new Hashtable();
 
         GenerateGraph();
+        L1 = GameObject.FindGameObjectsWithTag("L1");
+        L2 = GameObject.FindGameObjectsWithTag("L2");
+    }
+
+    // update the force among the nodes from the same layer
+    void Update () {
+
+
     }
 
 }

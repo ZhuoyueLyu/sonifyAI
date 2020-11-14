@@ -2,6 +2,21 @@
 ## 11/13
 should first try rendering 2304 objects. (就，其实可以render, 但是会非常卡，真的，非常卡) 我觉得没准我那里面，48*48可以作为一个固定的形状，比如就一个48*48的小正方形就完事了？
 
+```
+ class Attracted : MonoBehaviour
+ {
+     public GameObject attractedTo;
+     public float strengthOfAttraction = 5.0f;
+     void Start {}
+     void Update
+     {
+         Vector3 direction = attractedTo.transform.position - transform.position;
+         rigidBody.AddForce(strengthOfAttraction * direction);
+
+     }
+ }
+```
+
 下面这是他对于作用力的选择。
 ```
 There are many possibilities on how to determine the weights of the edges and the charges of the vertices. I chose to use uniform weights for the edges and use the variance of the activation of each neuron across the validation set as its charge.
@@ -33,8 +48,6 @@ transform.rigidbody.AddForce(Vector3.up *FloatStrenght);
 ## 11/11
 发现他那个似乎还是不行，还是会坍缩成2D。然后网上找到了一个force graph, 有基本的控制，但是没有那种，动态的force.
 无论如何，明天的demo似乎是来不及了。
-
-
 
 1. 看一下那个怎么变成3D数据（或者怎么变成不探索成一层的3D数据）
 2. 有了那个数据之后，就可以连接Unity了（其实我觉得只要有一个简单的visualization就可以去说明问题了
