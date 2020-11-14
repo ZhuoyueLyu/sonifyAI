@@ -1,7 +1,11 @@
 # Log
 ## 11/13
-should first try rendering
+should first try rendering 2304 objects. (就，其实可以render, 但是会非常卡，真的，非常卡) 我觉得没准我那里面，48*48可以作为一个固定的形状，比如就一个48*48的小正方形就完事了？
 
+下面这是他对于作用力的选择。
+```
+There are many possibilities on how to determine the weights of the edges and the charges of the vertices. I chose to use uniform weights for the edges and use the variance of the activation of each neuron across the validation set as its charge.
+```
 
 ## 11/12
 Change gravity
