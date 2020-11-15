@@ -1,4 +1,13 @@
 # Log
+## 11/14
+shortcut for Unity (Play etc.)
+```
+Ctrl/Cmd+P	Play
+Ctrl/Cmd+Shift+P	Pause
+Ctrl/Cmd+Alt+P	Step
+```
+并且按住option再三指Trackpad可以移动view.
+
 ## 11/13
 should first try rendering 2304 objects. (就，其实可以render, 但是会非常卡，真的，非常卡) 我觉得没准我那里面，48*48可以作为一个固定的形状，比如就一个48*48的小正方形就完事了？
 

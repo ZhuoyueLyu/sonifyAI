@@ -60,6 +60,8 @@ https://youtu.be/r8pmKYmsOv8
 这个是那个手写数字的训练集，但这个是，结果的visualization，而不是过程的。
 
 
+其实发现Unity里面，如果没有damping effect，整个系统会混沌地 oscillate...其实看起来是挺有趣的，我觉得没准也可以作为一种visualize的模式。
+
 ### Sonification
 
 
