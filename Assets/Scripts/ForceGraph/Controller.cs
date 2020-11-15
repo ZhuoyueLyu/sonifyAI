@@ -30,6 +30,9 @@ public class Controller : MonoBehaviour {
         int layer1Count = 3;
         int layer2Count = 4;
 
+        // input layer
+        CreateNode(1000, "input");
+
         // layer 1
         for(int i=0; i<layer1Count; i++){
             CreateNode(i, "L1");
@@ -38,11 +41,15 @@ public class Controller : MonoBehaviour {
         for(int j=0; j<layer2Count; j++){
             CreateNode(20 + j, "L2");
         }
+        // output layer
+        CreateNode(2000, "output");
 
-        // add link
+        // add links
         for(int i=0; i<layer1Count; i++){
+            CreateLink(i, 1000);
             for(int j=0; j<layer2Count; j++){
                 CreateLink(i, 20 + j);
+                CreateLink(j, 2000);
             }
         }
         //map node edges

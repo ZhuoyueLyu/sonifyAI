@@ -1,8 +1,16 @@
 # Log
 ## 11/14
+Tut, how to make this glowing effect:
+https://youtu.be/6SKHDaSe768
+
+Configure Universal PR
+https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@7.1/manual/InstallURPIntoAProject.html
+
+有mk glow
+https://github.com/Podepi/FPSTD2/tree/a930b674b38b8702f8c8a050572fa889d0f5e543/Assets/Graphics
+
+
 其实看tensorflow 的 playground
-
-
 
 我觉得下一步的话：
 http://arborjs.org/docs/barnes-hut
