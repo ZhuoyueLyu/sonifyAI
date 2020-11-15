@@ -53,6 +53,15 @@ public class Link : MonoBehaviour {
 
     void FixedUpdate() {
         if(source && target){
+            // We don't want the input node and output node to be far away from the layers
+            if (source.tag == "Input" || target.tag == "Input" )
+            {
+                FrBetween = 300f;
+            }
+            if (target.tag == "Output" || target.tag == "Ouput")
+            {
+                FrBetween = 100f;
+            }
             // Euclidean distance between them (sqrt)
             float distance = Vector3.Distance(source.transform.position, target.transform.position);
             // Apply attraction/repulsion

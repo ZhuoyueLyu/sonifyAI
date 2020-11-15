@@ -6,36 +6,72 @@ using UnityEngine;
 public class Node : MonoBehaviour {
 
     public int id;
+    public Material Input;
+    public Material L1;
+    public Material L2;
+    public Material Output;
     // Attraction between nodes from the same layer
     public float FaSame = 3.0f;
     // Repulsion between nodes from the same layer
     public float FrSame = 500.0f;
+    // Repulsion between input and output
+    public float FrInOut = 1000.0f;
 
 
     void Start () {
-        //color link according to status
-        //Color c;
-        //if (gameObject.tag == "L1") {
-        //    c = Color.white;
-        //    FaSame = 10.0f;
-        //} else if (gameObject.tag == "input")
-        //{
-        //    c = Color.blue;
-        //} else if (gameObject.tag == "output")
-        //{
-        //    c = Color.yellow;
-        //}
-        //else
-        //    c = Color.red;
-        //c.a = 0.5f;
+        // color link according to status
+        Color c;
+        if (gameObject.tag == "L1")
+        {
+            //c = Color.white;
+            gameObject.GetComponent<MeshRenderer>().material = L1;
+            FaSame = 10.0f;
+        }
+        else if (gameObject.tag == "L2")
+        {
+            //c = Color.blue;
+            FaSame = 6.0f;
+            gameObject.GetComponent<MeshRenderer>().material = L2;
+        }
+        else if (gameObject.tag == "Output")
+        {
+            //c = Color.yellow;
+            gameObject.GetComponent<MeshRenderer>().material = Output;
+        }
+        else {
+            //c = Color.red;
+            gameObject.GetComponent<MeshRenderer>().material = Input;
+        }
+           
+        c.a = 0.5f;
 
-        //draw line
-        // gameObject.GetComponent<Renderer>().material.SetColor ("_Color", c);
+        //gameObject.GetComponent<Renderer>().material.SetColor ("_Color", c);
 
     }
 
     void FixedUpdate() {
-        if (gameObject.tag != "input" && gameObject.tag != "output") {
+        //Debug.Log(gameObject.tag);
+        if (gameObject.tag == "Input")
+        {
+            GameObject Node = GameObject.FindGameObjectWithTag("Output");
+            float distance = Vector3.Distance(Node.transform.position, transform.position);
+            Vector3 direction = Node.transform.position - transform.position;
+            Vector3 directionNorm = direction / distance;
+            //gameObject.GetComponent<Rigidbody>().AddForce(FaSame * direction);
+            gameObject.GetComponent<Rigidbody>().AddForce((-FrInOut / Mathf.Pow(distance, 2f)) * directionNorm);
+            Debug.Log("Inttt");
+            Debug.Log(FrInOut);
+        } else if (gameObject.tag == "Output")
+        {
+            GameObject Node = GameObject.FindGameObjectWithTag("Input");
+            float distance = Vector3.Distance(Node.transform.position, transform.position);
+            Vector3 direction = Node.transform.position - transform.position;
+            Vector3 directionNorm = direction / distance;
+            //gameObject.GetComponent<Rigidbody>().AddForce(FaSame * direction);
+            gameObject.GetComponent<Rigidbody>().AddForce((-FrInOut / Mathf.Pow(distance, 2f)) * directionNorm);
+            Debug.Log(FrInOut);
+        } else
+        {
             GameObject[] Nodes = GameObject.FindGameObjectsWithTag(gameObject.tag);
             foreach (GameObject Node in Nodes)
             {
@@ -53,7 +89,7 @@ public class Node : MonoBehaviour {
                 Debug.Log("Node: " + FrSame);
             }
         }
-        
+
     }
 }
 

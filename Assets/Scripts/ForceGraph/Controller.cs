@@ -14,6 +14,10 @@ public class Controller : MonoBehaviour {
     Hashtable nodes;
     Hashtable links;
 
+    float x = 0;
+    float y = 0;
+    float z = 0;
+
     // // Attraction
     // public float FA = 3.0f;
     // // Repulsion
@@ -27,29 +31,41 @@ public class Controller : MonoBehaviour {
     //GameObject[] L2;
 
     void GenerateGraph(){
-        int layer1Count = 3;
-        int layer2Count = 4;
+        int layer1Count = 4;
+        int layer2Count = 8;
 
         // input layer
-        CreateNode(1000, "input");
+        x = -4;
+        y = -4;
+        z = -4;
+        CreateNode(1000, "Input", x, y, z);
 
         // layer 1
         for(int i=0; i<layer1Count; i++){
-            CreateNode(i, "L1");
+            x = Random.Range(-3, 0);
+            y = Random.Range(-3, 0);
+            z = Random.Range(-3, 0);
+            CreateNode(i, "L1", x, y, z);
         }
         // layer 2
         for(int j=0; j<layer2Count; j++){
-            CreateNode(20 + j, "L2");
+            x = Random.Range(0, 3);
+            y = Random.Range(0, 3);
+            z = Random.Range(0, 3);
+            CreateNode(20 + j, "L2", x, y, z);
         }
         // output layer
-        CreateNode(2000, "output");
+        x = 4;
+        y = 4;
+        z = 4;
+        CreateNode(2000, "Output", x, y, z);
 
         // add links
-        for(int i=0; i<layer1Count; i++){
+        for (int i=0; i<layer1Count; i++){
             CreateLink(i, 1000);
             for(int j=0; j<layer2Count; j++){
                 CreateLink(i, 20 + j);
-                CreateLink(j, 2000);
+                CreateLink(2000, 20 + j);
             }
         }
         //map node edges
@@ -57,10 +73,7 @@ public class Controller : MonoBehaviour {
     }
 
     //Create nodes
-    void CreateNode(int id, string tag) {
-        float x = Random.Range(-10, 10);
-        float y = Random.Range(-10, 10);
-        float z = Random.Range(-10, 10);
+    void CreateNode(int id, string tag, float x, float y, float z) {
         Node nodeObject = Instantiate(nodePrefab, new Vector3(x,y,z), Quaternion.identity) as Node;
         nodeObject.tag = tag;
         nodeObject.id = id;
