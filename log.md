@@ -1,5 +1,27 @@
 # Log
 ## 11/14
+其实看tensorflow 的 playground
+
+
+
+我觉得下一步的话：
+http://arborjs.org/docs/barnes-hut
+问题在于，其实大于10个nodes，他就会十分卡顿了，怎么办哇...哎其实2千多个的情况真的有点蓝的。
+
+其实就是个取舍了，我觉得需要想一下，没准用一个更简单的NN模型（但那样说明不了问题啊）
+
+似乎可以用这个 DOTS package?
+https://unity.com/dots?_ga=2.34474214.672803161.1605378543-555137330.1604411757
+
+今天目标，需要有一个work的demo (就，weights什么的需要能传输进去，然后能跟着training更新，律动)
+我觉得没准就，变简单一点好了？就先别考虑那么大的model的visualization了？
+
+哦其实那个tree的idea我也可以这么理解，就是每一层自己内部考虑内部的force就好，对，就，每40个自己内部render一波这样？
+
+或者就，真的一个48*48的定死就完事了...
+
+或者比如每20个小球当成一组，然后只要把大球直接的关系render清楚就好？就那种，球中球的感觉...但这样的idea似乎不大对。
+
 shortcut for Unity (Play etc.)
 ```
 Ctrl/Cmd+P	Play

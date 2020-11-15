@@ -28,7 +28,7 @@ public class Node : MonoBehaviour {
 
     }
 
-    void Update () {
+    void FixedUpdate() {
         GameObject[] Nodes = GameObject.FindGameObjectsWithTag(gameObject.tag);
         foreach (GameObject Node in Nodes)
         {   if (Node.Equals(this.gameObject))

@@ -23,7 +23,7 @@ public class Link : MonoBehaviour {
         //color link according to status
         Color c;
         if (1 > 0)
-            c = Color.gray;
+            c = Color.white;
         // else
         //     c = Color.red;
         c.a = 0.5f;
@@ -31,8 +31,8 @@ public class Link : MonoBehaviour {
         //draw line
         lineRenderer.material = new Material (Shader.Find("Self-Illumin/Diffuse"));
         lineRenderer.material.SetColor ("_Color", c);
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.startWidth = 0.01f;
+        lineRenderer.endWidth = 0.01f;
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, new Vector3(0,0,0));
         lineRenderer.SetPosition(1, new Vector3(1,0,0));
@@ -47,6 +47,12 @@ public class Link : MonoBehaviour {
         if(source && target){
             lineRenderer.SetPosition(0, source.transform.position);
             lineRenderer.SetPosition(1, target.transform.position);
+        }
+
+    }
+
+    void FixedUpdate() {
+        if(source && target){
             // Euclidean distance between them (sqrt)
             float distance = Vector3.Distance(source.transform.position, target.transform.position);
             // Apply attraction/repulsion

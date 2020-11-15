@@ -27,8 +27,8 @@ public class Controller : MonoBehaviour {
     //GameObject[] L2;
 
     void GenerateGraph(){
-        int layer1Count = 3;
-        int layer2Count = 4;
+        int layer1Count = 16;
+        int layer2Count = 32;
 
         // layer 1
         for(int i=0; i<layer1Count; i++){
@@ -36,13 +36,13 @@ public class Controller : MonoBehaviour {
         }
         // layer 2
         for(int j=0; j<layer2Count; j++){
-            CreateNode(10 + j, "L2");
+            CreateNode(20 + j, "L2");
         }
 
         // add link
         for(int i=0; i<layer1Count; i++){
             for(int j=0; j<layer2Count; j++){
-                CreateLink(i, 10 + j);
+                CreateLink(i, 20 + j);
             }
         }
         //map node edges
@@ -58,7 +58,7 @@ public class Controller : MonoBehaviour {
         nodeObject.tag = tag;
         nodeObject.id = id;
         // Drag make sure that the system won't oscillate forever
-        nodeObject.GetComponent<Rigidbody>().drag = 1;
+        nodeObject.GetComponent<Rigidbody>().drag = 10;
         nodes.Add(nodeObject.id, nodeObject);
         nodeCount++;
     }
@@ -98,6 +98,7 @@ public class Controller : MonoBehaviour {
         links = new Hashtable();
 
         GenerateGraph();
+        // Time.fixedDeltaTime = 0.2f;
         // L1 = GameObject.FindGameObjectsWithTag("L1");
         // L2 = GameObject.FindGameObjectsWithTag("L2");
     }
