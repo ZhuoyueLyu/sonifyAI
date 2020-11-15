@@ -27,8 +27,8 @@ public class Controller : MonoBehaviour {
     //GameObject[] L2;
 
     void GenerateGraph(){
-        int layer1Count = 16;
-        int layer2Count = 32;
+        int layer1Count = 3;
+        int layer2Count = 4;
 
         // layer 1
         for(int i=0; i<layer1Count; i++){
