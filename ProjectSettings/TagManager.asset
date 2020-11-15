@@ -6,6 +6,8 @@ TagManager:
   tags:
   - L1
   - L2
+  - Input
+  - Output
   layers:
   - Default
   - TransparentFX
