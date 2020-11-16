@@ -1,4 +1,12 @@
 # Log
+## 11/15
+直接从mac上clone到windows，
+1. 会发现里面所有的script都是断的，需要手动连上去。（包括Node和Link的prefab和Controller object，在MainScene里面）
+2. 需要import Chunity，在asset store
+3. 需要MK glow，并且是完整的这个，我自己project直接clone下来的不行，会缺少东西。 https://github.com/epyon1/Unity_C-_basic/tree/45ebe9e38c685cba20df3eeb40695e9a51856b4f/BreakOut/Assets/_MK
+4. 然后发现所有mk的material的shader也是断的，所以需要找到 Diffuse (Normal/Diffuse) 加上去
+5. 如果发现还是不对，都是白色或者都是粉色，就确保一下3做了，然后重启unity就ok了。
+
 ## 11/14
 Tut, how to make this glowing effect:
 https://youtu.be/6SKHDaSe768
@@ -7,6 +15,8 @@ Configure Universal PR
 https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@7.1/manual/InstallURPIntoAProject.html
 
 有mk glow
+下面这个日本链接的mk glow比较好
+https://github.com/epyon1/Unity_C-_basic/tree/45ebe9e38c685cba20df3eeb40695e9a51856b4f/BreakOut/Assets/_MK
 https://github.com/Podepi/FPSTD2/tree/a930b674b38b8702f8c8a050572fa889d0f5e543/Assets/Graphics
 
 
