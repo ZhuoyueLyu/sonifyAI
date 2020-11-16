@@ -4,46 +4,89 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: MKDemoMat5View1
   m_Shader: {fileID: 4800000, guid: 3f387b3c7760d5a488b5596b42425701, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
   m_SavedProperties:
-    serializedVersion: 3
+    serializedVersion: 2
     m_TexEnvs:
-    - _GlowMap:
-        m_Texture: {fileID: 2800000, guid: c43738b2b5ea39e488158498ed03aa6e, type: 3}
-        m_Scale: {x: 3.67, y: 5.09}
-        m_Offset: {x: 0, y: 0}
-    - _MKGlowTex:
-        m_Texture: {fileID: 2800000, guid: c43738b2b5ea39e488158498ed03aa6e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d2bfdb919488ef040b6f7e30c6d08ebf, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: d2bfdb919488ef040b6f7e30c6d08ebf, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MKGlowTex
+        second:
+          m_Texture: {fileID: 2800000, guid: c43738b2b5ea39e488158498ed03aa6e, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _GlowMap
+        second:
+          m_Texture: {fileID: 2800000, guid: c43738b2b5ea39e488158498ed03aa6e, type: 3}
+          m_Scale: {x: 3.67000008, y: 5.09000015}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Inner: 0.65
-    - _MKGlowOffSet: 0
-    - _MKGlowPower: 1
-    - _MKGlowTexStrength: 10
-    - _MKGlowTiling: 4
-    - _MKGlowTilingX: 1
-    - _MKGlowTilingY: 1
-    - _MKTiling: 1.46
-    - _Outter: 1.94
+      data:
+        first:
+          name: _MKGlowPower
+        second: 1
+      data:
+        first:
+          name: _MKGlowTexStrength
+        second: 10
+      data:
+        first:
+          name: _MKGlowOffSet
+        second: 0
+      data:
+        first:
+          name: _MKTiling
+        second: 1.46000004
+      data:
+        first:
+          name: _MKGlowTiling
+        second: 4
+      data:
+        first:
+          name: _MKGlowTilingX
+        second: 1
+      data:
+        first:
+          name: _MKGlowTilingY
+        second: 1
+      data:
+        first:
+          name: _Outter
+        second: 1.94000006
+      data:
+        first:
+          name: _Inner
+        second: .649999976
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MKGlowColor: {r: 1, g: 0.39310336, b: 0, a: 1}
-    - _MKGlowTexColor: {r: 1, g: 0.43448272, b: 0, a: 1}
-  m_BuildTextureStacks: []
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MKGlowColor
+        second: {r: 1, g: .393103361, b: 0, a: 1}
+      data:
+        first:
+          name: _MKGlowTexColor
+        second: {r: 1, g: .434482723, b: 0, a: 1}
+      data:
+        first:
+          name: _GlowColor
+        second: {r: 1, g: 1, b: 1, a: 1}

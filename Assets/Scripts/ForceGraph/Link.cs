@@ -11,9 +11,9 @@ public class Link : MonoBehaviour {
     public int targetId;
 
     // Attraction between nodes from different layers
-    public float FaBetween = 3.0f;
+    public float FaBetweenSmall = 30f;
     // Repulsion between nodes from different layers
-    public float FrBetween = 1000.0f; //对，这里的核心问题就是排斥力太小了，5000差不多。但是有一个问题，就，Controller里面如果这个值命名是一样的..会共享...
+    public float FrBetweenSmall = 1f; //对，这里的核心问题就是排斥力太小了，5000差不多。但是有一个问题，就，Controller里面如果这个值命名是一样的..会共享...
 
     private LineRenderer lineRenderer;
 
@@ -56,11 +56,11 @@ public class Link : MonoBehaviour {
             // We don't want the input node and output node to be far away from the layers
             if (source.tag == "Input" || target.tag == "Input" )
             {
-                FrBetween = 300f;
+                FrBetweenSmall = 0.3f;
             }
             if (target.tag == "Output" || target.tag == "Ouput")
             {
-                FrBetween = 100f;
+                FrBetweenSmall = 0.1f;
             }
             // Euclidean distance between them (sqrt)
             float distance = Vector3.Distance(source.transform.position, target.transform.position);
@@ -71,13 +71,13 @@ public class Link : MonoBehaviour {
             // Vector3 directionNorm = direction.normalized;
 
             // 就下面 direction = 单位向量 * 模长了，因为刚好单位向量的分母是根号，然后模长也是根号，两者消掉了。其实觉得我们的基础教育很适合底层工人，就，计算能力。但不适合创新。
-            target.GetComponent<Rigidbody>().AddForce(FaBetween * direction);
-            source.GetComponent<Rigidbody>().AddForce(-FaBetween * direction);
+            target.GetComponent<Rigidbody>().AddForce(FaBetweenSmall * direction);
+            source.GetComponent<Rigidbody>().AddForce(-FaBetweenSmall * direction);
 
             // 下面是标准的用k q1q2/r^2的，但是这个力实在太小了...
-            target.GetComponent<Rigidbody>().AddForce((-FrBetween / Mathf.Pow(distance, 2f)) * directionNorm);
-            source.GetComponent<Rigidbody>().AddForce(FrBetween / Mathf.Pow(distance, 2f) * directionNorm);
-            Debug.Log(FrBetween);
+            target.GetComponent<Rigidbody>().AddForce((-FrBetweenSmall / Mathf.Pow(distance, 2f)) * directionNorm);
+            source.GetComponent<Rigidbody>().AddForce(FrBetweenSmall / Mathf.Pow(distance, 2f) * directionNorm);
+            Debug.Log("Link: " + FaBetweenSmall + FrBetweenSmall);
         }
 
     }

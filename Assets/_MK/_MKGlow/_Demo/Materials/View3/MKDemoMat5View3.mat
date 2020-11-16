@@ -4,9 +4,8 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: MKDemoMat5View3
   m_Shader: {fileID: 4800000, guid: bea1129d02637fd489c76e5b9c373d21, type: 3}
   m_ShaderKeywords: 
@@ -33,14 +32,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _MKGlowOffSet: 0
-    - _MKGlowPower: 1.18
+    - _MKGlowPower: 1
     - _MKGlowTexStrength: 0
     - _Outline: 0.0105
-    - _RimPower: 5.06
+    - _RimPower: 2
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _MKGlowColor: {r: 0, g: 0.9176471, b: 1, a: 1}
+    - _MKGlowColor: {r: 0, g: 1, b: 0.17241383, a: 1}
     - _MKGlowTexColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 0, g: 0.9193516, b: 1, a: 1}
-  m_BuildTextureStacks: []
+    - _RimColor: {r: 0, g: 1, b: 0.08965516, a: 1}

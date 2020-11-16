@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ColumnGlow
-  m_Shader: {fileID: 4800000, guid: 5e878e8ecbe0841329c0db4d94633fac, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9b542e59fee73cd40abb213f7faeb102, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0

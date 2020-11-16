@@ -11,11 +11,11 @@ public class Node : MonoBehaviour {
     public Material L2;
     public Material Output;
     // Attraction between nodes from the same layer
-    public float FaSame = 3.0f;
+    public float FaSameSmall = 300f;
     // Repulsion between nodes from the same layer
-    public float FrSame = 500.0f;
+    public float FrSameSmall = 0.5f;
     // Repulsion between input and output
-    public float FrInOut = 1000.0f;
+    public float FrInOutSmall = .1f;
 
 
     void Start () {
@@ -25,12 +25,12 @@ public class Node : MonoBehaviour {
         {
             //c = Color.white;
             gameObject.GetComponent<MeshRenderer>().material = L1;
-            FaSame = 10.0f;
+            FaSameSmall = 100.0f;
         }
         else if (gameObject.tag == "L2")
         {
             //c = Color.blue;
-            FaSame = 6.0f;
+            FaSameSmall = 60f;
             gameObject.GetComponent<MeshRenderer>().material = L2;
         }
         else if (gameObject.tag == "Output")
@@ -57,19 +57,19 @@ public class Node : MonoBehaviour {
             float distance = Vector3.Distance(Node.transform.position, transform.position);
             Vector3 direction = Node.transform.position - transform.position;
             Vector3 directionNorm = direction / distance;
-            //gameObject.GetComponent<Rigidbody>().AddForce(FaSame * direction);
-            gameObject.GetComponent<Rigidbody>().AddForce((-FrInOut / Mathf.Pow(distance, 2f)) * directionNorm);
+            //gameObject.GetComponent<Rigidbody>().AddForce(FaSameSmall * direction);
+            gameObject.GetComponent<Rigidbody>().AddForce((-FrInOutSmall / Mathf.Pow(distance, 2f)) * directionNorm);
             Debug.Log("Inttt");
-            Debug.Log(FrInOut);
+            Debug.Log(FrInOutSmall);
         } else if (gameObject.tag == "Output")
         {
             GameObject Node = GameObject.FindGameObjectWithTag("Input");
             float distance = Vector3.Distance(Node.transform.position, transform.position);
             Vector3 direction = Node.transform.position - transform.position;
             Vector3 directionNorm = direction / distance;
-            //gameObject.GetComponent<Rigidbody>().AddForce(FaSame * direction);
-            gameObject.GetComponent<Rigidbody>().AddForce((-FrInOut / Mathf.Pow(distance, 2f)) * directionNorm);
-            Debug.Log(FrInOut);
+            //gameObject.GetComponent<Rigidbody>().AddForce(FaSameSmall * direction);
+            gameObject.GetComponent<Rigidbody>().AddForce((-FrInOutSmall / Mathf.Pow(distance, 2f)) * directionNorm);
+            Debug.Log(FrInOutSmall);
         } else
         {
             GameObject[] Nodes = GameObject.FindGameObjectsWithTag(gameObject.tag);
@@ -84,9 +84,9 @@ public class Node : MonoBehaviour {
                 // Apply attraction/repulsion
                 Vector3 directionNorm = direction / distance;
                 // Vector3 directionNorm = direction.normalized;
-                gameObject.GetComponent<Rigidbody>().AddForce(FaSame * direction);
-                gameObject.GetComponent<Rigidbody>().AddForce((-FrSame / Mathf.Pow(distance, 2f)) * directionNorm);
-                Debug.Log("Node: " + FrSame);
+                gameObject.GetComponent<Rigidbody>().AddForce(FaSameSmall * direction);
+                gameObject.GetComponent<Rigidbody>().AddForce((-FrSameSmall / Mathf.Pow(distance, 2f)) * directionNorm);
+                Debug.Log("Node: " + FaSameSmall + FrSameSmall + FrInOutSmall);
             }
         }
 

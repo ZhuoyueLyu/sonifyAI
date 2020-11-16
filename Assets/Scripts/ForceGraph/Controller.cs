@@ -31,33 +31,33 @@ public class Controller : MonoBehaviour {
     //GameObject[] L2;
 
     void GenerateGraph(){
-        int layer1Count = 4;
-        int layer2Count = 8;
+        int layer1Count = 2;
+        int layer2Count = 3;
 
         // input layer
-        x = -4;
-        y = -4;
-        z = -4;
+        x = 1;
+        y = 1;
+        z = 1;
         CreateNode(1000, "Input", x, y, z);
 
         // layer 1
         for(int i=0; i<layer1Count; i++){
-            x = Random.Range(-3, 0);
-            y = Random.Range(-3, 0);
-            z = Random.Range(-3, 0);
+            x = Random.Range(10, 12)/10;
+            y = Random.Range(10, 12)/10;
+            z = Random.Range(10, 12)/10;
             CreateNode(i, "L1", x, y, z);
         }
         // layer 2
         for(int j=0; j<layer2Count; j++){
-            x = Random.Range(0, 3);
-            y = Random.Range(0, 3);
-            z = Random.Range(0, 3);
+            x = Random.Range(13, 15) / 10;
+            y = Random.Range(13, 15) / 10;
+            z = Random.Range(13, 15) / 10;
             CreateNode(20 + j, "L2", x, y, z);
         }
         // output layer
-        x = 4;
-        y = 4;
-        z = 4;
+        x = 2;
+        y = 2;
+        z = 2;
         CreateNode(2000, "Output", x, y, z);
 
         // add links
@@ -74,7 +74,7 @@ public class Controller : MonoBehaviour {
 
     //Create nodes
     void CreateNode(int id, string tag, float x, float y, float z) {
-        Node nodeObject = Instantiate(nodePrefab, new Vector3(x,y,z), Quaternion.identity) as Node;
+        Node nodeObject = Instantiate(nodePrefab, new Vector3(0,0,0), Quaternion.identity) as Node;
         nodeObject.tag = tag;
         nodeObject.id = id;
         // Drag make sure that the system won't oscillate forever

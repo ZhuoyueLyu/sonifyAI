@@ -82,3 +82,20 @@ NN/NN_CE_Q3.2.png
 Assets/BulletUnity/*
 Assets/Plugins/*
 # *.mat
+Assets/_MK/_MKGlow/_Demo/Materials/View1/MKDemoMat10View1.mat
+Assets/_MK/_MKGlow/_Demo/Materials/View1/MKDemoMat12View1.mat
+Assets/_MK/_MKGlow/_Demo/Materials/View1/MKDemoMat1View1.mat
+Assets/_MK/_MKGlow/_Demo/Materials/View1/MKDemoMat5View1.mat
+Assets/_MK/_MKGlow/_Demo/Materials/View1/MKDemoMat9View1.mat
+Assets/_MK/_MKGlow/_Demo/Materials/View3/MKDemoMat5View3.mat
+Assets/_MK/_MKGlow/_Demo/Materials/View3/MKDemoMat9View3.mat
+Assets/Materials/ColumnGlow.mat
+Assets/Materials/Input.mat
+Assets/Materials/L1.mat
+Assets/Materials/L2.mat
+Assets/Materials/Output.mat
+
+
+Assets/Oculus*
+
+Assets/XR*
