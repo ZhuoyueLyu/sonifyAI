@@ -12,6 +12,7 @@
 2. 需要安装Android Build Support!!
 https://developer.oculus.com/documentation/unity/book-unity-gsg/
 这个support可以在hub里面，对应版本选择add module即可。
+3. 并且需要在player setting里面装上XR Plug-in Management, 然后把Oculus勾上。似乎我们是没有XR Setting 或者 VR setting的，不知道，网上说要在Other setting里面找，但似乎我找不到。
 
 ## 11/14
 Tut, how to make this glowing effect:
