@@ -7,6 +7,12 @@
 4. 然后发现所有mk的material的shader也是断的，所以需要找到 Diffuse (Normal/Diffuse) 加上去
 5. 如果发现还是不对，都是白色或者都是粉色，就确保一下3做了，然后重启unity就ok了。
 
+要连接Oculus的话
+1. 需要import那个Oculus integration的pkg
+2. 需要安装Android Build Support!!
+https://developer.oculus.com/documentation/unity/book-unity-gsg/
+这个support可以在hub里面，对应版本选择add module即可。
+
 ## 11/14
 Tut, how to make this glowing effect:
 https://youtu.be/6SKHDaSe768
