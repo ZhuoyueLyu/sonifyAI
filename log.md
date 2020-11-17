@@ -1,7 +1,19 @@
 # Log
+
+## 11/17
+1. 需要Python连接上，Fa是根据w, Fr是根据activation(这个需要去他paper里看一下). link是透明还是白色，根据weights, 注意所有的变化都要lerp一下，尤其是白线亮度变化
+
+其实1完成就可以看一下了，会不会图像很混沌？很难看？如果那样3就不用做了。
+
+2. 左右耳朵听sonification, 就，其实可以是在一定距离内线性的，就，只要在一个小球的距离之内了，就约近声音越响。
+3. 移动小球，反向计算weights，输送给Python，然后听一下变化
+
+Bonus:
+* 看一下能够怎样精简一下计算，能够做到至少[5,10]这样的size吧...
+* 甚至可以手动添加小球，但这个会比较难操作..(可以paper里面瞎鸡儿说一下？截个图就好，code不一定需要有)
+
 ## 11/16
 找到MKGlow在VR中不能用的原因了，是我们需要在OVRCameraRig下面的CenterEyeAnchor加上MLGlow的script，这个script原先是加在MainCamera上的，现在这个变成了maincamera，所以需要加上才可。
-
 * 其实想到一个事情，其实可以看一下那个斯坦福去耶鲁的小朋友是去了什么program，没准我可以搞上那个program？还不用钱，舒适了？
 
 
