@@ -31,8 +31,8 @@ public class Controller : MonoBehaviour {
     //GameObject[] L2;
 
     void GenerateGraph(){
-        int layer1Count = 2;
-        int layer2Count = 3;
+        int layer1Count = 4;
+        int layer2Count = 8;
 
         // input layer
         x = 1;
@@ -74,7 +74,7 @@ public class Controller : MonoBehaviour {
 
     //Create nodes
     void CreateNode(int id, string tag, float x, float y, float z) {
-        Node nodeObject = Instantiate(nodePrefab, new Vector3(0,0,0), Quaternion.identity) as Node;
+        Node nodeObject = Instantiate(nodePrefab, new Vector3(Random.Range(0, 2), Random.Range(0, 2), Random.Range(0, 2)), Quaternion.identity) as Node;
         nodeObject.tag = tag;
         nodeObject.id = id;
         // Drag make sure that the system won't oscillate forever

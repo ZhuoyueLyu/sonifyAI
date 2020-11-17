@@ -44,12 +44,13 @@ public class Node : MonoBehaviour {
         }
            
         c.a = 0.5f;
-
+        // We don't need rotation (since node is sphere), this could probably save some computation?
+        gameObject.GetComponent<Rigidbody>().freezeRotation = true;
         //gameObject.GetComponent<Renderer>().material.SetColor ("_Color", c);
 
     }
 
-    void FixedUpdate() {
+    void Update() {
         //Debug.Log(gameObject.tag);
         if (gameObject.tag == "Input")
         {

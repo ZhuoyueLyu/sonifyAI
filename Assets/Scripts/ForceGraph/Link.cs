@@ -31,8 +31,8 @@ public class Link : MonoBehaviour {
         //draw line
         lineRenderer.material = new Material (Shader.Find("Self-Illumin/Diffuse"));
         lineRenderer.material.SetColor ("_Color", c);
-        lineRenderer.startWidth = 0.01f;
-        lineRenderer.endWidth = 0.01f;
+        lineRenderer.startWidth = 0.005f;
+        lineRenderer.endWidth = 0.005f;
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, new Vector3(0,0,0));
         lineRenderer.SetPosition(1, new Vector3(1,0,0));
@@ -47,14 +47,8 @@ public class Link : MonoBehaviour {
         if(source && target){
             lineRenderer.SetPosition(0, source.transform.position);
             lineRenderer.SetPosition(1, target.transform.position);
-        }
-
-    }
-
-    void FixedUpdate() {
-        if(source && target){
             // We don't want the input node and output node to be far away from the layers
-            if (source.tag == "Input" || target.tag == "Input" )
+            if (source.tag == "Input" || target.tag == "Input")
             {
                 FrBetweenSmall = 0.3f;
             }
@@ -67,7 +61,7 @@ public class Link : MonoBehaviour {
             // Apply attraction/repulsion
             Vector3 direction = source.transform.position - target.transform.position;
             // Apply attraction/repulsion
-            Vector3 directionNorm = direction/distance;
+            Vector3 directionNorm = direction / distance;
             // Vector3 directionNorm = direction.normalized;
 
             // 就下面 direction = 单位向量 * 模长了，因为刚好单位向量的分母是根号，然后模长也是根号，两者消掉了。其实觉得我们的基础教育很适合底层工人，就，计算能力。但不适合创新。
@@ -81,5 +75,36 @@ public class Link : MonoBehaviour {
         }
 
     }
+
+    //void FixedUpdate() {
+    //    if(source && target){
+    //        // We don't want the input node and output node to be far away from the layers
+    //        if (source.tag == "Input" || target.tag == "Input" )
+    //        {
+    //            FrBetweenSmall = 0.3f;
+    //        }
+    //        if (target.tag == "Output" || target.tag == "Ouput")
+    //        {
+    //            FrBetweenSmall = 0.1f;
+    //        }
+    //        // Euclidean distance between them (sqrt)
+    //        float distance = Vector3.Distance(source.transform.position, target.transform.position);
+    //        // Apply attraction/repulsion
+    //        Vector3 direction = source.transform.position - target.transform.position;
+    //        // Apply attraction/repulsion
+    //        Vector3 directionNorm = direction/distance;
+    //        // Vector3 directionNorm = direction.normalized;
+
+    //        // 就下面 direction = 单位向量 * 模长了，因为刚好单位向量的分母是根号，然后模长也是根号，两者消掉了。其实觉得我们的基础教育很适合底层工人，就，计算能力。但不适合创新。
+    //        target.GetComponent<Rigidbody>().AddForce(FaBetweenSmall * direction);
+    //        source.GetComponent<Rigidbody>().AddForce(-FaBetweenSmall * direction);
+
+    //        // 下面是标准的用k q1q2/r^2的，但是这个力实在太小了...
+    //        target.GetComponent<Rigidbody>().AddForce((-FrBetweenSmall / Mathf.Pow(distance, 2f)) * directionNorm);
+    //        source.GetComponent<Rigidbody>().AddForce(FrBetweenSmall / Mathf.Pow(distance, 2f) * directionNorm);
+    //        Debug.Log("Link: " + FaBetweenSmall + FrBetweenSmall);
+    //    }
+
+    //}
 
 }
