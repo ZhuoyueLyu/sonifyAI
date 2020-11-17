@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MKDemoMat3View1
   m_Shader: {fileID: 4800000, guid: 3f387b3c7760d5a488b5596b42425701, type: 3}
   m_ShaderKeywords: 
@@ -70,7 +71,7 @@ Material:
     - _EmissionScaleUI: 0
     - _Glossiness: 0.5
     - _MKGlowOffSet: 0
-    - _MKGlowPower: 2.5
+    - _MKGlowPower: 1.614
     - _MKGlowTexStrength: 10
     - _MKGlowTiling: 0
     - _MKGlowTilingX: 1
@@ -90,3 +91,4 @@ Material:
     - _MKGlowColor: {r: 0.9448277, g: 1, b: 0, a: 1}
     - _MKGlowTexColor: {r: 1, g: 0.8896551, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_BuildTextureStacks: []
