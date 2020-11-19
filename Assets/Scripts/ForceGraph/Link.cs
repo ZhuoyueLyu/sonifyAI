@@ -14,7 +14,7 @@ public class Link : MonoBehaviour
     // Attraction between nodes from different layers
     public float FaBetween = 3.0f;
     // Repulsion between nodes from different layers
-    public float FrBetween = 1000.0f; //对，这里的核心问题就是排斥力太小了，5000差不多。但是有一个问题，就，Controller里面如果这个值命名是一样的..会共享...
+    public float FrBetween = 700.0f; //对，这里的核心问题就是排斥力太小了，5000差不多。但是有一个问题，就，Controller里面如果这个值命名是一样的..会共享...
 
     private LineRenderer lineRenderer;
 

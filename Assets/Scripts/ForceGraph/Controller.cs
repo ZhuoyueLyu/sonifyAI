@@ -40,7 +40,7 @@ public class Controller : MonoBehaviour {
 
         // input layer
         x = -4;
-        y = -4;
+        y = 4;
         z = -4;
         CreateNode(1000, "Input", x, y, z);
 
@@ -59,7 +59,7 @@ public class Controller : MonoBehaviour {
             CreateNode(20 + j, "L2", x, y, z);
         }
         // output layer
-        x = 4;
+        x = -4;
         y = 4;
         z = 4;
         CreateNode(2000, "Output", x, y, z);
