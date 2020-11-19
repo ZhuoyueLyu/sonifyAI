@@ -23,6 +23,10 @@ Bonus:
 
 ## 11/16
 找到MKGlow在VR中不能用的原因了，是我们需要在OVRCameraRig下面的CenterEyeAnchor加上MLGlow的script，这个script原先是加在MainCamera上的，现在这个变成了maincamera，所以需要加上才可。
+下一步需要去连接真实的training数据然后update weights了
+
+找到MKGlow在VR中不能用的原因了，是我们需要在OVRCameraRig下面的CenterEyeAnchor加上MLGlow的script，这个script原先是加在MainCamera上的，现在这个变成了maincamera，所以需要加上才可。
+
 * 其实想到一个事情，其实可以看一下那个斯坦福去耶鲁的小朋友是去了什么program，没准我可以搞上那个program？还不用钱，舒适了？
 
 

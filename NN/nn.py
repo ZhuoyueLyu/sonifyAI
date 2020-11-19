@@ -432,7 +432,8 @@ def main():
     stats_fname = 'nn_stats.npz'
 
     # Default hyper-parameters.
-    num_hiddens = [16, 32]
+    # num_hiddens = [16, 32]
+    num_hiddens = [4, 8]
     eps = 0.01
     momentum = 0.0
     num_epochs = 1000

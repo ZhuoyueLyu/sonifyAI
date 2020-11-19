@@ -48,5 +48,5 @@ MonoBehaviour:
   target: {fileID: 0}
   sourceId: 0
   targetId: 0
-  FaBetween: 3
-  FrBetween: 1000
+  FaBetweenSmall: 80
+  FrBetweenSmall: 1
