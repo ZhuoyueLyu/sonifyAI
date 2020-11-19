@@ -6,6 +6,7 @@ using UnityEngine;
 public class Requester : RunAbleThread
 {
     private Sonify sonify = GameObject.FindObjectOfType<Sonify> ();
+    private Controller controller = GameObject.FindObjectOfType<Controller>();
     protected override void Run()
     {
         ForceDotNet.Force(); // this line is needed to prevent unity freeze after one use, not sure why yet
@@ -32,8 +33,9 @@ public class Requester : RunAbleThread
                 }
 
                 if (gotMessage) {
-                    Debug.Log("Received " + message);
+                    //Debug.Log("Received " + message);
                     sonify.MappingSound(message);
+                    controller.UpdateConnections(message);
                 }
             }
         }

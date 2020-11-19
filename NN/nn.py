@@ -344,7 +344,6 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
 
 
-
         ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
         dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
         #  Wait for next request from client

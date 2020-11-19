@@ -89,9 +89,9 @@ public class Sonify : MonoBehaviour
     {
 
         string[] vals  = infoString.Split(',');
-        Debug.Log("CE: " + vals[0]);
-        Debug.Log("ACC: " + vals[1]);
-        Debug.Log("IsV: " + vals[2]);
+        //Debug.Log("CE: " + vals[0]);
+        //Debug.Log("ACC: " + vals[1]);
+        //Debug.Log("IsV: " + vals[2]);
         float ce = float.Parse(vals[0]) * 1000;
         float acc = float.Parse(vals[1]) * 1000;
         float isValidation = float.Parse(vals[2]);
