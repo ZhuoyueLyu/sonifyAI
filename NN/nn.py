@@ -1,6 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+
 """
 Instruction:
-
 In this section, you are asked to train a NN with different hyperparameters.
 To start with training, you need to fill in the incomplete code. There are 3
 places that you need to complete:
@@ -65,6 +67,7 @@ def InitNN(num_inputs, num_hiddens, num_outputs):
     b2 = np.zeros((num_hiddens[1]))
     dW2 = np.zeros(W2.shape)
     db2 = np.zeros(b2.shape)
+
 
     # W3b3 is the model that connect the second layer to the output
     W3 = 0.01 * np.random.randn(num_hiddens[1], num_outputs)

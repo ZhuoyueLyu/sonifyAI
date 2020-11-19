@@ -1,9 +1,144 @@
 # Log
+## 11/18
+1. 问MIT和Stanford推荐信能不能迟交(我觉得这个可能要打电话去 然后MIT的那个顺带问一下他们到底招收怎样的学生 明天就Email过去)
+2. 如果可以的话，MIT也申请上吧...算不后悔。（地里看一下有没有攻略)
+
+我真的觉得我就是个废物，活着有什么意义真的，就是好高骛远，心存幻想，也不撒泡尿自己照照。唯一问题就是，这样一走了之不知道爸妈，外婆会伤心多久，当初小姨的事情外婆都那样...哎。
+
+## 11/17
+其实还有一个思考，其实如果后面还要PhD的话，这样并不节省时间，反而是多出一年，本科直博应该是最节省时间的。(其实真的是，如果要探索科研是否适合自己， 是应该用本科时间去探索的。其实这样的话，后面申请tovi的PhD也可啊...) 但今年就只思考Master的事情了，申请不到的话，明年申就考虑PhD了，嗯嗯，今年绝对不会放弃斯坦福的MST的，必须。
+
+周四给Tovi看前需要有的
+1. 需要Python连接上，Fa是根据w, Fr是根据activation(这个需要去他paper里看一下). link是透明还是白色，根据weights, 注意所有的变化都要lerp一下，尤其是白线亮度变化
+
+其实1完成就可以看一下了，会不会图像很混沌？很难看？如果那样3就不用做了。
+
+2. 左右耳朵听sonification, 就，其实可以是在一定距离内线性的，就，只要在一个小球的距离之内了，就约近声音越响。
+3. 移动小球，反向计算weights，输送给Python，然后听一下变化
+
+Bonus:
+* 看一下能够怎样精简一下计算，能够做到至少[5,10]这样的size吧...
+* 甚至可以手动添加小球，但这个会比较难操作..(可以paper里面瞎鸡儿说一下？截个图就好，code不一定需要有)
+
+## 11/16
+找到MKGlow在VR中不能用的原因了，是我们需要在OVRCameraRig下面的CenterEyeAnchor加上MLGlow的script，这个script原先是加在MainCamera上的，现在这个变成了maincamera，所以需要加上才可。
+* 其实想到一个事情，其实可以看一下那个斯坦福去耶鲁的小朋友是去了什么program，没准我可以搞上那个program？还不用钱，舒适了？
+
+
+## 11/15
+直接从mac上clone到windows，
+1. 会发现里面所有的script都是断的，需要手动连上去。（包括Node和Link的prefab和Controller object，在MainScene里面）
+2. 需要import Chunity，在asset store
+3. 需要MK glow，并且是完整的这个，我自己project直接clone下来的不行，会缺少东西。 https://github.com/epyon1/Unity_C-_basic/tree/45ebe9e38c685cba20df3eeb40695e9a51856b4f/BreakOut/Assets/_MK
+4. 然后发现所有mk的material的shader也是断的，所以需要找到 Diffuse (Normal/Diffuse) 加上去
+5. 如果发现还是不对，都是白色或者都是粉色，就确保一下3做了，然后重启unity就ok了。
+
+要连接Oculus的话
+1. 需要import那个Oculus integration的pkg
+2. 需要安装Android Build Support!!
+https://developer.oculus.com/documentation/unity/book-unity-gsg/
+这个support可以在hub里面，对应版本选择add module即可。
+3. 并且需要在player setting里面装上XR Plug-in Management, 然后把Oculus勾上。似乎我们是没有XR Setting 或者 VR setting的，不知道，网上说要在Other setting里面找，但似乎我找不到。
+
+## 11/14
+Tut, how to make this glowing effect:
+https://youtu.be/6SKHDaSe768
+
+Configure Universal PR
+https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@7.1/manual/InstallURPIntoAProject.html
+
+有mk glow
+下面这个日本链接的mk glow比较好
+https://github.com/epyon1/Unity_C-_basic/tree/45ebe9e38c685cba20df3eeb40695e9a51856b4f/BreakOut/Assets/_MK
+https://github.com/Podepi/FPSTD2/tree/a930b674b38b8702f8c8a050572fa889d0f5e543/Assets/Graphics
+
+
+其实看tensorflow 的 playground
+
+我觉得下一步的话：
+http://arborjs.org/docs/barnes-hut
+问题在于，其实大于10个nodes，他就会十分卡顿了，怎么办哇...哎其实2千多个的情况真的有点蓝的。
+
+其实就是个取舍了，我觉得需要想一下，没准用一个更简单的NN模型（但那样说明不了问题啊）
+
+似乎可以用这个 DOTS package?
+https://unity.com/dots?_ga=2.34474214.672803161.1605378543-555137330.1604411757
+
+今天目标，需要有一个work的demo (就，weights什么的需要能传输进去，然后能跟着training更新，律动)
+我觉得没准就，变简单一点好了？就先别考虑那么大的model的visualization了？
+
+哦其实那个tree的idea我也可以这么理解，就是每一层自己内部考虑内部的force就好，对，就，每40个自己内部render一波这样？
+
+或者就，真的一个48*48的定死就完事了...
+
+或者比如每20个小球当成一组，然后只要把大球直接的关系render清楚就好？就那种，球中球的感觉...但这样的idea似乎不大对。
+
+shortcut for Unity (Play etc.)
+```
+Ctrl/Cmd+P	Play
+Ctrl/Cmd+Shift+P	Pause
+Ctrl/Cmd+Alt+P	Step
+```
+并且按住option再三指Trackpad可以移动view.
+
+## 11/13
+should first try rendering 2304 objects. (就，其实可以render, 但是会非常卡，真的，非常卡) 我觉得没准我那里面，48*48可以作为一个固定的形状，比如就一个48*48的小正方形就完事了？
+
+```
+ class Attracted : MonoBehaviour
+ {
+     public GameObject attractedTo;
+     public float strengthOfAttraction = 5.0f;
+     void Start {}
+     void Update
+     {
+         Vector3 direction = attractedTo.transform.position - transform.position;
+         rigidBody.AddForce(strengthOfAttraction * direction);
+
+     }
+ }
+```
+
+下面这是他对于作用力的选择。
+```
+There are many possibilities on how to determine the weights of the edges and the charges of the vertices. I chose to use uniform weights for the edges and use the variance of the activation of each neuron across the validation set as its charge.
+```
+
+## 11/12
+Change gravity
+```
+Edit -> Project Settings -> Physics
+```
+or in Code
+```c#
+using UnityEngine;
+using System.Collections;
+
+public class ExampleClass : MonoBehaviour
+{
+    void Example()
+    {
+        Physics.gravity = new Vector3(0, -1.0F, 0);
+    }
+}
+```
+生成作用力
+```
+transform.rigidbody.AddForce(Vector3.up *FloatStrenght);
+```
+
+## 11/11
+发现他那个似乎还是不行，还是会坍缩成2D。然后网上找到了一个force graph, 有基本的控制，但是没有那种，动态的force.
+无论如何，明天的demo似乎是来不及了。
+
+1. 看一下那个怎么变成3D数据（或者怎么变成不探索成一层的3D数据）
+2. 有了那个数据之后，就可以连接Unity了（其实我觉得只要有一个简单的visualization就可以去说明问题了
 
 ## 11/10
 但我觉得那样的问题就是，
 这个project和音乐的关联太小了，就，signal processing 的部分太少了。（但是如果改变某个数值就会影响声音我感觉，也挺好的。
 
+我在想，就几个小球，然后
 ## 11/09
 
 其实就是，周四（如果他不OK就下周）带给Tovi看一下，一个简单的demo, 他如果觉得不可成为research，我就放成project就完事了, 自己写一个小文章。就不要想research的事情了。

@@ -1,3 +1,9 @@
+# 问 Tovi
+
+1. project和HCI research的区别是不是就是，有没有evaluation的区别？
+2. 如果两个人做了同样的东西咋办，就很担心。
+
+
 # 待实现的idea
 
 
@@ -100,6 +106,14 @@ Intro需要cover两点：
 	* [Simple Force Directed Graph in Unity](https://youtu.be/T69V_d_XmUw)!!!已经有现成的algo了
 	* [Force Directed Graphs in Unity](https://youtu.be/5HFVQQZ5GGg)
 	* [Building and Drawing a Graph in Unity using Gizmos](https://youtu.be/zdHvM6XU4rY)
+	* [D3用JS画force-directed graph](https://observablehq.com/@d3/force-directed-graph)我去这个是真的帅，关键D3的帧率极高
+	* [!!!!!!这是我见过的最好的force directed graph](https://youtu.be/O-AwY0gYLlQ) 关键这个是手可以去碰的，而且还有声音，而且各种UI细节都很到位。
+	![](pic/2020-11-11-21-58-23.png)
+	* [这里也有一份force directed graph 的 code](https://github.com/Bamfax/ForceDirectedNodeGraph3DUnity)
+	* [!!这个是商用了，这个force directed graph 可以两个人合作](https://youtu.be/_4SQcYf9tGo)(https://www.alaira.co.uk/)
+		![](pic/2020-11-11-23-29-27.png)
+	* [这是一个极好的tutorial session，教怎么做force directed graph](https://collaboradev.com/2014/03/12/visualizing-3d-network-topologies-using-unity/)
+
 
 这个sample-env是必须的，每次run前都需要打开
 source ~/python-envs/sample-env/bin/activate
