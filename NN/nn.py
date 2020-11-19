@@ -1,6 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+
 """
 Instruction:
-
 In this section, you are asked to train a NN with different hyperparameters.
 To start with training, you need to fill in the incomplete code. There are 3
 places that you need to complete:
@@ -65,6 +67,7 @@ def InitNN(num_inputs, num_hiddens, num_outputs):
     b2 = np.zeros((num_hiddens[1]))
     dW2 = np.zeros(W2.shape)
     db2 = np.zeros(b2.shape)
+
 
     # W3b3 is the model that connect the second layer to the output
     W3 = 0.01 * np.random.randn(num_hiddens[1], num_outputs)
@@ -189,10 +192,10 @@ def NNForward(model, x):
         var:   Dictionary of all intermediate variables.
     """
     z1 = Affine(x, model['W1'], model['b1'])
-    h1 = ReLU(z1)
+    h1 = ReLU(z1) # the shape is [100, 16] i.e. [batch_size, # neurons in hidden layer 1]
     z2 = Affine(h1, model['W2'], model['b2'])
-    h2 = ReLU(z2)
-    y = Affine(h2, model['W3'], model['b3'])
+    h2 = ReLU(z2) # the shape is [100, 32] i.e. [batch_size, # neurons in hidden layer 2]
+    y = Affine(h2, model['W3'], model['b3']) # the shape is [100, 7]
     var = {
         'x': x, 'z1': z1, 'h1': h1,
         'z2': z2, 'h2': h2, 'y': y
@@ -242,7 +245,6 @@ def NNUpdate(model, eps, momentum):
             model[j + i] += model['d' + j + i]
     ###########################
 
-
 def Train(model, forward, backward, update, eps, momentum, num_epochs,
           batch_size):
     """Trains a simple MLP.
@@ -268,6 +270,8 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
     """
     inputs_train, inputs_valid, inputs_test, target_train, target_valid, \
     target_test = LoadData('./toronto_face.npz')
+    # inputs_train's shape is 3374 * 2304
+    # inputs_train's shape is 419 * 2304
     rnd_idx = np.arange(inputs_train.shape[0])
     train_ce_list = []
     valid_ce_list = []
@@ -298,14 +302,13 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                    'Train Acc {:.5f}').format(
                 epoch, step, train_ce, train_acc))
 
-            ### If we want to send the sonification of every steps
-            # 但这样的声音就，每一个epoch的声音会模糊在一起，然后还是一阵epoch一阵声音的，就不如下面清楚。
-            # sendValid_ce = ('{:.5f}').format(train_acc)
-            # #  Wait for next request from client
-            # message = socket.recv()
-            # # print("Received request: %s" % message)
-            # #  Send reply back to client
-            # socket.send(str.encode(sendValid_ce)) # send data to unity
+            ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
+            dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
+            #  Wait for next request from client
+            message = socket.recv()
+            #  Send reply back to client
+            socket.send(str.encode(dataToUnity)) # send data to unity
+            time.sleep(0.1)
 
             # Compute error.
             error = (prediction - t) / x.shape[0]
@@ -323,11 +326,28 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             epoch, valid_ce, valid_acc)
         print(data_stream)
 
-        ## If we send the sonification of every epoch
-        dataToUnity = ('{:.5f},''{:.5f}').format(valid_ce, valid_acc)
+
+        # Calculate weights per link
+        W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
+        W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
+        W3ByLinks = np.mean(model['W3'], axis = 1)
+
+        # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
+        W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
+        W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
+        W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
+
+        # Since we want to send these weight matrix through TCP, we need to turn those value into string
+        W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinksNormalized)
+        # W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinksNormalized) #if W2 is not flattened, we should use this
+        W2ByLinksString = '_'.join(str(w2) for w2 in W2ByLinksNormalized)
+        W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
+
+
+        ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
+        dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
         #  Wait for next request from client
         message = socket.recv()
-        # print("Received request: %s" % message)
         #  Send reply back to client
         socket.send(str.encode(dataToUnity)) # send data to unity
 
@@ -362,6 +382,9 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
 
 def Evaluate(inputs, target, model, forward, batch_size=-1):
     """Evaluates the model on inputs and target.
+
+    inputs's shape is 419 * 2304, means 419 pictures of 48*48
+    batch_size is 100 by default
 
     Args:
         inputs: Inputs to the network.
@@ -429,7 +452,8 @@ def main():
     stats_fname = 'nn_stats.npz'
 
     # Default hyper-parameters.
-    num_hiddens = [16, 32]
+    # num_hiddens = [16, 32]
+    num_hiddens = [4, 8]
     eps = 0.01
     momentum = 0.0
     num_epochs = 1000

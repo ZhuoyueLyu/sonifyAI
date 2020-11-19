@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9071582541705353743}
   - component: {fileID: 4298265418347904617}
   - component: {fileID: 3257304137421123426}
+  - component: {fileID: 5011320075288762675}
   m_Layer: 0
   m_Name: Node
   m_TagString: Untagged
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 40fa6ec9d744746198b6d8a246716bef, type: 2}
+  - {fileID: 2100000, guid: c70d4558b0571b1439ac725dda5b0f1e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,16 +107,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833573495235241780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 527fc06d8c5854b9cb55689c9923df32, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d6c7021a2c1ff14cbb3d51813c4bb3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  Input: {fileID: 2100000, guid: 277d617d359504151b2a3a705c4c6c4a, type: 2}
-  L1: {fileID: 2100000, guid: ae05669d7d852b141a98cfde217924ba, type: 2}
-  L2: {fileID: 2100000, guid: 40fa6ec9d744746198b6d8a246716bef, type: 2}
-  Output: {fileID: 2100000, guid: 61896d39c36df4391acc97eb64513af2, type: 2}
-  FaSame: 3
-  FrSame: 500
+  Input: {fileID: 2100000, guid: e0e2645e06d1c734ea020e9ff0466fe8, type: 2}
+  L1: {fileID: 2100000, guid: c70d4558b0571b1439ac725dda5b0f1e, type: 2}
+  L2: {fileID: 2100000, guid: 5c242b91f472e2948b7beb877507fba2, type: 2}
+  Output: {fileID: 2100000, guid: 6f0d0c76cbd1f0346855b387e77b91db, type: 2}
+  FaSameSmall: 700
+  FrSameSmall: 40
+  FrInOutSmall: 100
 --- !u!54 &3257304137421123426
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -132,3 +134,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5011320075288762675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833573495235241780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d61468f8b77ae4b92c344bc9a600fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_allowOffhandGrab: 1
+  m_snapPosition: 0
+  m_snapOrientation: 0
+  m_snapOffset: {fileID: 0}
+  m_grabPoints: []

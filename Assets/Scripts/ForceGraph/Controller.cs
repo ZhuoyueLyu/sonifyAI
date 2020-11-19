@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,11 @@ public class Controller : MonoBehaviour {
     float y = 0;
     float z = 0;
 
+    int layer1Count = 4;
+    int layer2Count = 8;
+
+    int k = 5; // since the value of weight is pretty small, we need to multiply it by k
+
     // // Attraction
     // public float FA = 3.0f;
     // // Repulsion
@@ -31,8 +37,6 @@ public class Controller : MonoBehaviour {
     //GameObject[] L2;
 
     void GenerateGraph(){
-        int layer1Count = 4;
-        int layer2Count = 8;
 
         // input layer
         x = -4;
@@ -60,13 +64,22 @@ public class Controller : MonoBehaviour {
         z = 4;
         CreateNode(2000, "Output", x, y, z);
 
-        // add links
+        // add links (input -> layer 1)
         for (int i=0; i<layer1Count; i++){
             CreateLink(i, 1000);
-            for(int j=0; j<layer2Count; j++){
+        }
+        // add links (layer 1 -> layer 2)
+        for (int i = 0; i < layer1Count; i++)
+        {
+            for (int j = 0; j < layer2Count; j++)
+            {
                 CreateLink(i, 20 + j);
-                CreateLink(2000, 20 + j);
             }
+        }
+        // add links (layer 2 -> output)
+        for (int j = 0; j < layer2Count; j++)
+        {
+            CreateLink(2000, 20 + j);
         }
         //map node edges
         MapLinkNodes();
@@ -74,11 +87,11 @@ public class Controller : MonoBehaviour {
 
     //Create nodes
     void CreateNode(int id, string tag, float x, float y, float z) {
-        Node nodeObject = Instantiate(nodePrefab, new Vector3(x,y,z), Quaternion.identity) as Node;
+        Node nodeObject = Instantiate(nodePrefab, new Vector3(x, y, z), Quaternion.identity) as Node;
         nodeObject.tag = tag;
         nodeObject.id = id;
         // Drag make sure that the system won't oscillate forever
-        nodeObject.GetComponent<Rigidbody>().drag = 10;
+        nodeObject.GetComponent<Rigidbody>().drag = 10; // 没准后面drag可以用来调整间距用，就，drap100基本把它定死了。
         nodes.Add(nodeObject.id, nodeObject);
         nodeCount++;
     }
@@ -129,4 +142,56 @@ public class Controller : MonoBehaviour {
 
     }
 
+    public void UpdateConnections(string infoString) {
+
+
+        string[] vals = infoString.Split(',');
+        //float ce = float.Parse(vals[0]) * 1000;
+        //float acc = float.Parse(vals[1]) * 1000;
+        bool isValidation = System.Convert.ToBoolean(float.Parse(vals[2]));
+        if (isValidation) {
+            string W1ByLinksString = vals[3];
+            string W2ByLinksString = vals[4];
+            string W3ByLinksString = vals[5];
+
+            float[] W1ByLinks = System.Array.ConvertAll(W1ByLinksString.Split('_'), float.Parse);
+            float[] W2ByLinks = System.Array.ConvertAll(W2ByLinksString.Split('_'), float.Parse);
+            float[] W3ByLinks = System.Array.ConvertAll(W3ByLinksString.Split('_'), float.Parse);
+
+            // update weights on each link 
+            // (input -> layer 1)
+            for (int i = 0; i < layer1Count; i++)
+            {
+                Link link = links[i] as Link;
+                link.FaBetween = k * W1ByLinks[i];
+                Debug.Log("W1ByLinks");
+                Debug.Log(W1ByLinks[i]);
+            }
+
+            //  (layer 1 -> layer 2)
+            for (int i = layer1Count; i < layer1Count * (layer2Count + 1); i++)
+            {
+
+                Link link = links[i] as Link;
+                link.FaBetween = k * W2ByLinks[i - layer1Count];
+                Debug.Log("W2ByLinks");
+                Debug.Log(W2ByLinks[i - layer1Count]);
+            }
+            //(layer 2 -> output)
+            for (int i = layer1Count * (layer2Count + 1); i < layer1Count * (layer2Count + 1) + layer2Count; i++)
+            {
+                Link link = links[i] as Link;
+                link.FaBetween = k * W3ByLinks[i - layer1Count * (layer2Count + 1)];
+                Debug.Log("W3ByLinks");
+                Debug.Log(W3ByLinks[i - layer1Count * (layer2Count + 1)]);
+            }
+        }
+
+
+        //Chuck.Manager.SetFloat(myChuck1, "ce", ce);
+        //Chuck.Manager.SetFloat(myChuck1, "acc", acc);
+        //Chuck.Manager.SetFloat(myChuck1, "isValidation", isValidation);
+
+
+    }
 }
