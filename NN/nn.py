@@ -332,16 +332,20 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         W2ByLinks = model['W2']
         W3ByLinks = np.mean(model['W3'], axis = 1)
 
+        # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
+        W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
+        W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
+        W2ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
+
         # Since we want to send these weight matrix through TCP, we need to turn those value into string
-        W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinks)
-        W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinks)
-        W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinks)
+        W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinksNormalized)
+        W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinksNormalized)
+        W3ByLinksString = '_'.join(str(w3) for w3 in W2ByLinksNormalized)
 
 
 
         ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
-        dataToUnity = ('{:.5f},''{:.5f},1').format(valid_ce, valid_acc)
-        dataToUnity = ','.join(dataToUnity, W1ByLinksString, W2ByLinksString, W3ByLinksString)
+        dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
         #  Wait for next request from client
         message = socket.recv()
         #  Send reply back to client
