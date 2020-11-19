@@ -35,29 +35,29 @@ public class Controller : MonoBehaviour {
         int layer2Count = 8;
 
         // input layer
-        x = 1;
-        y = 1;
-        z = 1;
+        x = Random.Range(-0.1f, 0.1f); // pay attention, the smallest interval is 0.1, so range(0.0, 0.15) is like (0, 0.1)
+        y = Random.Range(-0.1f, 0.1f);
+        z = Random.Range(-0.1f, 0.1f);
         CreateNode(1000, "Input", x, y, z);
 
         // layer 1
         for(int i=0; i<layer1Count; i++){
-            x = Random.Range(10, 12)/10;
-            y = Random.Range(10, 12)/10;
-            z = Random.Range(10, 12)/10;
+            x = Random.Range(0.1f, 0.3f);
+            y = Random.Range(0.1f, 0.3f);
+            z = Random.Range(0.1f, 0.3f);
             CreateNode(i, "L1", x, y, z);
         }
         // layer 2
         for(int j=0; j<layer2Count; j++){
-            x = Random.Range(13, 15) / 10;
-            y = Random.Range(13, 15) / 10;
-            z = Random.Range(13, 15) / 10;
+            x = Random.Range(0.3f, 0.5f);
+            y = Random.Range(0.3f, 0.5f);
+            z = Random.Range(0.3f, 0.5f);
             CreateNode(20 + j, "L2", x, y, z);
         }
         // output layer
-        x = 2;
-        y = 2;
-        z = 2;
+        x = Random.Range(0.5f, 0.7f);
+        y = Random.Range(0.5f, 0.7f);
+        z = Random.Range(0.5f, 0.7f);
         CreateNode(2000, "Output", x, y, z);
 
         // add links
@@ -74,11 +74,13 @@ public class Controller : MonoBehaviour {
 
     //Create nodes
     void CreateNode(int id, string tag, float x, float y, float z) {
-        Node nodeObject = Instantiate(nodePrefab, new Vector3(Random.Range(0, 2), Random.Range(0, 2), Random.Range(0, 2)), Quaternion.identity) as Node;
+        Debug.Log("Pos: " + new Vector3(x, y, z));
+        //Node nodeObject = Instantiate(nodePrefab, new Vector3(x, y, z), Quaternion.identity) as Node;
+        Node nodeObject = Instantiate(nodePrefab, new Vector3(Random.Range(0f, 2f), Random.Range(0f, 2f), Random.Range(0f, 2f)), Quaternion.identity) as Node;
         nodeObject.tag = tag;
         nodeObject.id = id;
         // Drag make sure that the system won't oscillate forever
-        nodeObject.GetComponent<Rigidbody>().drag = 10;
+        nodeObject.GetComponent<Rigidbody>().drag = 10; // 没准后面drag可以用来调整间距用，就，drap100基本把它定死了。
         nodes.Add(nodeObject.id, nodeObject);
         nodeCount++;
     }

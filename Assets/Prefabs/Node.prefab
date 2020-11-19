@@ -115,9 +115,9 @@ MonoBehaviour:
   L1: {fileID: 2100000, guid: c70d4558b0571b1439ac725dda5b0f1e, type: 2}
   L2: {fileID: 2100000, guid: 5c242b91f472e2948b7beb877507fba2, type: 2}
   Output: {fileID: 2100000, guid: 6f0d0c76cbd1f0346855b387e77b91db, type: 2}
-  FaSameSmall: 300
-  FrSameSmall: 0.5
-  FrInOutSmall: 1
+  FaSameSmall: 700
+  FrSameSmall: 40
+  FrInOutSmall: 100
 --- !u!54 &3257304137421123426
 Rigidbody:
   m_ObjectHideFlags: 0
