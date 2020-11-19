@@ -329,18 +329,19 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
 
         # Calculate weights per link
         W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
-        W2ByLinks = model['W2']
+        W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
         W3ByLinks = np.mean(model['W3'], axis = 1)
 
         # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
         W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
         W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
-        W2ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
+        W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
 
         # Since we want to send these weight matrix through TCP, we need to turn those value into string
         W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinksNormalized)
-        W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinksNormalized)
-        W3ByLinksString = '_'.join(str(w3) for w3 in W2ByLinksNormalized)
+        # W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinksNormalized) #if W2 is not flattened, we should use this
+        W2ByLinksString = '_'.join(str(w2) for w2 in W2ByLinksNormalized)
+        W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
 
 
 
