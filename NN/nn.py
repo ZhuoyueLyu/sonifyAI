@@ -341,6 +341,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
 
         ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
         dataToUnity = ('{:.5f},''{:.5f},1').format(valid_ce, valid_acc)
+        dataToUnity = ','.join(dataToUnity, W1ByLinksString, W2ByLinksString, W3ByLinksString)
         #  Wait for next request from client
         message = socket.recv()
         #  Send reply back to client
