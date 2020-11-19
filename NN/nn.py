@@ -333,9 +333,9 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         W3ByLinks = np.mean(model['W3'], axis = 1)
 
         # Since we want to send these weight matrix through TCP, we need to turn those value into string
-        W1ByLinksString = '_'.join(w3 for w1 in W1ByLinks)
-        W2ByLinksString = '_'.join('_'.join(x for x in y) for y in W2ByLinks)
-        W3ByLinksString = '_'.join(w3 for w3 in W3ByLinks)
+        W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinks)
+        W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinks)
+        W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinks)
 
 
 
