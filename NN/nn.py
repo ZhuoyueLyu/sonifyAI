@@ -302,13 +302,13 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                    'Train Acc {:.5f}').format(
                 epoch, step, train_ce, train_acc))
 
-            ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
-            dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
-            #  Wait for next request from client
-            message = socket.recv()
-            #  Send reply back to client
-            socket.send(str.encode(dataToUnity)) # send data to unity
-            time.sleep(0.1)
+            # ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
+            # dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
+            # #  Wait for next request from client
+            # message = socket.recv()
+            # #  Send reply back to client
+            # socket.send(str.encode(dataToUnity)) # send data to unity
+            # time.sleep(0.06)
 
             # Compute error.
             error = (prediction - t) / x.shape[0]
@@ -452,8 +452,8 @@ def main():
     stats_fname = 'nn_stats.npz'
 
     # Default hyper-parameters.
-    # num_hiddens = [16, 32]
-    num_hiddens = [4, 8]
+    num_hiddens = [16, 32]
+    # num_hiddens = [4, 8]
     eps = 0.01
     momentum = 0.0
     num_epochs = 1000

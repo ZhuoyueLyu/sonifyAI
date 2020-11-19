@@ -48,5 +48,6 @@ MonoBehaviour:
   target: {fileID: 0}
   sourceId: 0
   targetId: 0
-  FaBetweenSmall: 80
-  FrBetweenSmall: 1
+  linkMaterial: {fileID: 2100000, guid: abe3777a9aa8c8443aea60502eee9c6f, type: 2}
+  FaBetween: 3
+  FrBetween: 700

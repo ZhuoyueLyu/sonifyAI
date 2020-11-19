@@ -10,28 +10,24 @@ public class Link : MonoBehaviour
     public Node target;
     public int sourceId;
     public int targetId;
+    public Material linkMaterial;
 
     // Attraction between nodes from different layers
     public float FaBetween = 3.0f;
     // Repulsion between nodes from different layers
     public float FrBetween = 700.0f; //对，这里的核心问题就是排斥力太小了，5000差不多。但是有一个问题，就，Controller里面如果这个值命名是一样的..会共享...
 
+    public Color c = Color.white;
+
     private LineRenderer lineRenderer;
 
     void Start()
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-
-        //color link according to status
-        Color c;
-        if (1 > 0)
-            c = Color.white;
-        // else
-        //     c = Color.red;
         c.a = 0.5f;
 
         //draw line
-        lineRenderer.material = new Material(Shader.Find("Self-Illumin/Diffuse"));
+        lineRenderer.material = linkMaterial;
         lineRenderer.material.SetColor("_Color", c);
         lineRenderer.startWidth = 0.01f;
         lineRenderer.endWidth = 0.01f;
@@ -51,6 +47,7 @@ public class Link : MonoBehaviour
         {
             lineRenderer.SetPosition(0, source.transform.position);
             lineRenderer.SetPosition(1, target.transform.position);
+            lineRenderer.material.SetColor("_Color", c);
             // We don't want the input node and output node to be far away from the layers
             if (source.tag == "Input" || target.tag == "Input")
             {

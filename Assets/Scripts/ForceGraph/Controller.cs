@@ -19,10 +19,10 @@ public class Controller : MonoBehaviour {
     float y = 0;
     float z = 0;
 
-    int layer1Count = 4;
-    int layer2Count = 8;
+    int layer1Count = 16;
+    int layer2Count = 32;
 
-    int k = 5; // since the value of weight is pretty small, we need to multiply it by k
+    int k = 10; // since the value of weight is pretty small, we need to multiply it by k
 
     // // Attraction
     // public float FA = 3.0f;
@@ -164,6 +164,7 @@ public class Controller : MonoBehaviour {
             {
                 Link link = links[i] as Link;
                 link.FaBetween = k * W1ByLinks[i];
+                link.c.a = W1ByLinks[i];
                 Debug.Log("W1ByLinks");
                 Debug.Log(W1ByLinks[i]);
             }
@@ -174,6 +175,7 @@ public class Controller : MonoBehaviour {
 
                 Link link = links[i] as Link;
                 link.FaBetween = k * W2ByLinks[i - layer1Count];
+                link.c.a = W2ByLinks[i - layer1Count];
                 Debug.Log("W2ByLinks");
                 Debug.Log(W2ByLinks[i - layer1Count]);
             }
@@ -182,6 +184,7 @@ public class Controller : MonoBehaviour {
             {
                 Link link = links[i] as Link;
                 link.FaBetween = k * W3ByLinks[i - layer1Count * (layer2Count + 1)];
+                link.c.a = W3ByLinks[i - layer1Count * (layer2Count + 1)];
                 Debug.Log("W3ByLinks");
                 Debug.Log(W3ByLinks[i - layer1Count * (layer2Count + 1)]);
             }
