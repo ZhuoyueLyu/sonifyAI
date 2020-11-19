@@ -192,10 +192,10 @@ def NNForward(model, x):
         var:   Dictionary of all intermediate variables.
     """
     z1 = Affine(x, model['W1'], model['b1'])
-    h1 = ReLU(z1)
+    h1 = ReLU(z1) # the shape is [100, 16] i.e. [batch_size, # neurons in hidden layer 1]
     z2 = Affine(h1, model['W2'], model['b2'])
-    h2 = ReLU(z2)
-    y = Affine(h2, model['W3'], model['b3'])
+    h2 = ReLU(z2) # the shape is [100, 32] i.e. [batch_size, # neurons in hidden layer 2]
+    y = Affine(h2, model['W3'], model['b3']) # the shape is [100, 7]
     var = {
         'x': x, 'z1': z1, 'h1': h1,
         'z2': z2, 'h2': h2, 'y': y
@@ -245,7 +245,6 @@ def NNUpdate(model, eps, momentum):
             model[j + i] += model['d' + j + i]
     ###########################
 
-
 def Train(model, forward, backward, update, eps, momentum, num_epochs,
           batch_size):
     """Trains a simple MLP.
@@ -271,6 +270,8 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
     """
     inputs_train, inputs_valid, inputs_test, target_train, target_valid, \
     target_test = LoadData('./toronto_face.npz')
+    # inputs_train's shape is 3374 * 2304
+    # inputs_train's shape is 419 * 2304
     rnd_idx = np.arange(inputs_train.shape[0])
     train_ce_list = []
     valid_ce_list = []
@@ -325,6 +326,17 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             epoch, valid_ce, valid_acc)
         print(data_stream)
 
+
+        # Calculate weights per link
+        W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 7, so we need take mean along  0 axis and become 1 * 7
+        W2ByLinks = model['W2']
+        W3ByLinks = np.mean(model['W3'], axis = 1)
+        print(W1ByLinks.shape)
+        print(W2ByLinks.shape)
+        print(W3ByLinks.shape)
+
+
+
         ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
         dataToUnity = ('{:.5f},''{:.5f},1').format(valid_ce, valid_acc)
         #  Wait for next request from client
@@ -363,6 +375,9 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
 
 def Evaluate(inputs, target, model, forward, batch_size=-1):
     """Evaluates the model on inputs and target.
+
+    inputs's shape is 419 * 2304, means 419 pictures of 48*48
+    batch_size is 100 by default
 
     Args:
         inputs: Inputs to the network.
