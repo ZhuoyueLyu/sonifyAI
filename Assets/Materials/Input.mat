@@ -37,6 +37,6 @@ Material:
     - _MKGlowTexStrength: 9.95
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _MKGlowColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MKGlowTexColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MKGlowColor: {r: 1, g: 0.25949252, b: 0, a: 1}
+    - _MKGlowTexColor: {r: 1, g: 0, b: 0.1676197, a: 1}
   m_BuildTextureStacks: []
