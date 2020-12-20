@@ -303,12 +303,12 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                 epoch, step, train_ce, train_acc))
 
             # ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
-            # dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
+            dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
             # #  Wait for next request from client
-            # message = socket.recv()
-            # #  Send reply back to client
-            # socket.send(str.encode(dataToUnity)) # send data to unity
-            # time.sleep(0.06)
+            message = socket.recv()
+            #  Send reply back to client
+            socket.send(str.encode(dataToUnity)) # send data to unity
+            time.sleep(0.1)
 
             # Compute error.
             error = (prediction - t) / x.shape[0]
@@ -327,29 +327,30 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         print(data_stream)
 
 
-        # Calculate weights per link
-        W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
-        W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
-        W3ByLinks = np.mean(model['W3'], axis = 1)
-
-        # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
-        W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
-        W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
-        W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
-
-        # Since we want to send these weight matrix through TCP, we need to turn those value into string
-        W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinksNormalized)
-        # W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinksNormalized) #if W2 is not flattened, we should use this
-        W2ByLinksString = '_'.join(str(w2) for w2 in W2ByLinksNormalized)
-        W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
+        # # Calculate weights per link
+        # W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
+        # W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
+        # W3ByLinks = np.mean(model['W3'], axis = 1)
+        #
+        # # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
+        # W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
+        # W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
+        # W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
+        #
+        # # Since we want to send these weight matrix through TCP, we need to turn those value into string
+        # W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinksNormalized)
+        # # W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinksNormalized) #if W2 is not flattened, we should use this
+        # W2ByLinksString = '_'.join(str(w2) for w2 in W2ByLinksNormalized)
+        # W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
 
 
         ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
-        dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
+        # dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
+        dataToUnity = ('{:.5f},''{:.5f},1').format(valid_ce, valid_acc)
         #  Wait for next request from client
-        # message = socket.recv()
+        message = socket.recv()
         #  Send reply back to client
-        # socket.send(str.encode(dataToUnity)) # send data to unity
+        socket.send(str.encode(dataToUnity)) # send data to unity
 
         train_ce_list.append((epoch, train_ce)) # 哦，这里append进去的应该是train的最后一个step的ce...
         train_acc_list.append((epoch, train_acc))

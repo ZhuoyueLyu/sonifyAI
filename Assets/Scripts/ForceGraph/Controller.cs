@@ -149,46 +149,46 @@ public class Controller : MonoBehaviour {
         //float ce = float.Parse(vals[0]) * 1000;
         //float acc = float.Parse(vals[1]) * 1000;
         bool isValidation = System.Convert.ToBoolean(float.Parse(vals[2]));
-        if (isValidation) {
-            string W1ByLinksString = vals[3];
-            string W2ByLinksString = vals[4];
-            string W3ByLinksString = vals[5];
+        // if (isValidation) {
+        //     string W1ByLinksString = vals[3];
+        //     string W2ByLinksString = vals[4];
+        //     string W3ByLinksString = vals[5];
 
-            float[] W1ByLinks = System.Array.ConvertAll(W1ByLinksString.Split('_'), float.Parse);
-            float[] W2ByLinks = System.Array.ConvertAll(W2ByLinksString.Split('_'), float.Parse);
-            float[] W3ByLinks = System.Array.ConvertAll(W3ByLinksString.Split('_'), float.Parse);
+        //     float[] W1ByLinks = System.Array.ConvertAll(W1ByLinksString.Split('_'), float.Parse);
+        //     float[] W2ByLinks = System.Array.ConvertAll(W2ByLinksString.Split('_'), float.Parse);
+        //     float[] W3ByLinks = System.Array.ConvertAll(W3ByLinksString.Split('_'), float.Parse);
 
-            // update weights on each link 
-            // (input -> layer 1)
-            for (int i = 0; i < layer1Count; i++)
-            {
-                Link link = links[i] as Link;
-                link.FaBetween = k * W1ByLinks[i];
-                link.c.a = W1ByLinks[i];
-                Debug.Log("W1ByLinks");
-                Debug.Log(W1ByLinks[i]);
-            }
+        //     // update weights on each link
+        //     // (input -> layer 1)
+        //     for (int i = 0; i < layer1Count; i++)
+        //     {
+        //         Link link = links[i] as Link;
+        //         link.FaBetween = k * W1ByLinks[i];
+        //         link.c.a = W1ByLinks[i];
+        //         Debug.Log("W1ByLinks");
+        //         Debug.Log(W1ByLinks[i]);
+        //     }
 
-            //  (layer 1 -> layer 2)
-            for (int i = layer1Count; i < layer1Count * (layer2Count + 1); i++)
-            {
+        //     //  (layer 1 -> layer 2)
+        //     for (int i = layer1Count; i < layer1Count * (layer2Count + 1); i++)
+        //     {
 
-                Link link = links[i] as Link;
-                link.FaBetween = k * W2ByLinks[i - layer1Count];
-                link.c.a = W2ByLinks[i - layer1Count];
-                Debug.Log("W2ByLinks");
-                Debug.Log(W2ByLinks[i - layer1Count]);
-            }
-            //(layer 2 -> output)
-            for (int i = layer1Count * (layer2Count + 1); i < layer1Count * (layer2Count + 1) + layer2Count; i++)
-            {
-                Link link = links[i] as Link;
-                link.FaBetween = k * W3ByLinks[i - layer1Count * (layer2Count + 1)];
-                link.c.a = W3ByLinks[i - layer1Count * (layer2Count + 1)];
-                Debug.Log("W3ByLinks");
-                Debug.Log(W3ByLinks[i - layer1Count * (layer2Count + 1)]);
-            }
-        }
+        //         Link link = links[i] as Link;
+        //         link.FaBetween = k * W2ByLinks[i - layer1Count];
+        //         link.c.a = W2ByLinks[i - layer1Count];
+        //         Debug.Log("W2ByLinks");
+        //         Debug.Log(W2ByLinks[i - layer1Count]);
+        //     }
+        //     //(layer 2 -> output)
+        //     for (int i = layer1Count * (layer2Count + 1); i < layer1Count * (layer2Count + 1) + layer2Count; i++)
+        //     {
+        //         Link link = links[i] as Link;
+        //         link.FaBetween = k * W3ByLinks[i - layer1Count * (layer2Count + 1)];
+        //         link.c.a = W3ByLinks[i - layer1Count * (layer2Count + 1)];
+        //         Debug.Log("W3ByLinks");
+        //         Debug.Log(W3ByLinks[i - layer1Count * (layer2Count + 1)]);
+        //     }
+        // }
 
 
         //Chuck.Manager.SetFloat(myChuck1, "ce", ce);

@@ -16,8 +16,8 @@ public class Sonify : MonoBehaviour
             @"
             TriOsc triOsc => ADSR env => NRev verb => dac.left;
             SinOsc sinOsc => ADSR env2 => NRev verb2 => dac.right;
-            TriOsc sqrOsc => ADSR env3 => NRev verb3 => dac.left;
-            SinOsc pulseOsc => ADSR env4 => NRev verb4 => dac.right;
+            PulseOsc sqrOsc => ADSR env3 => NRev verb3 => dac.left;
+            PulseOsc pulseOsc => ADSR env4 => NRev verb4 => dac.right;
 
             0.3 => triOsc.gain;
             0.3 => sinOsc.gain;
