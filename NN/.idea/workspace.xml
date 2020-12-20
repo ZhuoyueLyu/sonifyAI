@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70a7d505-b61e-4e41-a754-5cddb56e45fa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Assets/Materials/L2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../Assets/Materials/L2.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assets/Prefabs/Link.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../Assets/Prefabs/Link.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assets/Prefabs/Node.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../Assets/Prefabs/Node.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nn.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +34,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="nn" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -70,6 +76,9 @@
       <option name="presentableId" value="Default" />
       <updated>1607532488084</updated>
       <workItem from="1607532492126" duration="739000" />
+      <workItem from="1608459922592" duration="877000" />
+      <workItem from="1608461093525" duration="185000" />
+      <workItem from="1608461289832" duration="120000" />
     </task>
     <servers />
   </component>
@@ -77,6 +86,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="674" y="254" key="FileChooserDialogImpl" timestamp="1608460993422">
+      <screen x="0" y="25" width="1680" height="942" />
+    </state>
+    <state x="674" y="254" key="FileChooserDialogImpl/-182.-1127.2048.1127/0.25.1680.942@0.25.1680.942" timestamp="1608460993422" />
     <state width="1486" height="196" key="GridCell.Tab.0.bottom" timestamp="1607536618882">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
@@ -97,6 +110,15 @@
     </state>
     <state width="1486" height="196" key="GridCell.Tab.0.right/0.-1152.2048.1152/0.0.1680.1050@0.0.1680.1050" timestamp="1607532886639" />
     <state width="1486" height="196" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1607536618881" />
+    <state x="395" y="132" key="SettingsEditor" timestamp="1608461166867">
+      <screen x="0" y="25" width="1680" height="942" />
+    </state>
+    <state x="395" y="132" key="SettingsEditor/-182.-1127.2048.1127/0.25.1680.942@0.25.1680.942" timestamp="1608461166867" />
+    <state x="587" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1608461290340">
+      <screen x="0" y="25" width="1680" height="942" />
+    </state>
+    <state x="587" y="412" key="com.intellij.ide.util.TipDialog/-182.-1127.2048.1127/0.25.1680.1025@0.25.1680.1025" timestamp="1608459921706" />
+    <state x="587" y="381" key="com.intellij.ide.util.TipDialog/-182.-1127.2048.1127/0.25.1680.942@0.25.1680.942" timestamp="1608461290340" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NN$nn.coverage" NAME="nn Coverage Results" MODIFIED="1607532886629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

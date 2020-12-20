@@ -303,12 +303,12 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                 epoch, step, train_ce, train_acc))
 
             # ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
-            # dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
+            dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
             # #  Wait for next request from client
-            # message = socket.recv()
+            message = socket.recv()
             # #  Send reply back to client
-            # socket.send(str.encode(dataToUnity)) # send data to unity
-            # time.sleep(0.06)
+            socket.send(str.encode(dataToUnity)) # send data to unity
+            time.sleep(0.06)
 
             # Compute error.
             error = (prediction - t) / x.shape[0]
@@ -347,9 +347,9 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
         dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
         #  Wait for next request from client
-        # message = socket.recv()
+        message = socket.recv()
         #  Send reply back to client
-        # socket.send(str.encode(dataToUnity)) # send data to unity
+        socket.send(str.encode(dataToUnity)) # send data to unity
 
         train_ce_list.append((epoch, train_ce)) # 哦，这里append进去的应该是train的最后一个step的ce...
         train_acc_list.append((epoch, train_acc))
