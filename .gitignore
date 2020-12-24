@@ -99,3 +99,5 @@ Assets/Materials/Output.mat
 Assets/Oculus*
 
 Assets/XR*
+NN/*
+NN/venv/*
