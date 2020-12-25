@@ -16,15 +16,15 @@ public class Controller : MonoBehaviour {
     int nodeCount = 0;
     int linkCount = 0;
 
-    Hashtable nodes;
-    Hashtable links;
+    public static Hashtable nodes;
+    public static Hashtable links;
 
     float x = 0;
     float y = 0;
     float z = 0;
 
-    int layer1Count = 3;
-    int layer2Count = 4;
+    public static int layer1Count = 3;
+    public static int layer2Count = 4;
 
     int k = 10; // since the value of weight is pretty small, we need to multiply it by k
 
@@ -147,15 +147,10 @@ public class Controller : MonoBehaviour {
        center = new Vector3(0, 0, 0);
        foreach(int key in nodes.Keys) {
             Node node = nodes[key] as Node;
-            if (key == 1) {
-                Debug.Log(key);
-            Debug.Log(node.transform.position);
-            }
-
             center += node.transform.position;
        }
-       Debug.Log("Offset");
-       Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
+    //    Debug.Log("Offset");
+    //    Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
        if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 3) {
            client.requester.SetMessage("wait");
            isWaiting = true;

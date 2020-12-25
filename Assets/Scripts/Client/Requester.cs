@@ -7,7 +7,7 @@ public class Requester : RunAbleThread
 {
     private Sonify sonify = GameObject.FindObjectOfType<Sonify> ();
     private Controller controller = GameObject.FindObjectOfType<Controller>();
-    private string sendMessage = "H";
+    private string sendMessage = "S";
     protected override void Run()
     {
         while (Running) {
