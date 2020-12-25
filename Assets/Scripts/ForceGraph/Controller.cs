@@ -8,6 +8,10 @@ public class Controller : MonoBehaviour {
 
     public Node nodePrefab;
     public Link linkPrefab;
+    public Transform centerMass;
+    public Transform leftHand;
+    private Client client;
+    public static bool isWaiting = false;
 
     int nodeCount = 0;
     int linkCount = 0;
@@ -19,10 +23,12 @@ public class Controller : MonoBehaviour {
     float y = 0;
     float z = 0;
 
-    int layer1Count = 16;
-    int layer2Count = 32;
+    int layer1Count = 3;
+    int layer2Count = 4;
 
     int k = 10; // since the value of weight is pretty small, we need to multiply it by k
+
+    Vector3 center = new Vector3(0, 0, 0);
 
     // // Attraction
     // public float FA = 3.0f;
@@ -33,8 +39,8 @@ public class Controller : MonoBehaviour {
     // private IDictionary<int, Link> links = new Dictionary<int, Link>();
 
     // List of nodes at the same layer
-    //GameObject[] L1;
-    //GameObject[] L2;
+    // GameObject[] L1;
+    // GameObject[] L2;
 
     void GenerateGraph(){
 
@@ -116,6 +122,7 @@ public class Controller : MonoBehaviour {
         }
     }
 
+
     // void UpdateSameLayerForces(GameObject[] Nodes) {
     //     foreach (GameObject Node in Nodes)
     //     {
@@ -131,15 +138,32 @@ public class Controller : MonoBehaviour {
         links = new Hashtable();
 
         GenerateGraph();
+        client = GameObject.FindObjectOfType<Client>();
         // Time.fixedDeltaTime = 0.2f;
-        // L1 = GameObject.FindGameObjectsWithTag("L1");
-        // L2 = GameObject.FindGameObjectsWithTag("L2");
     }
 
     // update the force among the nodes from the same layer
     void Update () {
+       center = new Vector3(0, 0, 0);
+       foreach(int key in nodes.Keys) {
+            Node node = nodes[key] as Node;
+            if (key == 1) {
+                Debug.Log(key);
+            Debug.Log(node.transform.position);
+            }
 
-
+            center += node.transform.position;
+       }
+       Debug.Log("Offset");
+       Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
+       if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 3) {
+           client.requester.SetMessage("wait");
+           isWaiting = true;
+       } else {
+           isWaiting = false;
+           client.requester.SetMessage("nothing");
+       }
+       centerMass.position = center/nodeCount;
     }
 
     public void UpdateConnections(string infoString) {
@@ -158,35 +182,37 @@ public class Controller : MonoBehaviour {
             float[] W2ByLinks = System.Array.ConvertAll(W2ByLinksString.Split('_'), float.Parse);
             float[] W3ByLinks = System.Array.ConvertAll(W3ByLinksString.Split('_'), float.Parse);
 
-            // update weights on each link 
+            // update weights on each link
             // (input -> layer 1)
             for (int i = 0; i < layer1Count; i++)
             {
                 Link link = links[i] as Link;
+                // Debug.Log("W1LinkIndex" + i.ToString());
                 link.FaBetween = k * W1ByLinks[i];
                 link.c.a = W1ByLinks[i];
-                Debug.Log("W1ByLinks");
-                Debug.Log(W1ByLinks[i]);
+                // Debug.Log("W1ByLinkss" + W1ByLinks[i].ToString());
             }
 
             //  (layer 1 -> layer 2)
-            for (int i = layer1Count; i < layer1Count * (layer2Count + 1); i++)
+            int offset1To2 = layer1Count;
+            for (int i = 0; i < layer1Count * layer2Count; i++)
             {
 
-                Link link = links[i] as Link;
-                link.FaBetween = k * W2ByLinks[i - layer1Count];
-                link.c.a = W2ByLinks[i - layer1Count];
-                Debug.Log("W2ByLinks");
-                Debug.Log(W2ByLinks[i - layer1Count]);
+                Link link = links[i + offset1To2] as Link;
+                // Debug.Log("W2LinkIndex" + (i + offset1To2).ToString());
+                link.FaBetween = k * W2ByLinks[i];
+                link.c.a = W2ByLinks[i];
+                // Debug.Log("W2ByLinkss" + (W2ByLinks[i]).ToString());
             }
             //(layer 2 -> output)
-            for (int i = layer1Count * (layer2Count + 1); i < layer1Count * (layer2Count + 1) + layer2Count; i++)
+            int offset2ToOut = layer1Count * layer2Count + offset1To2;
+            for (int i = 0; i < layer2Count; i++)
             {
-                Link link = links[i] as Link;
-                link.FaBetween = k * W3ByLinks[i - layer1Count * (layer2Count + 1)];
-                link.c.a = W3ByLinks[i - layer1Count * (layer2Count + 1)];
-                Debug.Log("W3ByLinks");
-                Debug.Log(W3ByLinks[i - layer1Count * (layer2Count + 1)]);
+                Link link = links[i + offset2ToOut] as Link;
+                // Debug.Log("W3LinkIndex" + (i + offset2ToOut).ToString());
+                link.FaBetween = k * W3ByLinks[i];
+                link.c.a = W3ByLinks[i];
+                // Debug.Log("W3ByLinkss" + (W3ByLinks[i]).ToString());
             }
         }
 

@@ -7,39 +7,32 @@ public class Requester : RunAbleThread
 {
     private Sonify sonify = GameObject.FindObjectOfType<Sonify> ();
     private Controller controller = GameObject.FindObjectOfType<Controller>();
+    private string sendMessage = "H";
     protected override void Run()
     {
-        ForceDotNet.Force(); // this line is needed to prevent unity freeze after one use, not sure why yet
-        using (RequestSocket client = new RequestSocket())
-        {
-            client.Connect("tcp://localhost:5555");
-
-            // for (int i = 0; i < 10 && Running; i++)
-            while (Running) // always sending request for data until the python program has no more data to return.
+        while (Running) {
+            ForceDotNet.Force();
+            using (RequestSocket client = new RequestSocket())
             {
-                // Debug.Log("Sending Hello");
-                client.SendFrame("Hello");
-                // ReceiveFrameString() blocks the thread until you receive the string, but TryReceiveFrameString()
-                // do not block the thread, you can try commenting one and see what the other does, try to reason why
-                // unity freezes when you use ReceiveFrameString() and play and stop the scene without running the server
-//                string message = client.ReceiveFrameString();
-//                Debug.Log("Received: " + message);
-                string message = null;
-                bool gotMessage = false;
-                while (Running)
+                // client.Connect("tcp://127.0.0.1:123");
+                client.Connect("tcp://10.0.0.163:123");
+                for (int i = 0; i < 10 && Running; i++)
                 {
-                    gotMessage = client.TryReceiveFrameString(out message); // this returns true if it's successful
-                    if (gotMessage) break;
-                }
-
-                if (gotMessage) {
-                    //Debug.Log("Received " + message);
-                    sonify.MappingSound(message);
-                    controller.UpdateConnections(message);
+                    client.SendFrame(sendMessage);
+                    string message = client.ReceiveFrameString();
+                    if (!Controller.isWaiting) {
+                        // sonify.MappingSound(message);
+                        controller.UpdateConnections(message);
+                    }
                 }
             }
+            NetMQConfig.Cleanup();
         }
 
-        NetMQConfig.Cleanup(); // this line is needed to prevent unity freeze after one use, not sure why yet
+    }
+    public void SetMessage(string msg) {
+        if (msg != sendMessage) {
+            sendMessage = msg;
+        }
     }
 }

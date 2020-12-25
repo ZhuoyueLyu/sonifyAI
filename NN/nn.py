@@ -24,6 +24,8 @@ from __future__ import print_function
 from util import LoadData, Load, Save, DisplayPlot
 import sys
 import numpy as np
+# import matplotlib
+# matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 
@@ -33,7 +35,9 @@ import zmq
 import struct
 context = zmq.Context()
 socket = context.socket(zmq.REP)
-socket.bind("tcp://*:5555")
+
+# The following two worked
+socket.bind("tcp://*:123")
 
 
 def InitNN(num_inputs, num_hiddens, num_outputs):
@@ -298,17 +302,17 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             train_ce = -np.sum(t * np.log(prediction)) / x.shape[0]
             train_acc = (np.argmax(prediction, axis=1) ==
                          np.argmax(t, axis=1)).astype('float').mean()
-            print(('Epoch {:3d} Step {:2d} Train CE {:.5f} '
-                   'Train Acc {:.5f}').format(
-                epoch, step, train_ce, train_acc))
+            # print(('Epoch {:3d} Step {:2d} Train CE {:.5f} '
+            #        'Train Acc {:.5f}').format(
+            #     epoch, step, train_ce, train_acc))
 
-            # ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
+            # # ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
             # dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
-            # #  Wait for next request from client
+            # # #  Wait for next request from client
             # message = socket.recv()
-            # #  Send reply back to client
+            # # #  Send reply back to client
             # socket.send(str.encode(dataToUnity)) # send data to unity
-            # time.sleep(0.06)
+            # time.sleep(0.1)
 
             # Compute error.
             error = (prediction - t) / x.shape[0]
@@ -333,6 +337,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         W3ByLinks = np.mean(model['W3'], axis = 1)
 
         # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
+        # ptpis the range of values (maximum - minimum) along an axis. The name of the function comes from the acronym for ‘peak to peak’.
         W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
         W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
         W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
@@ -344,19 +349,30 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
 
 
-        ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
+        # ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
         dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
-        #  Wait for next request from client
-        # message = socket.recv()
-        #  Send reply back to client
-        # socket.send(str.encode(dataToUnity)) # send data to unity
+        # #  Wait for next request from client
+        # print(dataToUnity)
+        while 1:
+            msg = socket.recv()
+            message = msg.decode('ascii')
+            print("Bella we got some message!")
+            print(message)
+            socket.send(str.encode(dataToUnity)) # send data to unity
+            if message != "wait":
+                break
+            # if we received the "wait" message, put the process into sleep
+            time.sleep(0.5)
 
+
+        # #  Send reply back to client
         train_ce_list.append((epoch, train_ce)) # 哦，这里append进去的应该是train的最后一个step的ce...
         train_acc_list.append((epoch, train_acc))
         valid_ce_list.append((epoch, valid_ce))
         valid_acc_list.append((epoch, valid_acc))
-        DisplayPlot(train_ce_list, valid_ce_list, 'Cross Entropy', number=0)
-        DisplayPlot(train_acc_list, valid_acc_list, 'Accuracy', number=1)
+        # 下面这两个不显示，整个program跑起来会快很多
+        # DisplayPlot(train_ce_list, valid_ce_list, 'Cross Entropy', number=0)
+        # DisplayPlot(train_acc_list, valid_acc_list, 'Accuracy', number=1)
 
     print()
     train_ce, train_acc = Evaluate(
@@ -452,11 +468,12 @@ def main():
     stats_fname = 'nn_stats.npz'
 
     # Default hyper-parameters.
-    num_hiddens = [16, 32]
+    # num_hiddens = [16, 32]
     # num_hiddens = [4, 8]
+    num_hiddens = [3, 4]
     eps = 0.01
     momentum = 0.0
-    num_epochs = 1000
+    num_epochs = 10000
     batch_size = 100
 
     # Input-output dimensions.
