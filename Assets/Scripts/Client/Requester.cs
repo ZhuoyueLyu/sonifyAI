@@ -20,7 +20,7 @@ public class Requester : RunAbleThread
                 {
                     client.SendFrame(sendMessage);
                     string message = client.ReceiveFrameString();
-                    if (message != "wait") {
+                    if (!Controller.isWaiting) {
                         // sonify.MappingSound(message);
                         controller.UpdateConnections(message);
                     }

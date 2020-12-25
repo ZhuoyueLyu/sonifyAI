@@ -83,7 +83,11 @@ public class Node : MonoBehaviour
             }
         } else {
             // just fix the position on waiting
-            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            // gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            // Check if this node is grabbed by hand
+            if (transform.GetComponent<OVRGrabbable>().isGrabbed) {
+                gameObject.transform.localScale = new Vector3(2, 2, 2);
+            }
         }
 
     }

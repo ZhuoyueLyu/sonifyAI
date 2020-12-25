@@ -302,9 +302,9 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             train_ce = -np.sum(t * np.log(prediction)) / x.shape[0]
             train_acc = (np.argmax(prediction, axis=1) ==
                          np.argmax(t, axis=1)).astype('float').mean()
-            print(('Epoch {:3d} Step {:2d} Train CE {:.5f} '
-                   'Train Acc {:.5f}').format(
-                epoch, step, train_ce, train_acc))
+            # print(('Epoch {:3d} Step {:2d} Train CE {:.5f} '
+            #        'Train Acc {:.5f}').format(
+            #     epoch, step, train_ce, train_acc))
 
             # # ### If we want to send the sonification of every steps (the `1` at last indicates this is a train data)
             # dataToUnity = ('{:.5f},''{:.5f},0').format(train_ce, train_acc)
@@ -337,6 +337,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         W3ByLinks = np.mean(model['W3'], axis = 1)
 
         # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
+        # ptpis the range of values (maximum - minimum) along an axis. The name of the function comes from the acronym for ‘peak to peak’.
         W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
         W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
         W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
@@ -357,15 +358,14 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             message = msg.decode('ascii')
             print("Bella we got some message!")
             print(message)
+            socket.send(str.encode(dataToUnity)) # send data to unity
             if message != "wait":
                 break
             # if we received the "wait" message, put the process into sleep
-            socket.send(str.encode("wait")) # send data to unity
             time.sleep(0.5)
 
 
         # #  Send reply back to client
-        socket.send(str.encode(dataToUnity)) # send data to unity
         train_ce_list.append((epoch, train_ce)) # 哦，这里append进去的应该是train的最后一个step的ce...
         train_acc_list.append((epoch, train_acc))
         valid_ce_list.append((epoch, valid_ce))

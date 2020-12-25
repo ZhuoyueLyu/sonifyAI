@@ -156,7 +156,7 @@ public class Controller : MonoBehaviour {
        }
        Debug.Log("Offset");
        Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
-       if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 2) {
+       if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 3) {
            client.requester.SetMessage("wait");
            isWaiting = true;
        } else {
@@ -209,10 +209,10 @@ public class Controller : MonoBehaviour {
             for (int i = 0; i < layer2Count; i++)
             {
                 Link link = links[i + offset2ToOut] as Link;
-                Debug.Log("W3LinkIndex" + (i + offset2ToOut).ToString());
+                // Debug.Log("W3LinkIndex" + (i + offset2ToOut).ToString());
                 link.FaBetween = k * W3ByLinks[i];
                 link.c.a = W3ByLinks[i];
-                Debug.Log("W3ByLinkss" + (W3ByLinks[i]).ToString());
+                // Debug.Log("W3ByLinkss" + (W3ByLinks[i]).ToString());
             }
         }
 
