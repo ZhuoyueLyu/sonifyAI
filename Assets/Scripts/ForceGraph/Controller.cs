@@ -11,6 +11,7 @@ public class Controller : MonoBehaviour {
     public Transform centerMass;
     public Transform leftHand;
     private Client client;
+    public static bool isWaiting = false;
 
     int nodeCount = 0;
     int linkCount = 0;
@@ -153,13 +154,13 @@ public class Controller : MonoBehaviour {
 
             center += node.transform.position;
        }
-       Debug.Log("Center Position");
-       Debug.Log(center/nodeCount);
        Debug.Log("Offset");
        Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
-       if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 1) {
+       if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 2) {
            client.requester.SetMessage("wait");
+           isWaiting = true;
        } else {
+           isWaiting = false;
            client.requester.SetMessage("nothing");
        }
        centerMass.position = center/nodeCount;
