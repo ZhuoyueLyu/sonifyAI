@@ -2,16 +2,16 @@
 
 public class Client : MonoBehaviour
 {
-    private Requester _Requester;
+    public Requester requester;
 
     private void Start()
     {
-        _Requester = new Requester();
-        _Requester.Start();
+        requester = new Requester();
+        requester.Start();
     }
 
     private void OnDestroy()
     {
-        _Requester.Stop();
+        requester.Stop();
     }
 }

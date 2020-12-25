@@ -8,6 +8,9 @@ public class Controller : MonoBehaviour {
 
     public Node nodePrefab;
     public Link linkPrefab;
+    public Transform centerMass;
+    public Transform leftHand;
+    private Client client;
 
     int nodeCount = 0;
     int linkCount = 0;
@@ -24,6 +27,8 @@ public class Controller : MonoBehaviour {
 
     int k = 10; // since the value of weight is pretty small, we need to multiply it by k
 
+    Vector3 center = new Vector3(0, 0, 0);
+
     // // Attraction
     // public float FA = 3.0f;
     // // Repulsion
@@ -33,8 +38,8 @@ public class Controller : MonoBehaviour {
     // private IDictionary<int, Link> links = new Dictionary<int, Link>();
 
     // List of nodes at the same layer
-    //GameObject[] L1;
-    //GameObject[] L2;
+    // GameObject[] L1;
+    // GameObject[] L2;
 
     void GenerateGraph(){
 
@@ -116,6 +121,7 @@ public class Controller : MonoBehaviour {
         }
     }
 
+
     // void UpdateSameLayerForces(GameObject[] Nodes) {
     //     foreach (GameObject Node in Nodes)
     //     {
@@ -131,15 +137,32 @@ public class Controller : MonoBehaviour {
         links = new Hashtable();
 
         GenerateGraph();
+        client = GameObject.FindObjectOfType<Client>();
         // Time.fixedDeltaTime = 0.2f;
-        // L1 = GameObject.FindGameObjectsWithTag("L1");
-        // L2 = GameObject.FindGameObjectsWithTag("L2");
     }
 
     // update the force among the nodes from the same layer
     void Update () {
+       center = new Vector3(0, 0, 0);
+       foreach(int key in nodes.Keys) {
+            Node node = nodes[key] as Node;
+            if (key == 1) {
+                Debug.Log(key);
+            Debug.Log(node.transform.position);
+            }
 
-
+            center += node.transform.position;
+       }
+       Debug.Log("Center Position");
+       Debug.Log(center/nodeCount);
+       Debug.Log("Offset");
+       Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
+       if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 1) {
+           client.requester.SetMessage("wait");
+       } else {
+           client.requester.SetMessage("nothing");
+       }
+       centerMass.position = center/nodeCount;
     }
 
     public void UpdateConnections(string infoString) {
