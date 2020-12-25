@@ -128,7 +128,7 @@ public class Node : MonoBehaviour
 
                     } else { // if the position is already set, we can send the new position info
                         gameObject.transform.localScale = new Vector3(1, 1, 1);
-                        float[] changes = new float[Controller.layer1Count+1];; // changes are the ratio that each link changed
+                        float[] changes = new float[Controller.layer1Count+2];; // changes are the ratio that each link changed
                         for (int i = 0; i < Controller.layer1Count; i++)
                         {
                             Debug.Log("In this loop now");
@@ -138,6 +138,7 @@ public class Node : MonoBehaviour
                         }
                         Node OutNode = Controller.nodes[2000] as Node;
                         changes[Controller.layer1Count] = Vector3.Distance(OutNode.transform.position, gameObject.transform.position)/L2ToOut;
+                        changes[Controller.layer1Count + 1] = (float)(id-20); // id of this node
                         string msg = String.Join("_", changes);
                         Debug.Log("Got new positionssss");
                         Debug.Log(msg);

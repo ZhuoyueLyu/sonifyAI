@@ -69,7 +69,7 @@ public class Sonify : MonoBehaviour
                 play => now;
                 if( isValidation )
                 {
-                    spork ~ playValidCE( ce );
+                    // spork ~ playValidCE( ce );
                     spork ~ playValidACC( acc );
                 }
                 else

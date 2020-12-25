@@ -331,37 +331,62 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         print(data_stream)
 
 
-        # Calculate weights per link
-        W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
-        W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
-        W3ByLinks = np.mean(model['W3'], axis = 1)
 
-        # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
-        # ptpis the range of values (maximum - minimum) along an axis. The name of the function comes from the acronym for ‘peak to peak’.
-        W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
-        W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
-        W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
-
-        # Since we want to send these weight matrix through TCP, we need to turn those value into string
-        W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinksNormalized)
-        # W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinksNormalized) #if W2 is not flattened, we should use this
-        W2ByLinksString = '_'.join(str(w2) for w2 in W2ByLinksNormalized)
-        W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
-
-
-        # ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
-        dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
-        # #  Wait for next request from client
-        # print(dataToUnity)
         while 1:
+            # Calculate weights per link
+            W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
+            W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
+            W3ByLinks = np.mean(model['W3'], axis = 1)
+
+
+            # print(model['W2'].shape) # (layer1 * layer 2) -> (3,4)
+            # print(model['W3'].shape) # (layer2 * 7) -> (4,7)
+
+
+            # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
+            # ptpis the range of values (maximum - minimum) along an axis. The name of the function comes from the acronym for ‘peak to peak’.
+            W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
+            W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
+            W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
+
+            # Since we want to send these weight matrix through TCP, we need to turn those value into string
+            W1ByLinksString = '_'.join(str(w1) for w1 in W1ByLinksNormalized)
+            # W2ByLinksString = '_'.join('_'.join(str(x) for x in y) for y in W2ByLinksNormalized) #if W2 is not flattened, we should use this
+            W2ByLinksString = '_'.join(str(w2) for w2 in W2ByLinksNormalized)
+            W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
+
+
+            # ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
+            dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
+            # #  Wait for next request from client
+            # print(dataToUnity)
             msg = socket.recv()
             message = msg.decode('ascii')
-            print("Bella we got some message!")
             print(message)
             socket.send(str.encode(dataToUnity)) # send data to unity
-            if message != "wait":
+            if message == "nothing":
                 break
-            # if we received the "wait" message, put the process into sleep
+
+            if message != "wait":
+                # zhuoyue
+                val1 = float(message.split("_")[0])
+                val2 = float(message.split("_")[1])
+                val3 = float(message.split("_")[2])
+                valOut = float(message.split("_")[3])
+                valSelf = int(message.split("_")[4])
+                model['W2'][0,valSelf] = val1 * model['W2'][0,valSelf]
+                model['W2'][1,valSelf] = val2 * model['W2'][1,valSelf]
+                model['W2'][2,valSelf] = val3 * model['W2'][2,valSelf]
+                model['W3'][valSelf,:] = valOut * model['W3'][valSelf,:]
+
+                valid_ce, valid_acc = Evaluate(
+                inputs_valid, target_valid, model, forward, batch_size=batch_size)
+                data_stream = ('Updating Epoch {:3d} '
+                    'Validation CE {:.5f} '
+                    'Validation Acc {:.5f}\n').format(
+                    epoch, valid_ce, valid_acc)
+                print(data_stream)
+                # if we received the "wait" message, put the process into sleep
             time.sleep(0.5)
 
 
