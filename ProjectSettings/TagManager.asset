@@ -8,6 +8,8 @@ TagManager:
   - L2
   - Input
   - Output
+  - newL1
+  - newL2
   layers:
   - Default
   - TransparentFX

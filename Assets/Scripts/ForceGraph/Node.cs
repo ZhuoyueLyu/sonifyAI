@@ -27,12 +27,12 @@ public class Node : MonoBehaviour
 
     void Start()
     {
-        if (gameObject.tag == "L1")
+        if (gameObject.tag == "L1" || gameObject.tag == "newL1")
         {
             gameObject.GetComponent<MeshRenderer>().material = L1;
             FaSame = 10.0f;
         }
-        else if (gameObject.tag == "L2")
+        else if (gameObject.tag == "L2"|| gameObject.tag == "newL2")
         {
             FaSame = 6.0f;
             gameObject.GetComponent<MeshRenderer>().material = L2;
