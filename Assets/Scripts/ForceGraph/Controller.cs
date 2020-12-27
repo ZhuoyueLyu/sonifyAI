@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour {
 
+    private Client client;
     public Node nodePrefab;
     public Link linkPrefab;
     public Transform centerMass;
     public Transform leftHand;
-    private Client client;
     public static bool isWaiting = false;
 
     int nodeCount = 0;
@@ -29,18 +29,6 @@ public class Controller : MonoBehaviour {
     int k = 10; // since the value of weight is pretty small, we need to multiply it by k
 
     Vector3 center = new Vector3(0, 0, 0);
-
-    // // Attraction
-    // public float FA = 3.0f;
-    // // Repulsion
-    // public float FR = 5.0f;
-
-    // private IDictionary<int, Node> nodes = new Dictionary<int, Node>();
-    // private IDictionary<int, Link> links = new Dictionary<int, Link>();
-
-    // List of nodes at the same layer
-    // GameObject[] L1;
-    // GameObject[] L2;
 
     void GenerateGraph(){
 
@@ -151,7 +139,8 @@ public class Controller : MonoBehaviour {
        }
     //    Debug.Log("Offset");
     //    Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
-       if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 3) {
+    // if the distance between left hand to the center mass of the system is smaller than 5, pulse the graph
+       if (Vector3.Distance(center/nodeCount, leftHand.transform.position) < 5) {
            client.requester.SetMessage("wait");
            isWaiting = true;
        } else {
@@ -210,12 +199,5 @@ public class Controller : MonoBehaviour {
                 // Debug.Log("W3ByLinkss" + (W3ByLinks[i]).ToString());
             }
         }
-
-
-        //Chuck.Manager.SetFloat(myChuck1, "ce", ce);
-        //Chuck.Manager.SetFloat(myChuck1, "acc", acc);
-        //Chuck.Manager.SetFloat(myChuck1, "isValidation", isValidation);
-
-
     }
 }

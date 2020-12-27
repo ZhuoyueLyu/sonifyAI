@@ -21,8 +21,9 @@ public class Node : MonoBehaviour
     private Client client;
 
 
-    float[] L2ToL1;
-    float L2ToOut = -1;
+    float[] oldDistances;
+    float[] newDistances;
+    bool oldDisSaved = false;
 
     void Start()
     {
@@ -44,7 +45,6 @@ public class Node : MonoBehaviour
         {
             gameObject.GetComponent<MeshRenderer>().material = Input;
         }
-        L2ToL1 = new float[Controller.layer1Count];
         client = GameObject.FindObjectOfType<Client>();
 
     }
@@ -52,7 +52,7 @@ public class Node : MonoBehaviour
     void Update()
     {
         if (!Controller.isWaiting) {
-            L2ToOut = -1;
+            oldDisSaved = false;
             if (gameObject.tag == "Input")
             {
                 GameObject Node = GameObject.FindGameObjectWithTag("Output");
@@ -72,7 +72,7 @@ public class Node : MonoBehaviour
                 gameObject.GetComponent<Rigidbody>().AddForce((-FrInOut / Mathf.Pow(distance, 2f)) * directionNorm);
             }
             else
-            {
+            { // L1 or L2
                 GameObject[] Nodes = GameObject.FindGameObjectsWithTag(gameObject.tag);
                 foreach (GameObject Node in Nodes)
                 {
@@ -91,65 +91,65 @@ public class Node : MonoBehaviour
                     gameObject.GetComponent<Rigidbody>().AddForce((-FrSame / Mathf.Pow(distance, 2f)) * directionNorm);
                 }
             }
-        } else {
-            // just fix the position on waiting
-            // gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        } else { // waiting (all nodes' positions fixed)
             // Check if this node is grabbed by hand
             if (transform.GetComponent<OVRGrabbable>().isGrabbed) {
-                gameObject.transform.localScale = new Vector3(2, 2, 2);
-                if (gameObject.tag == "L1") {
-
-
-                } else if (gameObject.tag == "L2") {
-                    // GameObject Input = GameObject.FindGameObjectWithTag("Output");
-                    // GameObject[] Nodes = GameObject.FindGameObjectsWithTag("L1");
-                    // foreach (GameObject Node in Nodes)
-                    // {
-                    // }
-
-                    Debug.Log("hey, condition");
-                        Debug.Log(L2ToOut);
-                    if (L2ToOut == -1 ) { // if the original position is not defined yet
-                        gameObject.transform.localScale = new Vector3(3, 3, 3);
+                // for demo purpose, we currently only allowed the user to adjust the L2 or Input's nodes
+                if (gameObject.tag == "L2") {
+                    if (!oldDisSaved) { // if the original position is not defined yet
+                        oldDistances = new float[Controller.layer1Count + 1];
+                        newDistances = new float[Controller.layer1Count + 3];
                         // (layer 1 -> layer 2)
-                        for (int i = 0; i < Controller.layer1Count; i++)
-                        {
-                            Debug.Log("Print out distances");
-                            Debug.Log(i);
+                        for (int i = 0; i < Controller.layer1Count; i++) {
                             Node L1Node = Controller.nodes[i] as Node;
-                            Debug.Log(Vector3.Distance(L1Node.transform.position, gameObject.transform.position));
-                            L2ToL1[i] = Vector3.Distance(L1Node.transform.position, gameObject.transform.position);
+                            oldDistances[i] = Vector3.Distance(L1Node.transform.position, gameObject.transform.position);
                         }
                         // (layer 2 -> output)
                         Node OutNode = Controller.nodes[2000] as Node;
-                        L2ToOut = Vector3.Distance(OutNode.transform.position, gameObject.transform.position);
-                        Debug.Log("hey, hereeeeee");
-                        Debug.Log(L2ToOut);
+                        oldDistances[Controller.layer1Count] = Vector3.Distance(OutNode.transform.position, gameObject.transform.position);
+                        oldDisSaved = true;
 
-                    } else { // if the position is already set, we can send the new position info
-                        gameObject.transform.localScale = new Vector3(1, 1, 1);
-                        float[] changes = new float[Controller.layer1Count+2];; // changes are the ratio that each link changed
-                        for (int i = 0; i < Controller.layer1Count; i++)
-                        {
-                            Debug.Log("In this loop now");
-                            Debug.Log(i);
+                    } else { // if the original position is already saved, we can send the new position info
+                        // (layer 1 -> layer 2)
+                        for (int i = 0; i < Controller.layer1Count; i++) {
                             Node L1Node = Controller.nodes[i] as Node;
-                            changes[i] = Vector3.Distance(L1Node.transform.position, gameObject.transform.position)/L2ToL1[i];
+                            newDistances[i] = Vector3.Distance(L1Node.transform.position, gameObject.transform.position)/oldDistances[i];
                         }
+                        // (layer 2 -> output)
                         Node OutNode = Controller.nodes[2000] as Node;
-                        changes[Controller.layer1Count] = Vector3.Distance(OutNode.transform.position, gameObject.transform.position)/L2ToOut;
-                        changes[Controller.layer1Count + 1] = (float)(id-20); // id of this node
-                        string msg = String.Join("_", changes);
-                        Debug.Log("Got new positionssss");
-                        Debug.Log(msg);
+                        newDistances[Controller.layer1Count] = Vector3.Distance(OutNode.transform.position, gameObject.transform.position) / oldDistances[Controller.layer1Count];
+                        // for convenience, we save the id and tag of this node in this list as well
+                        newDistances[Controller.layer1Count + 1] = (float)(id - 20); // id of this node
+                        newDistances[Controller.layer1Count + 2] = (float)2; // tag of this node, 2 represent L2
+                        string msg = String.Join("_", newDistances);
                         client.requester.SetMessage(msg);
                     }
+                } else if (gameObject.tag == "Input") {
+                    if (!oldDisSaved) {
+                        oldDistances = new float[Controller.layer1Count];
+                        newDistances = new float[Controller.layer1Count + 2];
+                        // (Input -> layer 1)
+                        for (int i = 0; i < Controller.layer1Count; i++) {
+                            Node L1Node = Controller.nodes[i] as Node;
+                            oldDistances[i] = Vector3.Distance(L1Node.transform.position, gameObject.transform.position);
+                        }
+                        oldDisSaved = true;
 
-
+                    } else { // if the original position is already saved, we can send the new position info
+                        // (Input -> layer 1)
+                        for (int i = 0; i < Controller.layer1Count; i++) {
+                            Node L1Node = Controller.nodes[i] as Node;
+                            newDistances[i] = Vector3.Distance(L1Node.transform.position, gameObject.transform.position)/oldDistances[i];
+                        }
+                        // for convenience, we save the id and tag of this node in this list as well
+                        newDistances[Controller.layer1Count] = (float)(1000); // id of this node
+                        newDistances[Controller.layer1Count + 1] = (float)0; // tag of this node, 0 represent Input
+                        string msg = String.Join("_", newDistances);
+                        client.requester.SetMessage(msg);
+                    }
                 }
-            } else { // if this object is released or not grabbed, reset the L2ToOut
-                L2ToOut = -1;
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
+            } else { // if this object is released or not grabbed, reset the oldDisSaved
+                oldDisSaved = false;
             }
         }
 

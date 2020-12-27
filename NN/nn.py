@@ -23,6 +23,7 @@ from __future__ import print_function
 
 from util import LoadData, Load, Save, DisplayPlot
 import sys
+import copy
 import numpy as np
 # import matplotlib
 # matplotlib.use('TkAgg')
@@ -248,6 +249,71 @@ def NNUpdate(model, eps, momentum):
                 'dE_d' + j + i]
             model[j + i] += model['d' + j + i]
     ###########################
+def Evaluate(inputs, target, model, forward, batch_size=-1):
+    """Evaluates the model on inputs and target.
+
+    inputs's shape is 419 * 2304, means 419 pictures of 48*48
+    batch_size is 100 by default
+
+    Args:
+        inputs: Inputs to the network.
+        target: Target of the inputs.
+        model:  Dictionary of network weights.
+    """
+    print("Evaluate calledddddd")
+    num_cases = inputs.shape[0]
+    if batch_size == -1:
+        batch_size = num_cases
+    num_steps = int(np.ceil(num_cases / batch_size))
+    ce = 0.0
+    acc = 0.0
+    for step in range(num_steps):
+        start = step * batch_size
+        end = min(num_cases, (step + 1) * batch_size)
+        x = inputs[start: end]
+        t = target[start: end]
+        prediction = Softmax(forward(model, x)['y'])
+        ce += -np.sum(t * np.log(prediction))
+        acc += (np.argmax(prediction, axis=1) == np.argmax(
+            t, axis=1)).astype('float').sum()
+    ce /= num_cases
+    acc /= num_cases
+    print(ce)
+    print(acc)
+    return ce, acc
+
+
+def CheckGrad(model, forward, backward, name, x):
+    """
+    Check the gradients
+
+    Args:
+        model: Dictionary of network weights.
+        name: Weights name to check.
+        x: Fake input.
+    """
+    np.random.seed(0)
+    var = forward(model, x)
+    loss = lambda y: 0.5 * (y ** 2).sum()
+    grad_y = var['y']
+    backward(model, grad_y, var)
+    grad_w = model['dE_d' + name].ravel()
+    w_ = model[name].ravel()
+    eps = 1e-7
+    grad_w_2 = np.zeros(w_.shape)
+    check_elem = np.arange(w_.size)
+    np.random.shuffle(check_elem)
+    # Randomly check 20 elements.
+    check_elem = check_elem[:20]
+    for ii in check_elem:
+        w_[ii] += eps
+        err_plus = loss(forward(model, x)['y'])
+        w_[ii] -= 2 * eps
+        err_minus = loss(forward(model, x)['y'])
+        w_[ii] += eps
+        grad_w_2[ii] = (err_plus - err_minus) / 2 / eps
+    np.testing.assert_almost_equal(grad_w[check_elem], grad_w_2[check_elem],
+                                   decimal=3)
 
 def Train(model, forward, backward, update, eps, momentum, num_epochs,
           batch_size):
@@ -331,17 +397,16 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         print(data_stream)
 
 
-
+        new_model = copy.deepcopy(model) # make a copy of the model, so we don't mess it up
         while 1:
             # Calculate weights per link
             W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
             W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
             W3ByLinks = np.mean(model['W3'], axis = 1)
 
-
+            # print(model['W1'].shape) # (input * layer 1) -> (2304, 3)
             # print(model['W2'].shape) # (layer1 * layer 2) -> (3,4)
             # print(model['W3'].shape) # (layer2 * 7) -> (4,7)
-
 
             # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
             # ptpis the range of values (maximum - minimum) along an axis. The name of the function comes from the acronym for ‘peak to peak’.
@@ -355,7 +420,6 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             W2ByLinksString = '_'.join(str(w2) for w2 in W2ByLinksNormalized)
             W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
 
-
             # ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
             dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
             # #  Wait for next request from client
@@ -368,27 +432,38 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                 break
 
             if message != "wait":
-                # zhuoyue
-                val1 = float(message.split("_")[0])
-                val2 = float(message.split("_")[1])
-                val3 = float(message.split("_")[2])
-                valOut = float(message.split("_")[3])
-                valSelf = int(message.split("_")[4])
-                model['W2'][0,valSelf] = val1 * model['W2'][0,valSelf]
-                model['W2'][1,valSelf] = val2 * model['W2'][1,valSelf]
-                model['W2'][2,valSelf] = val3 * model['W2'][2,valSelf]
-                model['W3'][valSelf,:] = valOut * model['W3'][valSelf,:]
-
-                valid_ce, valid_acc = Evaluate(
-                inputs_valid, target_valid, model, forward, batch_size=batch_size)
-                data_stream = ('Updating Epoch {:3d} '
-                    'Validation CE {:.5f} '
-                    'Validation Acc {:.5f}\n').format(
-                    epoch, valid_ce, valid_acc)
+                splittedMsg = message.split("_")
+                nodeTag = int(splittedMsg[-1])
+                nodeID = int(splittedMsg[-2])
+                nodeVals = [float(val) for val in splittedMsg[0:-2]]
+                print("Let's seeeee")
+                print(nodeTag)
+                print(nodeID)
+                print(nodeVals)
+                if nodeTag == 2: # L2 nodes
+                    valOut = nodeVals[-1]
+                    valsL1 = nodeVals[0:-1]
+                    print("oo W2")
+                    print(new_model['W2'])
+                    print(model['W2'])
+                    new_model['W2'][:,nodeID] = valsL1 * model['W2'][:,nodeID]
+                    new_model['W3'][nodeID,:] = valOut * model['W3'][nodeID,:]
+                    print("oo new W2")
+                    print(new_model['W2'])
+                    print(model['W2'])
+                elif nodeTag == 0: # Input node
+                    new_model['W1'] = nodeVals * model['W1']
+                new_valid_ce, new_valid_acc = Evaluate(inputs_valid, target_valid, new_model, forward, batch_size=batch_size)
+                data_stream = ('Updating Epoch {:3d} ''Validation CE {:.5f} ''Validation Acc {:.5f}\n').format(epoch, new_valid_ce, new_valid_acc)
                 print(data_stream)
                 # if we received the "wait" message, put the process into sleep
             time.sleep(0.5)
-
+        print("check if updated")
+        print(new_model['W2'])
+        print(model['W2'])
+        model = new_model
+        print(new_model['W2'])
+        print(model['W2'])
 
         # #  Send reply back to client
         train_ce_list.append((epoch, train_ce)) # 哦，这里append进去的应该是train的最后一个step的ce...
@@ -421,69 +496,13 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
     return model, stats
 
 
-def Evaluate(inputs, target, model, forward, batch_size=-1):
-    """Evaluates the model on inputs and target.
 
-    inputs's shape is 419 * 2304, means 419 pictures of 48*48
-    batch_size is 100 by default
-
-    Args:
-        inputs: Inputs to the network.
-        target: Target of the inputs.
-        model:  Dictionary of network weights.
-    """
-    num_cases = inputs.shape[0]
-    if batch_size == -1:
-        batch_size = num_cases
-    num_steps = int(np.ceil(num_cases / batch_size))
-    ce = 0.0
-    acc = 0.0
-    for step in range(num_steps):
-        start = step * batch_size
-        end = min(num_cases, (step + 1) * batch_size)
-        x = inputs[start: end]
-        t = target[start: end]
-        prediction = Softmax(forward(model, x)['y'])
-        ce += -np.sum(t * np.log(prediction))
-        acc += (np.argmax(prediction, axis=1) == np.argmax(
-            t, axis=1)).astype('float').sum()
-    ce /= num_cases
-    acc /= num_cases
-    return ce, acc
-
-
-def CheckGrad(model, forward, backward, name, x):
-    """
-    Check the gradients
-
-    Args:
-        model: Dictionary of network weights.
-        name: Weights name to check.
-        x: Fake input.
-    """
-    np.random.seed(0)
-    var = forward(model, x)
-    loss = lambda y: 0.5 * (y ** 2).sum()
-    grad_y = var['y']
-    backward(model, grad_y, var)
-    grad_w = model['dE_d' + name].ravel()
-    w_ = model[name].ravel()
-    eps = 1e-7
-    grad_w_2 = np.zeros(w_.shape)
-    check_elem = np.arange(w_.size)
-    np.random.shuffle(check_elem)
-    # Randomly check 20 elements.
-    check_elem = check_elem[:20]
-    for ii in check_elem:
-        w_[ii] += eps
-        err_plus = loss(forward(model, x)['y'])
-        w_[ii] -= 2 * eps
-        err_minus = loss(forward(model, x)['y'])
-        w_[ii] += eps
-        grad_w_2[ii] = (err_plus - err_minus) / 2 / eps
-    np.testing.assert_almost_equal(grad_w[check_elem], grad_w_2[check_elem],
-                                   decimal=3)
-
+# Default hyper-parameters. (These variables should be global)
+num_hiddens = [3, 4]
+eps = 0.01
+momentum = 0.0
+num_epochs = 10000
+batch_size = 100
 
 def main():
     """Trains a NN."""
@@ -491,15 +510,6 @@ def main():
     # of array data using gzip compression.
     model_fname = 'nn_model.npz'
     stats_fname = 'nn_stats.npz'
-
-    # Default hyper-parameters.
-    # num_hiddens = [16, 32]
-    # num_hiddens = [4, 8]
-    num_hiddens = [3, 4]
-    eps = 0.01
-    momentum = 0.0
-    num_epochs = 10000
-    batch_size = 100
 
     # Input-output dimensions.
     num_inputs = 2304
@@ -530,116 +540,6 @@ def main():
 
     # Uncomment if you wish to save the training statistics.
     # Save(stats_fname, stats)
-
-
-def Optimization():
-    """
-    Try 5 different values of the learning rate from 0.001 to 1.0.
-    Try 3 values of momentum from 0.0 to 0.9.
-    Try 5 different mini-batch sizes, from 1 to 1000.
-    Find the best value of these parameters
-    """
-    model_fname = 'nn_model.npz'
-    stats_fname = 'nn_stats.npz'
-
-    # Default hyper-parameters.
-    num_hiddens = [16, 32]
-    num_epochs = 1000
-    eps = 0.01
-    momentum = 0.0
-    batch_size = 100
-
-    # Input-output dimensions.
-    num_inputs = 2304
-    num_outputs = 7
-
-    # Try different eps
-    for eps_i in [0.001, 0.05, 0.1, 0.5, 1.0]:
-        model = InitNN(num_inputs, num_hiddens, num_outputs)
-        stats = Train(model, NNForward, NNBackward, NNUpdate, eps_i,
-                      momentum, num_epochs, batch_size)
-        Save('nn_model_eps' + str(eps_i) + '.npz', model)
-        Save('nn_stats_eps' + str(eps_i) + '.npz', stats)
-
-    # Try different momentum
-    for momentum_i in [0, 0.5, 0.9]:
-        model = InitNN(num_inputs, num_hiddens, num_outputs)
-        stats = Train(model, NNForward, NNBackward, NNUpdate, eps,
-                      momentum_i, num_epochs, batch_size)
-        Save('nn_model_momentum' + str(momentum_i) + '.npz', model)
-        Save('nn_stats_momentum' + str(momentum_i) + '.npz', stats)
-
-    # Try different batch size
-    for batch_size_i in [1, 10, 50, 500, 1000]:
-        model = InitNN(num_inputs, num_hiddens, num_outputs)
-        stats = Train(model, NNForward, NNBackward, NNUpdate, eps,
-                      momentum, num_epochs, batch_size_i)
-        Save('nn_model_batch_size' + str(batch_size_i) + '.npz', model)
-        Save('nn_stats_batch_size' + str(batch_size_i) + '.npz', stats)
-
-
-def ModelArchitecture():
-    """
-    Fix momentum to be 0.9. Try 3 different values of the
-    number of hidden units for each layer of the fully connected network
-    (range from 2 to 100).
-    """
-    # Hyper-parameters.
-    eps = 0.01
-    momentum = 0.9
-    num_epochs = 1000
-    batch_size = 100
-
-    # Input-output dimensions.
-    num_inputs = 2304
-    num_outputs = 7
-
-    # Try different values of # of hidden units
-    # for hidden_units_i in [[2, 4], [20, 40], [50, 100]]:
-    hidden_units_i = [20, 40]
-    model = InitNN(num_inputs, hidden_units_i, num_outputs)
-    stats = Train(model, NNForward, NNBackward, NNUpdate, eps,
-                    momentum, num_epochs, batch_size)
-
-
-def NetworkUncertainty():
-    """
-    Plot some examples where the neural network is not confident of the
-    classification output (the top score is below some threshold)
-    """
-    train_X, valid_X, test_X, \
-    train_t, valid_t, test_t = LoadData('../toronto_face.npz')
-    train_inaccurate = [173]
-    valid_inaccurate = [170, 173]
-    test_inaccurate = [275]
-    print(test_t[275])
-    blah = test_X[275].reshape(48, 48)
-    plt.imshow(blah, cmap=plt.cm.gray)
-    plt.show()
-    plt.savefig('./plots/inaccuracy/test_' + str(275) + '.png')
-
-def plot_uncertain_images(x, t, prediction, threshold=0.5):
-    """
-    Provided on Piazza, plot the uncertain images
-    """
-    low_index = np.max(prediction, axis=1) < threshold
-    class_names = ['anger', 'disgust', 'fear', 'happy', 'sad', 'surprised',
-                   'neutral']
-    if np.sum(low_index) > 0:
-        for i in np.where(low_index > 0)[0]:
-
-            plt.figure()
-            img_w, img_h = int(np.sqrt(2304)), int(
-                np.sqrt(2304))  # 2304 is input size
-            plt.imshow(x[i].reshape(img_h, img_w))
-            plt.title('P_max: {}, Predicted: {}, Target: {}'.format(
-                np.max(prediction[i]),
-                class_names[np.argmax(prediction[i])],
-                class_names[np.argmax(t[i])]))
-            plt.show()
-            input("press enter to continue")
-    return
-
 
 
 if __name__ == '__main__':
