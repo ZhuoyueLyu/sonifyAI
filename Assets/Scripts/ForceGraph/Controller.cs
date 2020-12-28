@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class Controller : MonoBehaviour {
@@ -10,6 +11,7 @@ public class Controller : MonoBehaviour {
     public bool tempWait = false;
     public bool tempRightEnter = false;
     public bool tempDestroy = false;
+    public Node tempRemoveNode;
 
 
 
@@ -42,9 +44,13 @@ public class Controller : MonoBehaviour {
     private int newlayer2Count = 0;
     // private bool newNodePickedUp = false;
     private Node newL1Node;
+    private GameObject oldL1Node;
     private bool newL1NodeAssigned = false;
+    private bool oldL1NodeRemoved = false;
     private Node newL2Node;
+    private GameObject oldL2Node;
     private bool newL2NodeAssigned = false;
+    private bool oldL2NodeRemoved = false;
 
     int k = 10; // since the value of weight is pretty small, we need to multiply it by k
 
@@ -190,14 +196,17 @@ public class Controller : MonoBehaviour {
     // update the force among the nodes from the same layer
     void Update () {
 
+    if (tempDestroy) {
+         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);// this line will restart the scene (not sure if this will cause python connection problem or not)
+         tempDestroy = false;
+    }
+
 
 
     //    Debug.Log("L--Offset");
     //    Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
     // if the distance between left hand to the center mass of the system is smaller than 5, pulse the graph
        Vector3 allCenter = getCenter("all");
-       L1Center.transform.position = getCenter("L1");
-       L2Center.transform.position = getCenter("L2");
        if (Vector3.Distance(allCenter, leftHand.transform.position) < 5) {
         // if (tempWait){
            centerMass.GetComponent<Renderer>().enabled = true;
@@ -212,11 +221,30 @@ public class Controller : MonoBehaviour {
                 newlayer2Count ++;
                 newL2NodeAssigned = false;
             }
+
+            if (oldL1NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L1Center.transform.position) > 1 ) {
+                newlayer1Count --;
+                // oldL1Node.GetComponent<Collider>().enabled = false;
+                // oldL1Node.GetComponent<Renderer>().enabled = false;
+                oldL1NodeRemoved = false;
+            }
+
+            if (oldL2NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L2Center.transform.position) > 1 ) {
+                newlayer2Count --;
+                // oldL2Node.GetComponent<Collider>().enabled = false;
+                // oldL2Node.GetComponent<Renderer>().enabled = false;
+                oldL2NodeRemoved = false;
+            }
+
+
        } else {
+           L1Center.transform.position = getCenter("L1");
+           L2Center.transform.position = getCenter("L2");
+           centerMass.position = allCenter;
            centerMass.GetComponent<Renderer>().enabled = false;
            isWaiting = false;
            client.requester.SetMessage("nothing");
-           if (newlayer1Count > 0 || newlayer2Count > 0) {
+           if (newlayer1Count != 0 || newlayer2Count != 0) {
             //    DestroyGraph();
                layer1Count = layer1Count + newlayer1Count;
                layer2Count = layer2Count + newlayer2Count;
@@ -226,10 +254,10 @@ public class Controller : MonoBehaviour {
                Debug.Log("We are looking at the count");
                Debug.Log(layer1Count);
                Debug.Log(layer2Count);
-               Application.LoadLevel(Application.loadedLevel);
+            //    Application.LoadLevel(Application.loadedLevel);
+               SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);// this line will restart the scene (not sure if this will cause python connection problem or not)
            }
        }
-       centerMass.position = allCenter;
         // Debug.Log("L--We ran to here~");
        float L1CenterToRightHand = Vector3.Distance(L1Center.transform.position, rightHand.transform.position);
        float L2CenterToRightHand = Vector3.Distance(L2Center.transform.position, rightHand.transform.position);
@@ -241,12 +269,28 @@ public class Controller : MonoBehaviour {
            // the following line doesn't work..
         //    L1Center.GetComponent<MeshRenderer>().material._TintColor.a = (1 - L1CenterToRightHand) / L1CenterToRightHand;
 
-            if (L1CenterToRightHand < 0.5 && !newL1NodeAssigned) {
-            // if (tempRightEnter && !newL1NodeAssigned) {
-                Debug.Log("L--Yo~ new L1 generated!");
-                newL1Node = Instantiate(nodePrefab, L1Center.transform.position, Quaternion.identity) as Node;
-                newL1Node.tag = "newL1";
-                newL1NodeAssigned = true;
+            // remove node
+            if (L1CenterToRightHand < 0.5) {
+            // if (tempRightEnter) {
+                OVRGrabbable grabbedObject = rightHand.GetComponent<OVRGrabber>().grabbedObject;
+                if (grabbedObject) {
+                    GameObject grabbedNode = grabbedObject.gameObject;
+                    // Node grabbedNode = tempRemoveNode;
+                    if (grabbedNode.tag=="L1" && !oldL1NodeRemoved) {
+                            grabbedNode.GetComponent<Renderer>().enabled = false;
+                            grabbedNode.GetComponent<Collider>().enabled = false;
+                            // rightHand.GetComponent<OVRGrabber>().ForceRelease(grabbedObject);
+                            // Destroy(grabbedObject);
+                            oldL1Node = grabbedNode;
+                            oldL1NodeRemoved = true;
+                    }
+                }
+                else if( !newL1NodeAssigned) { // add node
+                    Debug.Log("L--Yo~ new L1 generated!");
+                    newL1Node = Instantiate(nodePrefab, L1Center.transform.position, Quaternion.identity) as Node;
+                    newL1Node.tag = "newL1";
+                    newL1NodeAssigned = true;
+                }
         }
 
        } else {
@@ -256,12 +300,35 @@ public class Controller : MonoBehaviour {
         if (L2CenterToRightHand < 1) {
             L2Center.GetComponent<Renderer>().enabled = true;
             // L2Center.GetComponent<MeshRenderer>().material._TintColor.a = (1 - L2CenterToRightHand) / L2CenterToRightHand;
-            if (L2CenterToRightHand < 0.5 && !newL2NodeAssigned) {
-                Debug.Log("L--Yo~ new L2 generated!");
-                newL2Node = Instantiate(nodePrefab, L2Center.transform.position, Quaternion.identity) as Node;
-                newL2Node.tag = "newL2";
-                newL2NodeAssigned = true;
-            }
+            // if (L2CenterToRightHand < 0.5 && !newL2NodeAssigned) {
+            //     Debug.Log("L--Yo~ new L2 generated!");
+            //     newL2Node = Instantiate(nodePrefab, L2Center.transform.position, Quaternion.identity) as Node;
+            //     newL2Node.tag = "newL2";
+            //     newL2NodeAssigned = true;
+            // }
+                        // remove node
+            if (L2CenterToRightHand < 0.5) {
+            // if (tempRightEnter) {
+                OVRGrabbable grabbedObject = rightHand.GetComponent<OVRGrabber>().grabbedObject;
+                if (grabbedObject) {
+                    GameObject grabbedNode = grabbedObject.gameObject;
+                    // Node grabbedNode = tempRemoveNode;
+                    if (grabbedNode.tag=="L2" && !oldL2NodeRemoved) {
+                            grabbedNode.GetComponent<Renderer>().enabled = false;
+                            grabbedNode.GetComponent<Collider>().enabled = false;
+                            // rightHand.GetComponent<OVRGrabber>().ForceRelease(grabbedObject);
+                            // Destroy(grabbedObject);
+                            oldL2Node = grabbedNode;
+                            oldL2NodeRemoved = true;
+                    }
+                }
+                else if( !newL2NodeAssigned) { // add node
+                    Debug.Log("L--Yo~ new L2 generated!");
+                    newL2Node = Instantiate(nodePrefab, L2Center.transform.position, Quaternion.identity) as Node;
+                    newL2Node.tag = "newL2";
+                    newL2NodeAssigned = true;
+                }
+        }
         } else {
             L2Center.GetComponent<Renderer>().enabled = false;
         }
