@@ -213,23 +213,23 @@ public class Controller : MonoBehaviour {
            client.requester.SetMessage("wait");
            isWaiting = true;
 
-            if (newL1NodeAssigned && Vector3.Distance(newL1Node.transform.position, L1Center.transform.position) > 1) {
+            if (newL1NodeAssigned && Vector3.Distance(newL1Node.transform.position, L1Center.transform.position) > 1.5) {
                 newlayer1Count ++;
                 newL1NodeAssigned = false;
             }
-            if (newL2NodeAssigned && Vector3.Distance(newL2Node.transform.position, L2Center.transform.position) > 1) {
+            if (newL2NodeAssigned && Vector3.Distance(newL2Node.transform.position, L2Center.transform.position) > 1.5) {
                 newlayer2Count ++;
                 newL2NodeAssigned = false;
             }
 
-            if (oldL1NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L1Center.transform.position) > 1 ) {
+            if (oldL1NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L1Center.transform.position) > 1.5) {
                 newlayer1Count --;
                 // oldL1Node.GetComponent<Collider>().enabled = false;
                 // oldL1Node.GetComponent<Renderer>().enabled = false;
                 oldL1NodeRemoved = false;
             }
 
-            if (oldL2NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L2Center.transform.position) > 1 ) {
+            if (oldL2NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L2Center.transform.position) > 1.5) {
                 newlayer2Count --;
                 // oldL2Node.GetComponent<Collider>().enabled = false;
                 // oldL2Node.GetComponent<Renderer>().enabled = false;
@@ -262,7 +262,7 @@ public class Controller : MonoBehaviour {
        float L1CenterToRightHand = Vector3.Distance(L1Center.transform.position, rightHand.transform.position);
        float L2CenterToRightHand = Vector3.Distance(L2Center.transform.position, rightHand.transform.position);
 
-       if (L1CenterToRightHand < 1) {
+       if (L1CenterToRightHand < 3) {
         // if (tempRightEnter) {
            L1Center.GetComponent<Renderer>().enabled = true;
 
@@ -270,7 +270,7 @@ public class Controller : MonoBehaviour {
         //    L1Center.GetComponent<MeshRenderer>().material._TintColor.a = (1 - L1CenterToRightHand) / L1CenterToRightHand;
 
             // remove node
-            if (L1CenterToRightHand < 0.5) {
+            if (L1CenterToRightHand < 1) {
             // if (tempRightEnter) {
                 OVRGrabbable grabbedObject = rightHand.GetComponent<OVRGrabber>().grabbedObject;
                 if (grabbedObject) {
@@ -279,13 +279,14 @@ public class Controller : MonoBehaviour {
                     if (grabbedNode.tag=="L1" && !oldL1NodeRemoved) {
                             grabbedNode.GetComponent<Renderer>().enabled = false;
                             grabbedNode.GetComponent<Collider>().enabled = false;
-                            // rightHand.GetComponent<OVRGrabber>().ForceRelease(grabbedObject);
                             // Destroy(grabbedObject);
+                            rightHand.GetComponent<OVRGrabber>().ForceRelease(grabbedObject);
+
                             oldL1Node = grabbedNode;
                             oldL1NodeRemoved = true;
                     }
                 }
-                else if( !newL1NodeAssigned) { // add node
+                else if( !newL1NodeAssigned && !oldL1NodeRemoved) { // add node
                     Debug.Log("L--Yo~ new L1 generated!");
                     newL1Node = Instantiate(nodePrefab, L1Center.transform.position, Quaternion.identity) as Node;
                     newL1Node.tag = "newL1";
@@ -297,7 +298,7 @@ public class Controller : MonoBehaviour {
            L1Center.GetComponent<Renderer>().enabled = false;
        }
 
-        if (L2CenterToRightHand < 1) {
+        if (L2CenterToRightHand < 3) {
             L2Center.GetComponent<Renderer>().enabled = true;
             // L2Center.GetComponent<MeshRenderer>().material._TintColor.a = (1 - L2CenterToRightHand) / L2CenterToRightHand;
             // if (L2CenterToRightHand < 0.5 && !newL2NodeAssigned) {
@@ -307,7 +308,7 @@ public class Controller : MonoBehaviour {
             //     newL2NodeAssigned = true;
             // }
                         // remove node
-            if (L2CenterToRightHand < 0.5) {
+            if (L2CenterToRightHand < 1) {
             // if (tempRightEnter) {
                 OVRGrabbable grabbedObject = rightHand.GetComponent<OVRGrabber>().grabbedObject;
                 if (grabbedObject) {
@@ -316,13 +317,13 @@ public class Controller : MonoBehaviour {
                     if (grabbedNode.tag=="L2" && !oldL2NodeRemoved) {
                             grabbedNode.GetComponent<Renderer>().enabled = false;
                             grabbedNode.GetComponent<Collider>().enabled = false;
-                            // rightHand.GetComponent<OVRGrabber>().ForceRelease(grabbedObject);
+                            rightHand.GetComponent<OVRGrabber>().ForceRelease(grabbedObject);
                             // Destroy(grabbedObject);
                             oldL2Node = grabbedNode;
                             oldL2NodeRemoved = true;
                     }
                 }
-                else if( !newL2NodeAssigned) { // add node
+                else if( !newL2NodeAssigned && !oldL2NodeRemoved) { // add node
                     Debug.Log("L--Yo~ new L2 generated!");
                     newL2Node = Instantiate(nodePrefab, L2Center.transform.position, Quaternion.identity) as Node;
                     newL2Node.tag = "newL2";
