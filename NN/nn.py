@@ -395,9 +395,14 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
         print(data_stream)
 
 
-        new_model = copy.deepcopy(model) # make a copy of the model, so we don't mess it up
+        new_model = copy.deepcopy(model)  # make a copy of the model, so we don't mess it up
+        momentum_changed_amount = 0
+        eps_changed_amount = 0
         while 1:
-            print(num_hiddens)
+            print()
+            print("num_hiddens: " + str(num_hiddens))
+            print("epsilon: " + str(eps))
+            print("momentum: " + str(momentum))
             # Calculate weights per link
             W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
             W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
@@ -425,14 +430,21 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             # print(dataToUnity)
             msg = socket.recv()
             message = msg.decode('ascii')
-            print(message)
+            print("Message from Unity: " + message)
             socket.send(str.encode(dataToUnity)) # send data to unity
             if message == "nothing":
                 break
             if message != "wait":
                 splittedMsg = message.split("_")
                 mode = splittedMsg[-1]
-                if mode == "updateWeights":
+
+                if mode == "updateMomentum":
+                    momentum_changed_amount = 0.1 * float(splittedMsg[0]) # 这里其实，我们作业做的时候，eps都是0.001, 0.01, 0.1 0.5这种的，momentum是0, 0.5, 0.9这种的，所以我们可能需要调整一下值。目前是简单地*0.1处理了，但应该有更好的办法。
+                    print("update momentum amount: " + str(momentum_changed_amount))
+                elif mode == "updateEps":
+                    eps_changed_amount = 0.1 * float(splittedMsg[0])
+                    print("update eps amount: " + str(eps_changed_amount))
+                elif mode == "updateWeights":
                     nodeTag = int(splittedMsg[-2])
                     nodeID = int(splittedMsg[-3])
                     nodeVals = [float(val) for val in splittedMsg[0:-3]]
@@ -446,8 +458,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                     new_valid_ce, new_valid_acc = Evaluate(inputs_valid, target_valid, new_model, forward, batch_size=batch_size)
                     data_stream = ('Updating Epoch {:3d} ''Validation CE {:.5f} ''Validation Acc {:.5f}\n').format(epoch, new_valid_ce, new_valid_acc)
                     print(data_stream)
-                if mode == "updateNodes":
-                    print("we are inside heereeeeee~B")
+                elif mode == "updateNodes":
                     msg = socket.recv()
                     socket.send(str.encode("received")) # send data to unity
                     layer1Count = splittedMsg[0]
@@ -460,6 +471,8 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             # 下面这个0.5会导致Unity那边换node个数时卡顿一下，不大好。
             # time.sleep(0.5) # 这里或许会有点问题，如果信号是一个queue的话，极有可能我们只是缓慢地遍历这个queue而已，而非我们想要的 0.5s看一下这个queue有啥
         model = new_model
+        momentum = momentum + momentum_changed_amount
+        eps = eps + eps_changed_amount
         # #  Send reply back to client
         train_ce_list.append((epoch, train_ce)) # 哦，这里append进去的应该是train的最后一个step的ce...
         train_acc_list.append((epoch, train_acc))

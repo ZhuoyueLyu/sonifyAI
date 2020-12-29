@@ -26,6 +26,8 @@ public class Controller : MonoBehaviour {
     public GameObject L2Center;
     public Transform leftHand;
     public Transform rightHand;
+    public Transform leftEye;
+    public Transform rightEye;
     public static bool isWaiting = false;
 
     int nodeCount = 0;
@@ -51,6 +53,8 @@ public class Controller : MonoBehaviour {
     private GameObject oldL2Node;
     private bool newL2NodeAssigned = false;
     private bool oldL2NodeRemoved = false;
+    private Vector3 originalHandPosition;
+    private bool originalHandPositionSet = false;
 
     int k = 10; // since the value of weight is pretty small, we need to multiply it by k
 
@@ -203,11 +207,39 @@ public class Controller : MonoBehaviour {
 
 
 
-    //    Debug.Log("L--Offset");
+    // left ear and right ear for epsilon and momentum
+    Debug.Log("Log distance between lefthand and head and see");
+    Debug.Log(Vector3.Distance(leftEye.position, leftHand.position));
+    if (Vector3.Distance(leftEye.position, leftHand.position) < 4) {
+            centerMass.GetComponent<Renderer>().enabled = true;
+           client.requester.SetMessage("wait");
+           isWaiting = true;
+           if (!originalHandPositionSet) {
+               originalHandPosition = rightHand.position;
+               originalHandPositionSet = true;
+           }
+           float changedAmount = rightHand.position.y - originalHandPosition.y;
+           string msg = changedAmount.ToString() + "_updateEps";
+            client.requester.SetMessage(msg);
+    } else if (Vector3.Distance(rightEye.position, rightHand.position) < 4) {
+            centerMass.GetComponent<Renderer>().enabled = true;
+           client.requester.SetMessage("wait");
+           isWaiting = true;
+
+           if (!originalHandPositionSet) {
+               originalHandPosition = leftHand.position;
+               originalHandPositionSet = true;
+           }
+           float changedAmount = leftHand.position.y - originalHandPosition.y;
+            string msg = changedAmount.ToString() + "_updateMomentum";
+            client.requester.SetMessage(msg);
+    } else {
+        originalHandPositionSet = false;
+            //    Debug.Log("L--Offset");
     //    Debug.Log(Vector3.Distance(center/nodeCount, leftHand.transform.position));
     // if the distance between left hand to the center mass of the system is smaller than 5, pulse the graph
        Vector3 allCenter = getCenter("all");
-       if (Vector3.Distance(allCenter, leftHand.transform.position) < 5) {
+       if (Vector3.Distance(allCenter, leftHand.position) < 5) {
         // if (tempWait){
            centerMass.GetComponent<Renderer>().enabled = true;
            client.requester.SetMessage("wait");
@@ -222,14 +254,14 @@ public class Controller : MonoBehaviour {
                 newL2NodeAssigned = false;
             }
 
-            if (oldL1NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L1Center.transform.position) > 1.5) {
+            if (oldL1NodeRemoved &&  Vector3.Distance(rightHand.position, L1Center.transform.position) > 1.5) {
                 layer1CountUpdate --;
                 // oldL1Node.GetComponent<Collider>().enabled = false;
                 // oldL1Node.GetComponent<Renderer>().enabled = false;
                 oldL1NodeRemoved = false;
             }
 
-            if (oldL2NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L2Center.transform.position) > 1.5) {
+            if (oldL2NodeRemoved &&  Vector3.Distance(rightHand.position, L2Center.transform.position) > 1.5) {
                 layer2CountUpdate --;
                 // oldL2Node.GetComponent<Collider>().enabled = false;
                 // oldL2Node.GetComponent<Renderer>().enabled = false;
@@ -261,8 +293,8 @@ public class Controller : MonoBehaviour {
            }
        }
         // Debug.Log("L--We ran to here~");
-       float L1CenterToRightHand = Vector3.Distance(L1Center.transform.position, rightHand.transform.position);
-       float L2CenterToRightHand = Vector3.Distance(L2Center.transform.position, rightHand.transform.position);
+       float L1CenterToRightHand = Vector3.Distance(L1Center.transform.position, rightHand.position);
+       float L2CenterToRightHand = Vector3.Distance(L2Center.transform.position, rightHand.position);
 
        if (L1CenterToRightHand < 3) {
         // if (tempRightEnter) {
@@ -335,6 +367,9 @@ public class Controller : MonoBehaviour {
         } else {
             L2Center.GetComponent<Renderer>().enabled = false;
         }
+
+
+    }
 
     }
 
