@@ -40,8 +40,8 @@ public class Controller : MonoBehaviour {
 
     public static int layer1Count = 3;
     public static int layer2Count = 4;
-    private int newlayer1Count = 0;
-    private int newlayer2Count = 0;
+    private int layer1CountUpdate = 0;
+    private int layer2CountUpdate = 0;
     // private bool newNodePickedUp = false;
     private Node newL1Node;
     private GameObject oldL1Node;
@@ -214,23 +214,23 @@ public class Controller : MonoBehaviour {
            isWaiting = true;
 
             if (newL1NodeAssigned && Vector3.Distance(newL1Node.transform.position, L1Center.transform.position) > 1.5) {
-                newlayer1Count ++;
+                layer1CountUpdate ++;
                 newL1NodeAssigned = false;
             }
             if (newL2NodeAssigned && Vector3.Distance(newL2Node.transform.position, L2Center.transform.position) > 1.5) {
-                newlayer2Count ++;
+                layer2CountUpdate ++;
                 newL2NodeAssigned = false;
             }
 
             if (oldL1NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L1Center.transform.position) > 1.5) {
-                newlayer1Count --;
+                layer1CountUpdate --;
                 // oldL1Node.GetComponent<Collider>().enabled = false;
                 // oldL1Node.GetComponent<Renderer>().enabled = false;
                 oldL1NodeRemoved = false;
             }
 
             if (oldL2NodeRemoved &&  Vector3.Distance(rightHand.transform.position, L2Center.transform.position) > 1.5) {
-                newlayer2Count --;
+                layer2CountUpdate --;
                 // oldL2Node.GetComponent<Collider>().enabled = false;
                 // oldL2Node.GetComponent<Renderer>().enabled = false;
                 oldL2NodeRemoved = false;
@@ -243,19 +243,21 @@ public class Controller : MonoBehaviour {
            centerMass.position = allCenter;
            centerMass.GetComponent<Renderer>().enabled = false;
            isWaiting = false;
-           client.requester.SetMessage("nothing");
-           if (newlayer1Count != 0 || newlayer2Count != 0) {
-            //    DestroyGraph();
-               layer1Count = layer1Count + newlayer1Count;
-               layer2Count = layer2Count + newlayer2Count;
-            //    GenerateGraph();
-               newlayer1Count = 0;
-               newlayer2Count = 0;
-               Debug.Log("We are looking at the count");
-               Debug.Log(layer1Count);
-               Debug.Log(layer2Count);
+           if (layer1CountUpdate != 0 || layer2CountUpdate != 0) {
+               int newlayer1Count = layer1Count + layer1CountUpdate;
+               int newlayer2Count = layer2Count + layer2CountUpdate;
             //    Application.LoadLevel(Application.loadedLevel);
-               SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);// this line will restart the scene (not sure if this will cause python connection problem or not)
+               client.requester.SetMessage(newlayer1Count.ToString() + "_" + newlayer2Count.ToString() + "_updateNodes" );
+            //    client.requester.lockRequester();
+               if (client.requester.GetMessage() == "received") {
+                   layer1CountUpdate = 0;
+                   layer2CountUpdate = 0;
+                   layer1Count = newlayer1Count;
+                   layer2Count = newlayer2Count;
+                   SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);// this line will restart the scene (not sure if this will cause python connection problem or not)
+               }
+           } else {
+               client.requester.SetMessage("nothing");
            }
        }
         // Debug.Log("L--We ran to here~");

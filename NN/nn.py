@@ -22,6 +22,7 @@ from __future__ import division
 from __future__ import print_function
 
 from util import LoadData, Load, Save, DisplayPlot
+import os
 import sys
 import copy
 import numpy as np
@@ -260,7 +261,6 @@ def Evaluate(inputs, target, model, forward, batch_size=-1):
         target: Target of the inputs.
         model:  Dictionary of network weights.
     """
-    print("Evaluate calledddddd")
     num_cases = inputs.shape[0]
     if batch_size == -1:
         batch_size = num_cases
@@ -278,8 +278,6 @@ def Evaluate(inputs, target, model, forward, batch_size=-1):
             t, axis=1)).astype('float').sum()
     ce /= num_cases
     acc /= num_cases
-    print(ce)
-    print(acc)
     return ce, acc
 
 
@@ -399,6 +397,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
 
         new_model = copy.deepcopy(model) # make a copy of the model, so we don't mess it up
         while 1:
+            print(num_hiddens)
             # Calculate weights per link
             W1ByLinks = np.mean(model['W1'], axis = 0) # model['W1'] is 2304 * 16, so we need take mean along 0 axis and become 1 * 16
             W2ByLinks = model['W2'].flatten()  # fatten the 2D array into 1D
@@ -430,41 +429,37 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             socket.send(str.encode(dataToUnity)) # send data to unity
             if message == "nothing":
                 break
-
             if message != "wait":
                 splittedMsg = message.split("_")
-                nodeTag = int(splittedMsg[-1])
-                nodeID = int(splittedMsg[-2])
-                nodeVals = [float(val) for val in splittedMsg[0:-2]]
-                print("Let's seeeee")
-                print(nodeTag)
-                print(nodeID)
-                print(nodeVals)
-                if nodeTag == 2: # L2 nodes
-                    valOut = nodeVals[-1]
-                    valsL1 = nodeVals[0:-1]
-                    print("oo W2")
-                    print(new_model['W2'])
-                    print(model['W2'])
-                    new_model['W2'][:,nodeID] = valsL1 * model['W2'][:,nodeID]
-                    new_model['W3'][nodeID,:] = valOut * model['W3'][nodeID,:]
-                    print("oo new W2")
-                    print(new_model['W2'])
-                    print(model['W2'])
-                elif nodeTag == 0: # Input node
-                    new_model['W1'] = nodeVals * model['W1']
-                new_valid_ce, new_valid_acc = Evaluate(inputs_valid, target_valid, new_model, forward, batch_size=batch_size)
-                data_stream = ('Updating Epoch {:3d} ''Validation CE {:.5f} ''Validation Acc {:.5f}\n').format(epoch, new_valid_ce, new_valid_acc)
-                print(data_stream)
-                # if we received the "wait" message, put the process into sleep
-            time.sleep(0.5)
-        print("check if updated")
-        print(new_model['W2'])
-        print(model['W2'])
-        model = new_model
-        print(new_model['W2'])
-        print(model['W2'])
+                mode = splittedMsg[-1]
+                if mode == "updateWeights":
+                    nodeTag = int(splittedMsg[-2])
+                    nodeID = int(splittedMsg[-3])
+                    nodeVals = [float(val) for val in splittedMsg[0:-3]]
+                    if nodeTag == 2: # L2 nodes
+                        valOut = nodeVals[-1]
+                        valsL1 = nodeVals[0:-1]
+                        new_model['W2'][:,nodeID] = valsL1 * model['W2'][:,nodeID]
+                        new_model['W3'][nodeID,:] = valOut * model['W3'][nodeID,:]
+                    elif nodeTag == 0: # Input node
+                        new_model['W1'] = nodeVals * model['W1']
+                    new_valid_ce, new_valid_acc = Evaluate(inputs_valid, target_valid, new_model, forward, batch_size=batch_size)
+                    data_stream = ('Updating Epoch {:3d} ''Validation CE {:.5f} ''Validation Acc {:.5f}\n').format(epoch, new_valid_ce, new_valid_acc)
+                    print(data_stream)
+                if mode == "updateNodes":
+                    print("we are inside heereeeeee~B")
+                    msg = socket.recv()
+                    socket.send(str.encode("received")) # send data to unity
+                    layer1Count = splittedMsg[0]
+                    layer2Count = splittedMsg[1]
+                    new_argv = [sys.argv[0], layer1Count, layer2Count]
+                    os.execv(sys.executable, ['python'] + new_argv) # re-run the script with new number of nodes
+                    # then restart the program
 
+            # if we received the "wait" message, put the process into sleep
+            # 下面这个0.5会导致Unity那边换node个数时卡顿一下，不大好。
+            # time.sleep(0.5) # 这里或许会有点问题，如果信号是一个queue的话，极有可能我们只是缓慢地遍历这个queue而已，而非我们想要的 0.5s看一下这个queue有啥
+        model = new_model
         # #  Send reply back to client
         train_ce_list.append((epoch, train_ce)) # 哦，这里append进去的应该是train的最后一个step的ce...
         train_acc_list.append((epoch, train_acc))
@@ -543,4 +538,8 @@ def main():
 
 
 if __name__ == '__main__':
+    # print(sys.argv)
+    if len(sys.argv) > 1: # sys.argv looks like ['nn.py', 'arg1', 'arg2', ....]
+        num_hiddens[0] = int(sys.argv[1])
+        num_hiddens[1] = int(sys.argv[2])
     main()

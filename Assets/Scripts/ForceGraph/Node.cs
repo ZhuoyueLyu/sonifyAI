@@ -122,6 +122,7 @@ public class Node : MonoBehaviour
                         newDistances[Controller.layer1Count + 1] = (float)(id - 20); // id of this node
                         newDistances[Controller.layer1Count + 2] = (float)2; // tag of this node, 2 represent L2
                         string msg = String.Join("_", newDistances);
+                        msg = msg + "_updateWeights";
                         client.requester.SetMessage(msg);
                     }
                 } else if (gameObject.tag == "Input") {
@@ -145,6 +146,7 @@ public class Node : MonoBehaviour
                         newDistances[Controller.layer1Count] = (float)(1000); // id of this node
                         newDistances[Controller.layer1Count + 1] = (float)0; // tag of this node, 0 represent Input
                         string msg = String.Join("_", newDistances);
+                        msg = msg + "_updateWeights";
                         client.requester.SetMessage(msg);
                     }
                 }
