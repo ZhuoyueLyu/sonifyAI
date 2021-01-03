@@ -113,11 +113,11 @@ public class Node : MonoBehaviour
                         // (layer 1 -> layer 2)
                         for (int i = 0; i < Controller.layer1Count; i++) {
                             Node L1Node = Controller.nodes[i] as Node;
-                            newDistances[i] = Vector3.Distance(L1Node.transform.position, gameObject.transform.position)/oldDistances[i];
+                            newDistances[i] = oldDistances[i]/Vector3.Distance(L1Node.transform.position, gameObject.transform.position);
                         }
                         // (layer 2 -> output)
                         Node OutNode = Controller.nodes[2000] as Node;
-                        newDistances[Controller.layer1Count] = Vector3.Distance(OutNode.transform.position, gameObject.transform.position) / oldDistances[Controller.layer1Count];
+                        newDistances[Controller.layer1Count] = oldDistances[Controller.layer1Count]/Vector3.Distance(OutNode.transform.position, gameObject.transform.position);
                         // for convenience, we save the id and tag of this node in this list as well
                         newDistances[Controller.layer1Count + 1] = (float)(id - 20); // id of this node
                         newDistances[Controller.layer1Count + 2] = (float)2; // tag of this node, 2 represent L2
@@ -140,7 +140,7 @@ public class Node : MonoBehaviour
                         // (Input -> layer 1)
                         for (int i = 0; i < Controller.layer1Count; i++) {
                             Node L1Node = Controller.nodes[i] as Node;
-                            newDistances[i] = Vector3.Distance(L1Node.transform.position, gameObject.transform.position)/oldDistances[i];
+                            newDistances[i] = oldDistances[i]/Vector3.Distance(L1Node.transform.position, gameObject.transform.position);
                         }
                         // for convenience, we save the id and tag of this node in this list as well
                         newDistances[Controller.layer1Count] = (float)(1000); // id of this node
