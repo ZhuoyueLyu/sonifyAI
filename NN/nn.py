@@ -424,26 +424,59 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             W2ByLinksString = '_'.join(str(w2) for w2 in W2ByLinksNormalized)
             W3ByLinksString = '_'.join(str(w3) for w3 in W3ByLinksNormalized)
 
-            # ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
-            dataToUnity = ('{:.5f},''{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
             # #  Wait for next request from client
             # print(dataToUnity)
-            msg = socket.recv()
-            message = msg.decode('ascii')
-            print("Message from Unity: " + message)
-            socket.send(str.encode(dataToUnity)) # send data to unity
+            while 1:
+                msg = socket.recv()
+                message = msg.decode('ascii')
+                print("Message from Unity: " + message)
+                if message != "ChucK": # wait until we get the Oculus client
+                    break
+                dataToUnity = ('99,0')
+                socket.send(str.encode(dataToUnity)) # should send message back if it's not the thing we want
             if message == "nothing":
+                # ## If we send the sonification of every epoch (the `1` at last indicates this is a validation data)
+                dataToUnity = ('0,{:.5f},{:.5f},1,{},{},{}').format(valid_ce, valid_acc, W1ByLinksString, W2ByLinksString, W3ByLinksString)
+                socket.send(str.encode(dataToUnity))  # send data to unity
+                while 1:
+                    msg = socket.recv()
+                    message = msg.decode('ascii')
+                    if message == "ChucK":  # wait until we get the ChucK client
+                        dataToUnity = ('0,{:.5f},{:.5f},1').format(valid_ce, valid_acc)
+                        socket.send(str.encode(dataToUnity))  # send data to unity
+                        break
+                    dataToUnity = ('99,0')
+                    socket.send(str.encode(dataToUnity))
                 break
             if message != "wait":
                 splittedMsg = message.split("_")
                 mode = splittedMsg[-1]
-
                 if mode == "updateMomentum":
                     momentum_changed_amount = 0.1 * float(splittedMsg[0]) # 这里其实，我们作业做的时候，eps都是0.001, 0.01, 0.1 0.5这种的，momentum是0, 0.5, 0.9这种的，所以我们可能需要调整一下值。目前是简单地*0.1处理了，但应该有更好的办法。
                     print("update momentum amount: " + str(momentum_changed_amount))
+                    while 1:
+                        dataToUnity = ('99,0')
+                        socket.send(str.encode(dataToUnity))
+                        msg = socket.recv()
+                        message = msg.decode('ascii')
+                        if message == "ChucK":  # wait until we get the ChucK client
+                            dataToUnity = ('1,{:.5f}').format(momentum_changed_amount)
+                            socket.send(str.encode(dataToUnity))  # send data to unity
+                            break
+
                 elif mode == "updateEps":
                     eps_changed_amount = 0.1 * float(splittedMsg[0])
                     print("update eps amount: " + str(eps_changed_amount))
+                    while 1:
+                        dataToUnity = ('99,0')
+                        socket.send(str.encode(dataToUnity))
+                        msg = socket.recv()
+                        message = msg.decode('ascii')
+                        if message == "ChucK":  # wait until we get the ChucK client
+                            dataToUnity = ('2,{:.5f}').format(eps_changed_amount)
+                            socket.send(str.encode(dataToUnity))  # send data to unity
+                            break
+
                 elif mode == "updateWeights":
                     nodeTag = int(splittedMsg[-2])
                     nodeID = int(splittedMsg[-3])
@@ -458,14 +491,28 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                     new_valid_ce, new_valid_acc = Evaluate(inputs_valid, target_valid, new_model, forward, batch_size=batch_size)
                     data_stream = ('Updating Epoch {:3d} ''Validation CE {:.5f} ''Validation Acc {:.5f}\n').format(epoch, new_valid_ce, new_valid_acc)
                     print(data_stream)
+                    while 1:
+                        dataToUnity = ('99,0')
+                        socket.send(str.encode(dataToUnity))
+                        msg = socket.recv()
+                        message = msg.decode('ascii')
+                        if message == "ChucK":  # wait until we get the ChucK client
+                            dataToUnity = ('3,{:.5f},{:.5f},1').format(new_valid_ce, new_valid_acc)
+                            socket.send(str.encode(dataToUnity))  # send data to unity
+                            break
                 elif mode == "updateNodes":
-                    msg = socket.recv()
                     socket.send(str.encode("received")) # send data to unity
                     layer1Count = splittedMsg[0]
                     layer2Count = splittedMsg[1]
                     new_argv = [sys.argv[0], layer1Count, layer2Count]
                     os.execv(sys.executable, ['python'] + new_argv) # re-run the script with new number of nodes
                     # then restart the program
+                else: # if nothing, but just waiting, call it mode 99
+                    dataToUnity = ('99,0')
+                    socket.send(str.encode(dataToUnity)) # send data to unity
+            else: # if nothing, but just waiting, call it mode 99
+                dataToUnity = ('99,0')
+                socket.send(str.encode(dataToUnity)) # send data to unity
 
             # if we received the "wait" message, put the process into sleep
             # 下面这个0.5会导致Unity那边换node个数时卡顿一下，不大好。

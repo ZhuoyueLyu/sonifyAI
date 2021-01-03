@@ -22,13 +22,13 @@ public class Requester : RunAbleThread
                 {
                     client.SendFrame(sendMessage);
                     receiveMessage = client.ReceiveFrameString();
-                    Debug.Log("N--");
-                    Debug.Log(sendMessage);
-                    Debug.Log(receiveMessage);
+                    // Debug.Log("N--");
+                    // Debug.Log(sendMessage);
+                    // Debug.Log(receiveMessage);
                     // if (receiveMessage == "received") {
                     //     unlockRequester();
                     if (!Controller.isWaiting) {
-                        // sonify.MappingSound(message);
+                        // sonify.MappingSound(receiveMessage);
                         controller.UpdateConnections(receiveMessage);
                     }
                 }

@@ -89,18 +89,30 @@ public class Sonify : MonoBehaviour
     {
 
         string[] vals  = infoString.Split(',');
-        //Debug.Log("CE: " + vals[0]);
-        //Debug.Log("ACC: " + vals[1]);
-        //Debug.Log("IsV: " + vals[2]);
-        float ce = float.Parse(vals[0]) * 1000;
-        float acc = float.Parse(vals[1]) * 1000;
-        float isValidation = float.Parse(vals[2]);
-
-        Chuck.Manager.SetFloat( myChuck1, "ce", ce);
-        Chuck.Manager.SetFloat( myChuck1, "acc", acc);
-        Chuck.Manager.SetFloat( myChuck1, "isValidation", isValidation);
-        Chuck.Manager.BroadcastEvent( myChuck1, "play" );
-
+        int mode = int.Parse(vals[0]);
+        float acc;
+        Debug.Log("see the mode");
+        Debug.Log(infoString);
+        Debug.Log(mode);
+        if (mode == 0 || mode == 3) { // "nothing" mode or updateWeights
+            // float ce = float.Parse(vals[1]) * 1000;
+            acc = float.Parse(vals[2]) * 1000;
+            // float isValidation = float.Parse(vals[3]);
+            // Chuck.Manager.SetFloat( myChuck1, "ce", ce);
+            Chuck.Manager.SetFloat( myChuck1, "acc", acc);
+            Chuck.Manager.SetFloat( myChuck1, "isValidation", 1.0f);
+            Chuck.Manager.BroadcastEvent( myChuck1, "play" );
+        } else if (mode == 1) { // updateMomentum
+            acc = float.Parse(vals[1]) * 1000; // here acc us momentum
+            Chuck.Manager.SetFloat( myChuck1, "acc", acc);
+            Chuck.Manager.SetFloat( myChuck1, "isValidation", 1.0f);
+            Chuck.Manager.BroadcastEvent( myChuck1, "play" );
+        } else if (mode == 2) { // updateEps
+            acc = float.Parse(vals[1]) * 1000; // here acc is eps
+            Chuck.Manager.SetFloat( myChuck1, "acc", acc);
+            Chuck.Manager.SetFloat( myChuck1, "isValidation", 1.0f);
+            Chuck.Manager.BroadcastEvent( myChuck1, "play" );
+        } // just don't sonify if it's the other mode (for example 99)
     }
 
     void OnApplicationQuit()

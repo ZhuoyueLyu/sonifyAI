@@ -208,8 +208,8 @@ public class Controller : MonoBehaviour {
 
 
     // left ear and right ear for epsilon and momentum
-    Debug.Log("Log distance between lefthand and head and see");
-    Debug.Log(Vector3.Distance(leftEye.position, leftHand.position));
+    // Debug.Log("Log distance between lefthand and head and see");
+    // Debug.Log(Vector3.Distance(leftEye.position, leftHand.position));
     if (Vector3.Distance(leftEye.position, leftHand.position) < 4) {
             centerMass.GetComponent<Renderer>().enabled = true;
            client.requester.SetMessage("wait");
@@ -377,49 +377,50 @@ public class Controller : MonoBehaviour {
 
 
         string[] vals = infoString.Split(',');
-        //float ce = float.Parse(vals[0]) * 1000;
-        //float acc = float.Parse(vals[1]) * 1000;
-        bool isValidation = System.Convert.ToBoolean(float.Parse(vals[2]));
-        if (isValidation) {
-            string W1ByLinksString = vals[3];
-            string W2ByLinksString = vals[4];
-            string W3ByLinksString = vals[5];
+        int mode = int.Parse(vals[0]);
+        if (mode == 0) { // we only update weights in nothing mode
+            bool isValidation = System.Convert.ToBoolean(float.Parse(vals[3]));
+            if (isValidation) {
+                string W1ByLinksString = vals[4];
+                string W2ByLinksString = vals[5];
+                string W3ByLinksString = vals[6];
 
-            float[] W1ByLinks = System.Array.ConvertAll(W1ByLinksString.Split('_'), float.Parse);
-            float[] W2ByLinks = System.Array.ConvertAll(W2ByLinksString.Split('_'), float.Parse);
-            float[] W3ByLinks = System.Array.ConvertAll(W3ByLinksString.Split('_'), float.Parse);
+                float[] W1ByLinks = System.Array.ConvertAll(W1ByLinksString.Split('_'), float.Parse);
+                float[] W2ByLinks = System.Array.ConvertAll(W2ByLinksString.Split('_'), float.Parse);
+                float[] W3ByLinks = System.Array.ConvertAll(W3ByLinksString.Split('_'), float.Parse);
 
-            // update weights on each link
-            // (input -> layer 1)
-            for (int i = 0; i < layer1Count; i++)
-            {
-                Link link = links[i] as Link;
-                // Debug.Log("L--W1LinkIndex" + i.ToString());
-                link.FaBetween = k * W1ByLinks[i];
-                link.c.a = W1ByLinks[i];
-                // Debug.Log("L--W1ByLinkss" + W1ByLinks[i].ToString());
-            }
+                // update weights on each link
+                // (input -> layer 1)
+                for (int i = 0; i < layer1Count; i++)
+                {
+                    Link link = links[i] as Link;
+                    // Debug.Log("L--W1LinkIndex" + i.ToString());
+                    link.FaBetween = k * W1ByLinks[i];
+                    link.c.a = W1ByLinks[i];
+                    // Debug.Log("L--W1ByLinkss" + W1ByLinks[i].ToString());
+                }
 
-            //  (layer 1 -> layer 2)
-            int offset1To2 = layer1Count;
-            for (int i = 0; i < layer1Count * layer2Count; i++)
-            {
+                //  (layer 1 -> layer 2)
+                int offset1To2 = layer1Count;
+                for (int i = 0; i < layer1Count * layer2Count; i++)
+                {
 
-                Link link = links[i + offset1To2] as Link;
-                // Debug.Log("L--W2LinkIndex" + (i + offset1To2).ToString());
-                link.FaBetween = k * W2ByLinks[i]; // TODO 对，其实这玩意儿这样不大好，因为这里的力是weight越大越靠近，但是我们拉动的时候是越远weight越大。
-                link.c.a = W2ByLinks[i];
-                // Debug.Log("L--W2ByLinkss" + (W2ByLinks[i]).ToString());
-            }
-            //(layer 2 -> output)
-            int offset2ToOut = layer1Count * layer2Count + offset1To2;
-            for (int i = 0; i < layer2Count; i++)
-            {
-                Link link = links[i + offset2ToOut] as Link;
-                // Debug.Log("L--W3LinkIndex" + (i + offset2ToOut).ToString());
-                link.FaBetween = k * W3ByLinks[i];
-                link.c.a = W3ByLinks[i];
-                // Debug.Log("L--W3ByLinkss" + (W3ByLinks[i]).ToString());
+                    Link link = links[i + offset1To2] as Link;
+                    // Debug.Log("L--W2LinkIndex" + (i + offset1To2).ToString());
+                    link.FaBetween = k * W2ByLinks[i]; // TODO 对，其实这玩意儿这样不大好，因为这里的力是weight越大越靠近，但是我们拉动的时候是越远weight越大。
+                    link.c.a = W2ByLinks[i];
+                    // Debug.Log("L--W2ByLinkss" + (W2ByLinks[i]).ToString());
+                }
+                //(layer 2 -> output)
+                int offset2ToOut = layer1Count * layer2Count + offset1To2;
+                for (int i = 0; i < layer2Count; i++)
+                {
+                    Link link = links[i + offset2ToOut] as Link;
+                    // Debug.Log("L--W3LinkIndex" + (i + offset2ToOut).ToString());
+                    link.FaBetween = k * W3ByLinks[i];
+                    link.c.a = W3ByLinks[i];
+                    // Debug.Log("L--W3ByLinkss" + (W3ByLinks[i]).ToString());
+                }
             }
         }
     }
