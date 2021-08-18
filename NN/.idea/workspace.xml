@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70a7d505-b61e-4e41-a754-5cddb56e45fa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Assets/Materials/L2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../Assets/Materials/L2.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assets/Prefabs/Link.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../Assets/Prefabs/Link.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assets/Prefabs/Node.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../Assets/Prefabs/Node.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nn.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
@@ -79,6 +75,7 @@
       <workItem from="1608459922592" duration="877000" />
       <workItem from="1608461093525" duration="185000" />
       <workItem from="1608461289832" duration="120000" />
+      <workItem from="1610823216890" duration="46000" />
     </task>
     <servers />
   </component>
@@ -114,10 +111,11 @@
       <screen x="0" y="25" width="1680" height="942" />
     </state>
     <state x="395" y="132" key="SettingsEditor/-182.-1127.2048.1127/0.25.1680.942@0.25.1680.942" timestamp="1608461166867" />
-    <state x="587" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1608461290340">
-      <screen x="0" y="25" width="1680" height="942" />
+    <state x="534" y="-701" key="com.intellij.ide.util.TipDialog" timestamp="1610823216826">
+      <screen x="-182" y="-1127" width="2048" height="1127" />
     </state>
     <state x="587" y="412" key="com.intellij.ide.util.TipDialog/-182.-1127.2048.1127/0.25.1680.1025@0.25.1680.1025" timestamp="1608459921706" />
+    <state x="534" y="-701" key="com.intellij.ide.util.TipDialog/-182.-1127.2048.1127/0.25.1680.942@-182.-1127.2048.1127" timestamp="1610823216826" />
     <state x="587" y="381" key="com.intellij.ide.util.TipDialog/-182.-1127.2048.1127/0.25.1680.942@0.25.1680.942" timestamp="1608461290340" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">

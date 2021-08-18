@@ -292,7 +292,7 @@ def CheckGrad(model, forward, backward, name, x):
     """
     np.random.seed(0)
     var = forward(model, x)
-    loss = lambda y: 0.5 * (y ** 2).sum()
+    loss = lambda y: 0.5 * (y ** 2).sum() # this seems like a list square loss
     grad_y = var['y']
     backward(model, grad_y, var)
     grad_w = model['dE_d' + name].ravel()
@@ -363,7 +363,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             var = forward(model, x)
             prediction = Softmax(var['y'])
 
-            train_ce = -np.sum(t * np.log(prediction)) / x.shape[0]
+            train_ce = -np.sum(t * np.log(prediction)) / x.shape[0] # 这里用的是cross entropy loss, 但问题是，实际做back prop的是下面的error，那个只是简单的 错误百分数(但其实那个简单的百分数就是 grad_y...我佛了)
             train_acc = (np.argmax(prediction, axis=1) ==
                          np.argmax(t, axis=1)).astype('float').mean()
             # print(('Epoch {:3d} Step {:2d} Train CE {:.5f} '
@@ -379,7 +379,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             # time.sleep(0.1)
 
             # Compute error.
-            error = (prediction - t) / x.shape[0]
+            error = (prediction - t) / x.shape[0] # this is actually the grad_y, i.e. d_loss / d_y
             # Backward prop.
             backward(model, error, var)
             # Update weights.
@@ -413,7 +413,7 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
             # print(model['W3'].shape) # (layer2 * 7) -> (4,7)
 
             # Since some of the values are negative, we need to normalize them, so the force calculation is not in wrong direction
-            # ptpis the range of values (maximum - minimum) along an axis. The name of the function comes from the acronym for ‘peak to peak’.
+            # ptp is the range of values (maximum - minimum) along an axis. The name of the function comes from the acronym for ‘peak to peak’.
             W1ByLinksNormalized = (W1ByLinks - np.min(W1ByLinks))/np.ptp(W1ByLinks)
             W2ByLinksNormalized = (W2ByLinks - np.min(W2ByLinks))/np.ptp(W2ByLinks)
             W3ByLinksNormalized = (W3ByLinks - np.min(W3ByLinks))/np.ptp(W3ByLinks)
@@ -481,6 +481,8 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                     nodeTag = int(splittedMsg[-2])
                     nodeID = int(splittedMsg[-3])
                     nodeVals = [float(val) for val in splittedMsg[0:-3]]
+                    print("L2 weights:")
+                    print(nodeVals)
                     if nodeTag == 2: # L2 nodes
                         valOut = nodeVals[-1]
                         valsL1 = nodeVals[0:-1]
@@ -488,6 +490,8 @@ def Train(model, forward, backward, update, eps, momentum, num_epochs,
                         new_model['W3'][nodeID,:] = valOut * model['W3'][nodeID,:]
                     elif nodeTag == 0: # Input node
                         new_model['W1'] = nodeVals * model['W1']
+                    print("New model's W3:")
+                    print(new_model['W3'])
                     new_valid_ce, new_valid_acc = Evaluate(inputs_valid, target_valid, new_model, forward, batch_size=batch_size)
                     data_stream = ('Updating Epoch {:3d} ''Validation CE {:.5f} ''Validation Acc {:.5f}\n').format(epoch, new_valid_ce, new_valid_acc)
                     print(data_stream)
